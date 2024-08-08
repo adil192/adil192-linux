@@ -8,7 +8,7 @@ Future<void> installFirefoxCss() async {
   }
 
   final pwd = Platform.environment['PWD'];
-  final target = File('$pwd/firefox-css/customChrome.css');
+  final target = File('$pwd/assets/firefox-css/customChrome.css');
   await customChromeCss.delete();
   await Link(customChromeCss.path).create(target.path);
 

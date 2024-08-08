@@ -7,7 +7,8 @@ Future<void> installGtkCss() async {
   final gtk3Css = File('$_home/.config/gtk-3.0/gtk.css');
   final gtk4Css = File('$_home/.config/gtk-4.0/gtk.css');
 
-  final customCssContent = await File('$_pwd/gtk/gtk.css').readAsString();
+  final customCssContent =
+      await File('$_pwd/assets/gtk/gtk.css').readAsString();
 
   await injectCss(gtk3Css, customCssContent);
   await injectCss(gtk4Css, customCssContent);
