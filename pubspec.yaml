@@ -1,0 +1,14 @@
+name: adil192_linux
+description: A config collection for my personal computers
+version: 0.0.1
+repository: https://github.com/adil192/adil192-linux
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  args: ^2.4.2
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.24.0
