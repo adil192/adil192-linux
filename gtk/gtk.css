@@ -1,0 +1,23 @@
+/*
+This should be appended to the end of
+~/.config/gtk-4.0/gtk.css
+and
+~/.config/gtk-4.0/gtk-dark.css
+*/
+
+windowcontrols button {
+    background-color: transparent;
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+}
+windowcontrols button image {
+    background-color: transparent;
+    border-radius: 0;
+}
+windowcontrols button:hover {
+    background-color: rgb(60, 60, 60);
+    color: white;
+}
+windowcontrols button.close:hover {
+    background-color: rgb(173, 44, 44);
+}
