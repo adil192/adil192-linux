@@ -1,15 +1,12 @@
 import 'dart:io';
 
 Future<void> installFirefoxCss() async {
-  final customChromeCss = await findCustomChromeCss();
-  if (customChromeCss is Link) {
-    print('Already installed $customChromeCss');
-    return;
-  }
-
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/customChrome.css');
-  await customChromeCss.delete();
+
+  final customChromeCss = await findCustomChromeCss();
+
+  if (customChromeCss.existsSync()) await customChromeCss.delete();
   await Link(customChromeCss.path).create(target.path);
 
   print('Linked ${customChromeCss.path} to ${target.path}');
@@ -22,19 +19,28 @@ Future<FileSystemEntity> findCustomChromeCss({
   final home = Platform.environment['HOME'];
   final profilesDir = Directory('$home/.mozilla/firefox');
 
-  for (final profile in profilesDir.listSync()) {
-    if (profile is! Directory) continue;
+  Directory? installedProfileDir;
+  for (final profileDir in profilesDir.listSync()) {
+    if (profileDir is! Directory) continue;
+    final readme =
+        File('${profileDir.path}/chrome/firefox-gnome-theme/README.md');
+    if (readme.existsSync()) {
+      installedProfileDir = profileDir;
+      break;
+    }
+  }
+
+  if (installedProfileDir != null) {
     final customChromeCssPath =
-        '${profile.path}/chrome/firefox-gnome-theme/customChrome.css';
+        '${installedProfileDir.path}/chrome/firefox-gnome-theme/customChrome.css';
     final type =
         FileSystemEntity.typeSync(customChromeCssPath, followLinks: false);
     switch (type) {
       case FileSystemEntityType.file:
         return File(customChromeCssPath);
       case FileSystemEntityType.link:
-        return Link(customChromeCssPath);
       case FileSystemEntityType.notFound:
-        continue;
+        return Link(customChromeCssPath);
       default:
         print('Warning: Unknown type $type for $customChromeCssPath');
     }
