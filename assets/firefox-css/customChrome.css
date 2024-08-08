@@ -1,3 +1,8 @@
+:root[tabsintitlebar]:not([inFullscreen]) #titlebar .titlebar-buttonbox {
+    background-color: rgb(68, 68, 68) !important;
+    border-radius: 5px !important;
+}
+
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button.titlebar-close,
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button.titlebar-max,
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button.titlebar-restore,
@@ -5,19 +10,19 @@
     background-color: transparent !important;
     border-radius: 5px !important;
     padding: 0 !important;
-    margin: 1px !important;
-    transition-duration: 200ms !important;
+    margin: 0 !important;
+    transition-duration: 100ms !important;
     transition-timing-function: ease-out !important;
 }
 
 :root[tabsintitlebar] #titlebar toolbarbutton.titlebar-button,
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton {
-    width: 28px !important;
-    height: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
 }
 
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button:hover {
-    background-color: rgb(60, 60, 60) !important;
+    background-color: rgb(100, 100, 100) !important;
 }
 
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button.titlebar-close:hover {
