@@ -12,7 +12,8 @@ Future<void> addCronJob() async {
   }
 
   final pwd = Platform.environment['PWD'];
-  final newCronJob = "$updateSchedule root '$pwd/cron.sh'";
+  final user = Platform.environment['USER'];
+  final newCronJob = "$updateSchedule $user '$pwd/cron.sh'";
   final newCronContents = '$cronContents\n$newCronJob\n';
 
   await _writeCrontab(newCronContents);
