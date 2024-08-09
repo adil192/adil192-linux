@@ -1,15 +1,24 @@
 import 'dart:io';
 
+import 'config.dart';
+
 Future<void> installFirefoxCss() async {
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/customChrome.css');
 
   final customChromeCss = await findCustomChromeCss();
 
+  if (!shouldThemeWindowButtons) return;
   if (customChromeCss.existsSync()) await customChromeCss.delete();
   await Link(customChromeCss.path).create(target.path);
 
   print('Linked ${customChromeCss.path} to ${target.path}');
+}
+
+Future<void> uninstallFirefoxCss() async {
+  final customChromeCss = await findCustomChromeCss();
+  if (customChromeCss.existsSync()) await customChromeCss.delete();
+  print('Deleted ${customChromeCss.path}');
 }
 
 /// Finds the customChrome.css file for Firefox.

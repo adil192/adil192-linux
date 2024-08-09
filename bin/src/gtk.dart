@@ -2,16 +2,22 @@ import 'dart:io';
 
 final _pwd = Platform.environment['PWD'];
 final _home = Platform.environment['HOME'];
+final _gtk3Css = File('$_home/.config/gtk-3.0/gtk.css');
+final _gtk4Css = File('$_home/.config/gtk-4.0/gtk.css');
 
 Future<void> installGtkCss() async {
-  final gtk3Css = File('$_home/.config/gtk-3.0/gtk.css');
-  final gtk4Css = File('$_home/.config/gtk-4.0/gtk.css');
-
   final customCssContent =
       await File('$_pwd/assets/gtk/gtk.css').readAsString();
 
-  await injectCss(gtk3Css, customCssContent);
-  await injectCss(gtk4Css, customCssContent);
+  await _injectCss(_gtk3Css, customCssContent);
+  await _injectCss(_gtk4Css, customCssContent);
+}
+
+Future<void> uninstallGtkCss() async {
+  const emptyCss = '';
+
+  await _injectCss(_gtk3Css, emptyCss);
+  await _injectCss(_gtk4Css, emptyCss);
 }
 
 /// Injects the custom CSS into the given file.
@@ -21,10 +27,11 @@ Future<void> installGtkCss() async {
 /// and
 /// /* END adil192-linux gtk.css */
 /// is replaced with the new custom CSS.
-Future<void> injectCss(File file, String customCssContent) async {
+Future<void> _injectCss(File file, String customCssContent) async {
   final content = await file.readAsString();
-  final start = '/* START adil192-linux gtk.css */';
-  final end = '/* END adil192-linux gtk.css */';
+
+  const start = '/* START adil192-linux gtk.css */';
+  const end = '/* END adil192-linux gtk.css */';
 
   final startIndex = content.indexOf(start);
   final endIndex = content.indexOf(end);
