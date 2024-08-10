@@ -4,6 +4,8 @@ import '_utils.dart';
 import 'config.dart';
 
 Future<void> addCronJob() async {
+  await _checkCronInstalled();
+
   final cronContents = await _readCrontab();
 
   if (cronContents.contains('adil192-linux')) {
@@ -37,6 +39,14 @@ Future<void> removeCronJob() async {
   }
 
   await _writeCrontab(newCronContents);
+}
+
+Future<void> _checkCronInstalled() async {
+  final result = await Process.run('which', ['crontab']);
+  if (result.exitCode != 0) {
+    print('Cron is not installed. Try running `sudo dnf install cronie`');
+    exit(1);
+  }
 }
 
 Future<String> _readCrontab() =>
