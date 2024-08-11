@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:math';
-
 import 'result_of_command.dart';
 
 class Dnf {
