@@ -11,6 +11,11 @@ Future<void> installApps() async {
   await _installZed();
   await _installSpotify();
   await _installGitHubDesktop();
+  await _installRicochlime();
+  await _installSaber();
+  await _installPrismLauncher();
+  await _installGnomeTweaks();
+  await _installQtBreezeTheme();
 }
 
 Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
@@ -56,6 +61,25 @@ Future<void> _installGitHubDesktop() async {
     'echo -e "[mwt-packages]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/shiftkey-desktop/rpm\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/shiftkey-desktop/gpgkey" > /etc/yum.repos.d/mwt-packages.repo',
   ]);
   await Dnf.install(['github-desktop']);
+}
+
+Future<void> _installRicochlime() =>
+    _installFlatpakApp('com.adilhanney.ricochlime', 'Ricochlime');
+
+Future<void> _installSaber() =>
+    _installFlatpakApp('com.adilhanney.saber', 'Saber');
+
+Future<void> _installPrismLauncher() =>
+    _installFlatpakApp('org.prismlauncher.PrismLauncher', 'Prism Launcher');
+
+Future<void> _installGnomeTweaks() =>
+    _installDnfApp('gnome-tweaks', 'Gnome Tweaks');
+
+Future<void> _installQtBreezeTheme() async {
+  if (await Dnf.installed('plasma-breeze')) return;
+  if (!await yesOrNo('Install Qt Breeze Theme?')) return;
+  print('Installing Qt Breeze Theme...');
+  await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
 }
 
 Future<void> _installFlatpakApp(String id, String name) async {
