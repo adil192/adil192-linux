@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '_utils.dart';
+import 'tools/result_of_command.dart';
 import 'config.dart';
 
 Future<void> addCronJob() async {

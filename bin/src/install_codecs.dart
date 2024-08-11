@@ -1,6 +1,6 @@
 import 'tools/dnf.dart';
 import 'tools/yes_or_no.dart';
-import '_utils.dart';
+import 'tools/result_of_command.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
 Future<void> installCodecs() async {

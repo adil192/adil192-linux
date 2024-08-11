@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '_utils.dart';
+import 'tools/result_of_command.dart';
 
 Future<void> installSteamTheme() async {
   final home = Platform.environment['HOME'];

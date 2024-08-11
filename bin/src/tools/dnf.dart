@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
-import '../_utils.dart';
+import 'result_of_command.dart';
 
 class Dnf {
   static Future<void> install(List<String> packages) =>
-      resultOfCommand('sudo', ['dnf', 'install', ...packages]);
+      resultOfCommand('sudo', ['dnf', 'install', '-y', ...packages]);
 
   static Future<void> update(List<String> packages) =>
-      resultOfCommand('sudo', ['dnf', 'update', ...packages]);
+      resultOfCommand('sudo', ['dnf', 'update', '-y', ...packages]);
 
   static Future<String> repoList() =>
       resultOfCommand('dnf', ['repolist'], silent: true);
@@ -22,7 +22,7 @@ class Dnf {
     bool allowErasing = false,
   }) =>
       resultOfCommand('sudo',
-          ['dnf', 'swap', from, to, if (allowErasing) '--allowerasing']);
+          ['dnf', 'swap', from, to, if (allowErasing) '--allowerasing', '-y']);
 
   static List<String>? installedPackages;
   static Future<bool> installed(String package) async {
