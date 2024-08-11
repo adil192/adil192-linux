@@ -13,19 +13,9 @@ Future<void> installApps() async {
   await _installGitHubDesktop();
 }
 
-Future<void> _installSteam() async {
-  if (await Dnf.installed('steam')) return;
-  if (!await yesOrNo('Install Steam?')) return;
-  print('Installing Steam...');
-  await Dnf.install(['steam']);
-}
+Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
 
-Future<void> _installDiscord() async {
-  if (await Dnf.installed('discord')) return;
-  if (!await yesOrNo('Install Discord?')) return;
-  print('Installing Discord...');
-  await Dnf.install(['discord']);
-}
+Future<void> _installDiscord() => _installDnfApp('discord', 'Discord');
 
 Future<void> _installVSCode() async {
   if (await Dnf.installed('code')) return;
@@ -50,12 +40,8 @@ Future<void> _installZed() async {
   await resultOfCommand('bash', ['/tmp/zed-install.sh']);
 }
 
-Future<void> _installSpotify() async {
-  if (await Flatpak.installed('com.spotify.Client')) return;
-  if (!await yesOrNo('Install Spotify?')) return;
-  print('Installing Spotify...');
-  await Flatpak.install('com.spotify.Client');
-}
+Future<void> _installSpotify() =>
+    _installFlatpakApp('com.spotify.Client', 'Spotify');
 
 Future<void> _installGitHubDesktop() async {
   if (await Which.installed('github-desktop')) return;
@@ -70,4 +56,18 @@ Future<void> _installGitHubDesktop() async {
     'echo -e "[mwt-packages]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/shiftkey-desktop/rpm\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/shiftkey-desktop/gpgkey" > /etc/yum.repos.d/mwt-packages.repo',
   ]);
   await Dnf.install(['github-desktop']);
+}
+
+Future<void> _installFlatpakApp(String id, String name) async {
+  if (await Flatpak.installed(id)) return;
+  if (!await yesOrNo('Install $name?')) return;
+  print('Installing $name...');
+  await Flatpak.install(id);
+}
+
+Future<void> _installDnfApp(String package, String name) async {
+  if (await Dnf.installed(package)) return;
+  if (!await yesOrNo('Install $name?')) return;
+  print('Installing $name...');
+  await Dnf.install([package]);
 }
