@@ -3,6 +3,14 @@ import 'dart:io';
 
 import 'config.dart';
 
+const _customSettings = {
+  'widget.gtk.rounded-bottom-corners.enabled': true,
+  'gnomeTheme.bookmarksToolbarUnderTabs': true,
+  'gnomeTheme.normalWidthTabs': true,
+  // Replaces the Fedora start page
+  'browser.startup.homepage': 'about:newtab',
+};
+
 Future<void> installFirefoxCss() async {
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/customChrome.css');
@@ -48,12 +56,7 @@ Future<void> _alterUserJs(Directory profileDir) async {
     lines.add(newLine);
   }
 
-  const newSettings = {
-    'widget.gtk.rounded-bottom-corners.enabled': true,
-    'gnomeTheme.bookmarksToolbarUnderTabs': true,
-    'gnomeTheme.normalWidthTabs': true,
-  };
-  for (final entry in newSettings.entries) {
+  for (final entry in _customSettings.entries) {
     setSetting(entry.key, entry.value);
   }
 
