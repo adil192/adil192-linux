@@ -6,7 +6,8 @@ Future<void> installFirefoxCss() async {
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/customChrome.css');
 
-  final customChromeCss = await findCustomChromeCss();
+  final profileDir = await _findFirefoxProfileDir();
+  final customChromeCss = await _findCustomChromeCss(profileDir);
 
   if (!shouldThemeWindowButtons) return;
   if (customChromeCss.existsSync()) await customChromeCss.delete();
@@ -16,49 +17,46 @@ Future<void> installFirefoxCss() async {
 }
 
 Future<void> uninstallFirefoxCss() async {
-  final customChromeCss = await findCustomChromeCss();
+  final profileDir = await _findFirefoxProfileDir();
+  final customChromeCss = await _findCustomChromeCss(profileDir);
   if (customChromeCss.existsSync()) await customChromeCss.delete();
   print('Deleted ${customChromeCss.path}');
 }
 
 /// Finds the customChrome.css file for Firefox.
-Future<FileSystemEntity> findCustomChromeCss({
+Future<FileSystemEntity> _findCustomChromeCss(Directory profileDir) async {
+  final customChromeCssPath =
+      '${profileDir.path}/chrome/firefox-gnome-theme/customChrome.css';
+  final type =
+      FileSystemEntity.typeSync(customChromeCssPath, followLinks: false);
+  switch (type) {
+    case FileSystemEntityType.file:
+      return File(customChromeCssPath);
+    case FileSystemEntityType.link:
+    case FileSystemEntityType.notFound:
+      return Link(customChromeCssPath);
+    default:
+      throw StateError('Warning: Unknown type $type for $customChromeCssPath');
+  }
+}
+
+Future<Directory> _findFirefoxProfileDir({
   bool downloadIfNotFound = true,
 }) async {
   final home = Platform.environment['HOME'];
   final profilesDir = Directory('$home/.mozilla/firefox');
 
-  Directory? installedProfileDir;
   for (final profileDir in profilesDir.listSync()) {
     if (profileDir is! Directory) continue;
     final readme =
         File('${profileDir.path}/chrome/firefox-gnome-theme/README.md');
-    if (readme.existsSync()) {
-      installedProfileDir = profileDir;
-      break;
-    }
-  }
-
-  if (installedProfileDir != null) {
-    final customChromeCssPath =
-        '${installedProfileDir.path}/chrome/firefox-gnome-theme/customChrome.css';
-    final type =
-        FileSystemEntity.typeSync(customChromeCssPath, followLinks: false);
-    switch (type) {
-      case FileSystemEntityType.file:
-        return File(customChromeCssPath);
-      case FileSystemEntityType.link:
-      case FileSystemEntityType.notFound:
-        return Link(customChromeCssPath);
-      default:
-        print('Warning: Unknown type $type for $customChromeCssPath');
-    }
+    if (readme.existsSync()) return profileDir;
   }
 
   if (downloadIfNotFound) {
     print('Could not find customChrome.css, installing Firefox theme...');
     await _installFirefoxTheme();
-    return findCustomChromeCss(downloadIfNotFound: false);
+    return _findFirefoxProfileDir(downloadIfNotFound: false);
   } else {
     throw StateError('Could not find customChrome.css');
   }
