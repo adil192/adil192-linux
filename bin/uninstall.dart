@@ -11,7 +11,7 @@ Future<void> main() async {
   print('');
 
   if (await yesOrNo('Uninstall custom firefox window buttons?')) {
-    await uninstallFirefoxCss();
+    await uninstallFirefoxWindowButtons();
   }
   print('');
 
