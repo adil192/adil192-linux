@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'tools/gsettings.dart';
+
 final _pwd = Platform.environment['PWD'];
 final _home = Platform.environment['HOME'];
 final _gtk3Css = File('$_home/.config/gtk-3.0/gtk.css');
@@ -11,6 +13,8 @@ Future<void> installGtkCss() async {
 
   await _injectCss(_gtk3Css, customCssContent);
   await _injectCss(_gtk4Css, customCssContent);
+
+  await _setGsettings();
 }
 
 Future<void> uninstallGtkCss() async {
@@ -50,4 +54,9 @@ Future<void> _injectCss(File file, String customCssContent) async {
     );
     print('Injected custom CSS into ${file.path}');
   }
+}
+
+Future<void> _setGsettings() async {
+  await Gsettings.set('org.gnome.desktop.wm.preferences', 'button-layout',
+      'appmenu:minimize,maximize,close');
 }
