@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'src/tools/yes_or_no.dart';
 import 'src/crontab.dart';
 import 'src/firefox.dart';
 import 'src/gtk.dart';
@@ -26,20 +25,4 @@ Future<void> main() async {
   print('');
 
   print('Uninstall complete');
-}
-
-Future<bool> yesOrNo(
-  String question, [
-  String hint = 'Y/n',
-  String defaultResponse = 'y',
-]) async {
-  stdout.write('$question ($hint): ');
-
-  String response;
-  do {
-    response = stdin.readLineSync()?.toLowerCase() ?? '';
-    if (response.isEmpty) response = defaultResponse;
-  } while (response != 'y' && response != 'n');
-
-  return response == 'y';
 }

@@ -3,5 +3,5 @@
 pushd "$(dirname "$0")"
 git pull
 dart pub get
-dart run
+dart run --no-interaction
 popd

@@ -9,6 +9,7 @@ Future<String> resultOfCommand(
   bool includeParentEnvironment = true,
   bool runInShell = false,
   ProcessStartMode mode = ProcessStartMode.normal,
+  bool silent = false,
 }) async {
   final process = await Process.start(
     command,
@@ -21,7 +22,7 @@ Future<String> resultOfCommand(
   );
   final output = [];
   process.stdout.listen((data) {
-    stdout.add(data);
+    if (!silent) stdout.add(data);
     output.add(utf8.decode(data));
   });
   stderr.addStream(process.stderr);

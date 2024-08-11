@@ -1,3 +1,9 @@
+/// Installs various applications using dnf.
+const shouldInstallApps = true;
+
+/// Installs codecs for playing media.
+const shouldInstallCodecs = true;
+
 /// Applies a gnome theme to firefox
 /// (https://github.com/rafaelmardojai/firefox-gnome-theme)
 /// and if [shouldThemeWindowButtons] is true,
