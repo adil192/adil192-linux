@@ -2,10 +2,28 @@ import 'dart:convert';
 import 'dart:io';
 
 Future<String> resultOfCommand(
-  String command, [
-  List<String> args = const [],
-]) async {
-  final process = await Process.start(command, args);
+  String command,
+  List<String> args, {
+  String? workingDirectory,
+  Map<String, String>? environment,
+  bool includeParentEnvironment = true,
+  bool runInShell = false,
+  ProcessStartMode mode = ProcessStartMode.normal,
+}) async {
+  final process = await Process.start(
+    command,
+    args,
+    workingDirectory: workingDirectory,
+    environment: environment,
+    includeParentEnvironment: includeParentEnvironment,
+    runInShell: runInShell,
+    mode: mode,
+  );
+  final output = [];
+  process.stdout.listen((data) {
+    stdout.add(data);
+    output.add(utf8.decode(data));
+  });
   stderr.addStream(process.stderr);
 
   final exitCode = await process.exitCode;
@@ -13,5 +31,5 @@ Future<String> resultOfCommand(
     throw StateError('$command command failed with exit code $exitCode');
   }
 
-  return await process.stdout.transform(utf8.decoder).join();
+  return output.join();
 }

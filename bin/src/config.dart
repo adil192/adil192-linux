@@ -8,6 +8,10 @@ const shouldThemeFirefox = true;
 /// in various applications to be larger and squarer.
 const shouldThemeWindowButtons = true;
 
+/// Installs an Adwaita theme for Steam
+/// (https://github.com/tkashkin/Adwaita-for-Steam).
+const shouldThemeSteam = true;
+
 /// Installs a cron job to pull the latest changes in this repo and apply them.
 ///
 /// Note that this basically gives me the ability to run arbitrary code
