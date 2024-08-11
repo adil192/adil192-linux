@@ -16,6 +16,7 @@ Future<void> installApps() async {
   await _installPrismLauncher();
   await _installGnomeTweaks();
   await _installQtBreezeTheme();
+  await _installVlc();
 }
 
 Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
@@ -81,6 +82,8 @@ Future<void> _installQtBreezeTheme() async {
   print('Installing Qt Breeze Theme...');
   await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
 }
+
+Future<void> _installVlc() => _installDnfApp('vlc', 'VLC');
 
 Future<void> _installFlatpakApp(String id, String name) async {
   if (await Flatpak.installed(id)) return;
