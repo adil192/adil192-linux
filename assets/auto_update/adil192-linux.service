@@ -1,0 +1,11 @@
+[Unit]
+Description=adil192-linux auto update service
+After=network.target
+
+[Service]
+Type=oneshot
+User=$USER
+Group=$USER
+WorkingDirectory=$WORKINGDIRECTORY
+ExecStart=$WORKINGDIRECTORY/auto_update.sh
+Evironment=PATH=$PATH

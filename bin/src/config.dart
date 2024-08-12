@@ -18,16 +18,11 @@ const shouldThemeWindowButtons = true;
 /// (https://github.com/tkashkin/Adwaita-for-Steam).
 const shouldThemeSteam = true;
 
-/// Installs a cron job to pull the latest changes in this repo and apply them.
+/// Installs a systemd timer
+/// to pull the latest changes in this repo and apply them
+/// once a day.
 ///
 /// Note that this basically gives me the ability to run arbitrary code
 /// on your machine, so unless you know me personally,
 /// you should probably set this to false.
 const shouldAutomaticallyUpdate = true;
-
-/// The schedule for the cron job.
-///
-/// If [shouldAutomaticallyUpdate] is false, this is ignored.
-///
-/// By default, this runs at 18:48 every day.
-const updateSchedule = '48 18 * * *';

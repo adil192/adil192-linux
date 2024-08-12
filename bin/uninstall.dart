@@ -1,5 +1,5 @@
 import 'src/tools/yes_or_no.dart';
-import 'src/crontab.dart';
+import 'src/auto_update.dart';
 import 'src/firefox.dart';
 import 'src/gtk.dart';
 
@@ -19,8 +19,8 @@ Future<void> main() async {
   }
   print('');
 
-  if (await yesOrNo('Uninstall cron job?')) {
-    await removeCronJob();
+  if (await yesOrNo('Disable auto update?')) {
+    await disableAutoUpdate();
   }
   print('');
 

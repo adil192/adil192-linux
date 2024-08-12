@@ -1,5 +1,5 @@
 import 'src/config.dart';
-import 'src/crontab.dart';
+import 'src/auto_update.dart';
 import 'src/firefox.dart';
 import 'src/gtk.dart';
 import 'src/install_apps.dart';
@@ -14,5 +14,5 @@ Future<void> main(List<String> args) async {
   if (shouldThemeFirefox) await installFirefoxCss();
   if (shouldThemeWindowButtons) await installGtkCss();
   if (shouldThemeSteam) await installSteamTheme();
-  if (shouldAutomaticallyUpdate) await addCronJob();
+  if (shouldAutomaticallyUpdate) await enableAutoUpdate();
 }
