@@ -17,7 +17,7 @@ Future<void> enableAutoUpdate() async {
   final serviceFileExists = _serviceFile.existsSync();
   final timerFileExists = _timerFile.existsSync();
 
-  if (!serviceFileExists || true) {
+  if (!serviceFileExists) {
     var content = await _serviceTemplateFile.readAsString();
     content = content
         .replaceAll('\$WORKINGDIRECTORY', _pwd)
