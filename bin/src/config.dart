@@ -1,7 +1,11 @@
 /// Installs various applications using dnf.
+///
+/// You'll be asked a series of yes/no questions to install each app.
 const shouldInstallApps = true;
 
-/// Installs codecs for playing media.
+/// Installs codecs and drivers for playing media.
+///
+/// You'll be asked a series of yes/no questions to install each package.
 const shouldInstallCodecs = true;
 
 /// Applies a gnome theme to firefox
