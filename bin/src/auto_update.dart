@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'tools/result_of_command.dart';
-import 'config.dart';
 
 const _serviceName = 'adil192-linux.service';
 const _timerName = 'adil192-linux.timer';

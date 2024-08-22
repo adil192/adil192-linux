@@ -32,7 +32,7 @@ Future<void> uninstallGtkCss() async {
 /// /* END adil192-linux gtk.css */
 /// is replaced with the new custom CSS.
 Future<void> _injectCss(File file, String customCssContent) async {
-  final content = await file.readAsString();
+  final content = file.existsSync() ? await file.readAsString() : '';
 
   const start = '/* START adil192-linux gtk.css */';
   const end = '/* END adil192-linux gtk.css */';
