@@ -5,6 +5,11 @@ import 'tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
 Future<void> installCodecs() async {
+  if (!await Dnf.hasDnf) {
+    print('DNF is not available, skipping multimedia codecs installation.');
+    return;
+  }
+
   await _configureRpmFusion();
 
   await _switchToFullFfmpeg();

@@ -24,6 +24,7 @@ Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
 Future<void> _installDiscord() => _installDnfApp('discord', 'Discord');
 
 Future<void> _installVSCode() async {
+  if (!await Dnf.hasDnf) return;
   if (await Dnf.installed('code')) return;
   if (!await yesOrNo('Install Visual Studio Code?')) return;
   print('Installing Visual Studio Code...');
@@ -77,6 +78,7 @@ Future<void> _installGnomeTweaks() =>
     _installDnfApp('gnome-tweaks', 'Gnome Tweaks');
 
 Future<void> _installQtBreezeTheme() async {
+  if (!await Dnf.hasDnf) return;
   if (await Dnf.installed('plasma-breeze')) return;
   if (!await yesOrNo('Install Qt Breeze Theme?')) return;
   print('Installing Qt Breeze Theme...');
@@ -93,6 +95,7 @@ Future<void> _installFlatpakApp(String id, String name) async {
 }
 
 Future<void> _installDnfApp(String package, String name) async {
+  if (!await Dnf.hasDnf) return;
   if (await Dnf.installed(package)) return;
   if (!await yesOrNo('Install $name?')) return;
   print('Installing $name...');
