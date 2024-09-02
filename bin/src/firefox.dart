@@ -89,7 +89,12 @@ Future<Directory> _findFirefoxProfileDir({
   bool downloadIfNotFound = true,
 }) async {
   final home = Platform.environment['HOME'];
-  final profilesDir = Directory('$home/.mozilla/firefox');
+
+  final systemProfilesDir = Directory('$home/.mozilla/firefox');
+  final flatpakProfilesDir =
+      Directory('$home/.var/app/org.mozilla.firefox/.mozilla/firefox');
+  final profilesDir =
+      systemProfilesDir.existsSync() ? systemProfilesDir : flatpakProfilesDir;
 
   for (final profileDir in profilesDir.listSync()) {
     if (profileDir is! Directory) continue;
