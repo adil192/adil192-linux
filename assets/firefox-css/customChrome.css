@@ -1,5 +1,22 @@
+:root {
+    --titlebar-button-background-light: rgb(212, 212, 212);
+    --titlebar-button-background-dark: rgb(100, 100, 100);
+
+    --titlebar-close-background-light: var(--gnome-palette-red-3);
+    --titlebar-close-background-dark: rgb(173, 44, 44);
+
+    --titlebar-button-background: var(--titlebar-button-background-light);
+    --titlebar-close-background: var(--titlebar-close-background-light);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --titlebar-button-background: var(--titlebar-button-background-dark);
+        --titlebar-close-background: var(--titlebar-close-background-dark);
+    }
+}
+
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar .titlebar-buttonbox {
-    background-color: rgb(68, 68, 68) !important;
+    background-color: var(--gnome-tabbar-tab-active-background) !important;
     border-radius: 5px !important;
 }
 
@@ -22,9 +39,13 @@
 }
 
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button:hover {
-    background-color: rgb(100, 100, 100) !important;
+    background: var(--titlebar-button-background) !important;
 }
 
 :root[tabsintitlebar]:not([inFullscreen]) #titlebar toolbarbutton.titlebar-button.titlebar-close:hover {
-    background-color: rgb(173, 44, 44) !important;
+    background-color: var(--titlebar-close-background) !important;
+
+    & > .toolbarbutton-icon {
+        fill: white !important;
+    }
 }
