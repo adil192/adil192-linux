@@ -17,6 +17,7 @@ Future<void> installApps() async {
   await _installGnomeTweaks();
   await _installQtBreezeTheme();
   await _installVlc();
+  await _installUpscaledVlc();
 }
 
 Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
@@ -86,6 +87,31 @@ Future<void> _installQtBreezeTheme() async {
 }
 
 Future<void> _installVlc() => _installDnfApp('vlc', 'VLC');
+
+Future<void> _installUpscaledVlc() async {
+  if (await Which.installed('upscaled_vlc.sh')) return;
+
+  const gitRepo = 'https://github.com/adil192/upscaled_vlc';
+  if (!await yesOrNo('Install Upscaled VLC ($gitRepo)?')) return;
+
+  if (await Dnf.hasDnf) {
+    print('Installing Upscaled VLC\'s dependencies...');
+    await Dnf.configureRpmFusion();
+    await Dnf.install(['ffmpeg', 'xdpyinfo', 'vlc', 'gamescope']);
+  } else {
+    print('Please install the following dependencies manually:');
+    print('\tffmpeg xdpyinfo vlc gamescope');
+  }
+
+  print('Installing Upscaled VLC...');
+
+  const installScriptUrl =
+      'https://raw.githubusercontent.com/adil192/upscaled_vlc/main/install.sh';
+  const installScriptPath = '/tmp/install_upscaled_vlc.sh';
+  await resultOfCommand('wget', [installScriptUrl, '-O', installScriptPath]);
+  await resultOfCommand('bash', [installScriptPath]);
+  await resultOfCommand('rm', [installScriptPath]);
+}
 
 Future<void> _installFlatpakApp(String id, String name) async {
   if (await Flatpak.installed(id)) return;
