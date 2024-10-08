@@ -58,7 +58,8 @@ class Dnf {
 
     if (!await yesOrNo('Enable RPM Fusion repositories?')) return;
 
-    final fedoraVersion = await resultOfCommand('rpm', ['-E', '%fedora']);
+    final fedoraVersion =
+        await resultOfCommand('rpm', ['-E', '%fedora']).then((v) => v.trim());
     print('Installing RPM Fusion repositories...');
     await Dnf.install([
       'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedoraVersion.noarch.rpm',
