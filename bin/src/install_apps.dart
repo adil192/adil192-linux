@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'tools/dnf.dart';
 import 'tools/flatpak.dart';
 import 'tools/result_of_command.dart';
@@ -8,6 +10,7 @@ Future<void> installApps() async {
   await _installSteam();
   await _installDiscord();
   await _installVSCode();
+  await _installAndroidStudio();
   await _installZed();
   await _installSpotify();
   await _installGitHubDesktop();
@@ -37,6 +40,39 @@ Future<void> _installVSCode() async {
     '/tmp/code.rpm',
   ]);
   await Dnf.install(['/tmp/code.rpm']);
+}
+
+Future<void> _installAndroidStudio() async {
+  final home = Platform.environment['HOME'] ?? '~';
+  final applicationsDir = Directory('$home/Applications');
+  final toolboxExe = File('$home/Applications/jetbrains-toolbox');
+
+  if (toolboxExe.existsSync()) {
+    print('Jetbrains Toolbox already installed. '
+        'Please manually install Android Studio through the GUI.');
+    return;
+  }
+
+  if (!await yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
+  print('Installing Jetbrains Toolbox...');
+
+  final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
+  final archiveName = 'jetbrains-toolbox-2.4.2.32922';
+  await resultOfCommand('wget', [
+    'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
+    '-O',
+    tarFile.path,
+  ]);
+  await resultOfCommand('tar', [
+    '-xf',
+    tarFile.path,
+    '-C',
+    applicationsDir.path,
+    '--strip-components=1',
+    '$archiveName/jetbrains-toolbox',
+  ]);
+  tarFile.delete(recursive: true);
+  Process.start(toolboxExe.path, const []);
 }
 
 Future<void> _installZed() async {
