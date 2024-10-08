@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'tools/dnf.dart';
@@ -11,6 +12,7 @@ Future<void> installApps() async {
   await _installDiscord();
   await _installVSCode();
   await _installAndroidStudio();
+  await _installAndroidEmulatorIntegration();
   await _installZed();
   await _installSpotify();
   await _installGitHubDesktop();
@@ -72,7 +74,35 @@ Future<void> _installAndroidStudio() async {
     '$archiveName/jetbrains-toolbox',
   ]);
   tarFile.delete(recursive: true);
-  Process.start(toolboxExe.path, const []);
+  unawaited(Process.start(toolboxExe.path, const []));
+}
+
+Future<void> _installAndroidEmulatorIntegration() async {
+  final home = Platform.environment['HOME'] ?? '~';
+  final desktopFile =
+      File('$home/.local/share/applications/com.adilhanney.pixel8.desktop');
+  final iconFile = File(
+      '$home/.local/share/icons/hicolor/256x256/apps/com.adilhanney.pixel8.png');
+
+  if (desktopFile.existsSync() && iconFile.existsSync()) {
+    print('Android Emulator integration already installed.');
+    return;
+  }
+  if (!await yesOrNo('Install Android Emulator integration?')) return;
+
+  print('Installing Android Emulator integration...');
+  await File('assets/emulator_integration/com.adilhanney.pixel8.desktop')
+      .copy(desktopFile.path);
+  await File('assets/emulator_integration/com.adilhanney.pixel8.png')
+      .copy(iconFile.path);
+
+  final user = Platform.environment['USER'] ?? 'ahann';
+  if (user != 'ahann') {
+    print('Patching .desktop file to use /home/$user instead of /home/ahann');
+    final desktopContents = await desktopFile.readAsString();
+    await desktopFile.writeAsString(
+        desktopContents.replaceAll('/home/ahann/', '/home/$user/'));
+  }
 }
 
 Future<void> _installZed() async {

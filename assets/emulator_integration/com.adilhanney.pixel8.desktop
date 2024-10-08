@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Pixel 8 Emulator
+Comment=Run the Pixel 8 Emulator
+Icon=com.adilhanney.pixel8
+Exec=/home/ahann/Android/Sdk/tools/emulator -avd Pixel_8_API_34
+StartupWMClass=Emulator
+Terminal=false
+Hidden=false
+NoDisplay=false
+StartupNotify=true
+Keywords=android;avd;emulator;pixel;pixel8
+Categories=Development
