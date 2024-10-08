@@ -5,11 +5,14 @@ import 'yes_or_no.dart';
 
 class Dnf {
   static bool? _hasDnf;
+  static int? dnfVersion;
   static Future<bool> get hasDnf async {
     if (_hasDnf != null) return _hasDnf!;
 
     try {
-      await resultOfCommand('dnf', ['--version'], silent: true);
+      final versionInfo =
+          await resultOfCommand('dnf', ['--version'], silent: true);
+      dnfVersion = versionInfo.startsWith('dnf5') ? 5 : 4;
       return _hasDnf = true;
     } on ProcessException {
       return _hasDnf = false;
@@ -35,9 +38,15 @@ class Dnf {
 
   static List<String>? installedPackages;
   static Future<bool> installed(String package) async {
-    installedPackages ??=
-        (await resultOfCommand('dnf', ['list', 'installed'], silent: true))
-            .split('\n');
+    if (dnfVersion == 5) {
+      installedPackages ??=
+          (await resultOfCommand('dnf', ['list', '--installed'], silent: true))
+              .split('\n');
+    } else {
+      installedPackages ??=
+          (await resultOfCommand('dnf', ['list', 'installed'], silent: true))
+              .split('\n');
+    }
 
     // could be package.x86_64, package.noarch, etc.
     final installed = installedPackages!
