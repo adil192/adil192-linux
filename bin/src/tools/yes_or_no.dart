@@ -1,5 +1,7 @@
 import 'dart:io';
 
+bool alwaysYes = false;
+
 Future<bool> yesOrNo(
   String question, [
   String hint = 'Y/n',
@@ -7,11 +9,11 @@ Future<bool> yesOrNo(
 ]) async {
   stdout.write('$question ($hint): ');
 
-  String response;
-  do {
+  var response = alwaysYes ? defaultResponse : '';
+  while (response != 'y' && response != 'n') {
     response = stdin.readLineSync()?.toLowerCase() ?? '';
     if (response.isEmpty) response = defaultResponse;
-  } while (response != 'y' && response != 'n');
+  }
 
   return response == 'y';
 }
