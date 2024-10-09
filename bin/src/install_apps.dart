@@ -20,6 +20,12 @@ Future<void> installApps() async {
   await _installSaber();
   await _installPrismLauncher();
   await _installGnomeTweaks();
+  if (await _installGnomeExtensionManager()) {
+    await _installPopShell();
+    await _installDashToPanel();
+    await _installAppindicatorSupport();
+    await _disableFedoraBgLogo();
+  }
   await _installQtBreezeTheme();
   await _installVlc();
   await _installUpscaledVlc();
@@ -144,6 +150,39 @@ Future<void> _installPrismLauncher() =>
 Future<void> _installGnomeTweaks() =>
     _installDnfApp('gnome-tweaks', 'Gnome Tweaks');
 
+Future<bool> _installGnomeExtensionManager() => _installFlatpakApp(
+    'com.mattjakeman.ExtensionManager', 'Gnome Extension Manager');
+
+Future<void> _installPopShell() async {
+  if (await _installDnfApp('gnome-shell-extension-pop-shell', 'Pop Shell')) {
+    await resultOfCommand(
+        'gnome-extensions', ['enable', 'pop-shell@system76.com']);
+  }
+}
+
+Future<void> _installDashToPanel() async {
+  if (await _installDnfApp(
+      'gnome-shell-extension-dash-to-panel', 'Dash to Panel')) {
+    await resultOfCommand(
+        'gnome-extensions', ['enable', 'dash-to-panel@jderose9.github.com']);
+  }
+}
+
+Future<void> _installAppindicatorSupport() async {
+  if (await _installDnfApp('gnome-shell-extension-appindicator',
+      'AppIndicator/KStatusNotifierItem support for GNOME Shell')) {
+    await resultOfCommand('gnome-extensions',
+        ['enable', 'appindicatorsupport@rgcjonas.gmail.com']);
+  }
+}
+
+Future<void> _disableFedoraBgLogo() async {
+  if (!await yesOrNo('Disable Fedora\'s background logo?')) return;
+  print('Disabling Fedora\'s background logo...');
+  await resultOfCommand(
+      'gnome-extensions', ['disable', 'background-logo@fedorahosted.org']);
+}
+
 Future<void> _installQtBreezeTheme() async {
   if (!await Dnf.hasDnf) return;
   if (await Dnf.installed('plasma-breeze')) return;
@@ -179,17 +218,19 @@ Future<void> _installUpscaledVlc() async {
   await resultOfCommand('rm', [installScriptPath]);
 }
 
-Future<void> _installFlatpakApp(String id, String name) async {
-  if (await Flatpak.installed(id)) return;
-  if (!await yesOrNo('Install $name?')) return;
+Future<bool> _installFlatpakApp(String id, String name) async {
+  if (await Flatpak.installed(id)) return true;
+  if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Flatpak.install(id);
+  return true;
 }
 
-Future<void> _installDnfApp(String package, String name) async {
-  if (!await Dnf.hasDnf) return;
-  if (await Dnf.installed(package)) return;
-  if (!await yesOrNo('Install $name?')) return;
+Future<bool> _installDnfApp(String package, String name) async {
+  if (!await Dnf.hasDnf) return false;
+  if (await Dnf.installed(package)) return true;
+  if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Dnf.install([package]);
+  return true;
 }
