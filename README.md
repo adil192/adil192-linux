@@ -1,6 +1,7 @@
 # adil192-linux
 
-This is a collection of scripts that apply my personal preferences to a Linux system.
+This is a collection of scripts that apply my personal preferences to a Linux system
+(plus limited support on macOS).
 
 ## Requirements
 
@@ -8,6 +9,8 @@ These scripts are written in Dart,
 so if you don't have Dart (or Flutter) installed,
 run `./bootstrap/install_flutter.sh` to install Flutter+Dart
 or install Dart/Flutter manually.
+
+On macOS, please install [Homebrew](https://brew.sh/).
 
 ## Installation
 

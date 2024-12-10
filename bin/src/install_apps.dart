@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'tools/brew.dart';
 import 'tools/dnf.dart';
 import 'tools/flatpak.dart';
 import 'tools/result_of_command.dart';
@@ -8,6 +9,7 @@ import 'tools/which.dart';
 import 'tools/yes_or_no.dart';
 
 Future<void> installApps() async {
+  await _installFirefox();
   await _installSteam();
   await _installDiscord();
   await _installVSCode();
@@ -29,61 +31,88 @@ Future<void> installApps() async {
   await _installQtBreezeTheme();
   await _installVlc();
   await _installUpscaledVlc();
+  await _installAltTab();
+  await _installApplite();
+  await _installChrome();
 }
 
-Future<void> _installSteam() => _installDnfApp('steam', 'Steam');
+Future<void> _installFirefox() => _installApp(
+      name: 'Firefox',
+      dnf: 'firefox',
+      brew: 'firefox',
+    );
 
-Future<void> _installDiscord() => _installDnfApp('discord', 'Discord');
+Future<void> _installSteam() => _installApp(
+      name: 'Steam',
+      dnf: 'steam',
+      brew: 'steam',
+    );
+
+Future<void> _installDiscord() => _installApp(
+      name: 'Discord',
+      dnf: 'discord',
+      brew: 'discord',
+    );
 
 Future<void> _installVSCode() async {
-  if (!await Dnf.hasDnf) return;
-  if (await Dnf.installed('code')) return;
-  if (!await yesOrNo('Install Visual Studio Code?')) return;
-  print('Installing Visual Studio Code...');
+  if (Platform.isLinux) {
+    if (!await Dnf.hasDnf) return;
+    if (await Dnf.installed('code')) return;
+    if (!await yesOrNo('Install Visual Studio Code?')) return;
+    print('Installing Visual Studio Code...');
 
-  // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
-  await resultOfCommand('wget', [
-    'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64',
-    '-O',
-    '/tmp/code.rpm',
-  ]);
-  await Dnf.install(['/tmp/code.rpm']);
+    // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
+    await resultOfCommand('wget', [
+      'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64',
+      '-O',
+      '/tmp/code.rpm',
+    ]);
+    await Dnf.install(['/tmp/code.rpm']);
+  } else if (Platform.isMacOS) {
+    await _installBrewApp('visual-studio-code', 'Visual Studio Code');
+  }
 }
 
 Future<void> _installAndroidStudio() async {
-  final home = Platform.environment['HOME'] ?? '~';
-  final applicationsDir = Directory('$home/Applications');
-  final toolboxExe = File('$home/Applications/jetbrains-toolbox');
+  if (Platform.isLinux) {
+    final home = Platform.environment['HOME'] ?? '~';
+    final applicationsDir = Directory('$home/Applications');
+    final toolboxExe = File('$home/Applications/jetbrains-toolbox');
 
-  if (toolboxExe.existsSync()) {
-    print('Jetbrains Toolbox already installed. '
-        'Please manually install Android Studio through the GUI.');
-    return;
+    if (toolboxExe.existsSync()) {
+      print('Jetbrains Toolbox already installed. '
+          'Please manually install Android Studio through the GUI.');
+      return;
+    }
+
+    if (!await yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
+    print('Installing Jetbrains Toolbox...');
+
+    final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
+    final archiveName = 'jetbrains-toolbox-2.4.2.32922';
+    await resultOfCommand('wget', [
+      'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
+      '-O',
+      tarFile.path,
+    ]);
+    await resultOfCommand('tar', [
+      '-xf',
+      tarFile.path,
+      '-C',
+      applicationsDir.path,
+      '--strip-components=1',
+      '$archiveName/jetbrains-toolbox',
+    ]);
+    tarFile.delete(recursive: true);
+    unawaited(Process.start(toolboxExe.path, const []));
+  } else if (Platform.isMacOS) {
+    await _installBrewApp('android-studio', 'Android Studio');
   }
-
-  if (!await yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
-  print('Installing Jetbrains Toolbox...');
-
-  final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
-  final archiveName = 'jetbrains-toolbox-2.4.2.32922';
-  await resultOfCommand('wget', [
-    'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
-    '-O',
-    tarFile.path,
-  ]);
-  await resultOfCommand('tar', [
-    '-xf',
-    tarFile.path,
-    '-C',
-    applicationsDir.path,
-    '--strip-components=1',
-    '$archiveName/jetbrains-toolbox',
-  ]);
-  tarFile.delete(recursive: true);
-  unawaited(Process.start(toolboxExe.path, const []));
 }
 
 Future<void> _installAndroidEmulatorIntegration() async {
+  if (!Platform.isLinux) return;
+
   final home = Platform.environment['HOME'] ?? '~';
   final desktopFile =
       File('$home/.local/share/applications/com.adilhanney.pixel8.desktop');
@@ -112,30 +141,41 @@ Future<void> _installAndroidEmulatorIntegration() async {
 }
 
 Future<void> _installZed() async {
-  if (await Which.installed('zed')) return;
-  if (!await yesOrNo('Install Zed?')) return;
-  print('Installing Zed...');
-  await resultOfCommand(
-      'wget', ['https://zed.dev/install.sh', '-O', '/tmp/zed-install.sh']);
-  await resultOfCommand('bash', ['/tmp/zed-install.sh']);
+  if (Platform.isLinux) {
+    if (await Which.installed('zed')) return;
+    if (!await yesOrNo('Install Zed?')) return;
+    print('Installing Zed...');
+    await resultOfCommand(
+        'wget', ['https://zed.dev/install.sh', '-O', '/tmp/zed-install.sh']);
+    await resultOfCommand('bash', ['/tmp/zed-install.sh']);
+  } else if (Platform.isMacOS) {
+    await _installBrewApp('zed', 'Zed');
+  }
 }
 
-Future<void> _installSpotify() =>
-    _installFlatpakApp('com.spotify.Client', 'Spotify');
+Future<void> _installSpotify() => _installApp(
+      name: 'Spotify',
+      flatpak: 'com.spotify.Client',
+      brew: 'spotify',
+    );
 
 Future<void> _installGitHubDesktop() async {
-  if (await Which.installed('github-desktop')) return;
-  if (!await yesOrNo('Install GitHub Desktop?')) return;
-  print('Installing GitHub Desktop...');
+  if (Platform.isLinux) {
+    if (await Which.installed('github-desktop')) return;
+    if (!await yesOrNo('Install GitHub Desktop?')) return;
+    print('Installing GitHub Desktop...');
 
-  await resultOfCommand('sudo',
-      ['rpm', '--import', 'https://mirror.mwt.me/shiftkey-desktop/gpgkey']);
-  await resultOfCommand('sudo', [
-    'sh',
-    '-c',
-    'echo -e "[mwt-packages]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/shiftkey-desktop/rpm\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/shiftkey-desktop/gpgkey" > /etc/yum.repos.d/mwt-packages.repo',
-  ]);
-  await Dnf.install(['github-desktop']);
+    await resultOfCommand('sudo',
+        ['rpm', '--import', 'https://mirror.mwt.me/shiftkey-desktop/gpgkey']);
+    await resultOfCommand('sudo', [
+      'sh',
+      '-c',
+      'echo -e "[mwt-packages]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/shiftkey-desktop/rpm\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/shiftkey-desktop/gpgkey" > /etc/yum.repos.d/mwt-packages.repo',
+    ]);
+    await Dnf.install(['github-desktop']);
+  } else if (Platform.isMacOS) {
+    await _installBrewApp('github', 'GitHub Desktop');
+  }
 }
 
 Future<void> _installRicochlime() =>
@@ -177,6 +217,7 @@ Future<void> _installAppindicatorSupport() async {
 }
 
 Future<void> _disableFedoraBgLogo() async {
+  if (!Platform.isLinux) return;
   if (!await yesOrNo('Disable Fedora\'s background logo?')) return;
   print('Disabling Fedora\'s background logo...');
   await resultOfCommand(
@@ -184,6 +225,7 @@ Future<void> _disableFedoraBgLogo() async {
 }
 
 Future<void> _installQtBreezeTheme() async {
+  if (!Platform.isLinux) return;
   if (!await Dnf.hasDnf) return;
   if (await Dnf.installed('plasma-breeze')) return;
   if (!await yesOrNo('Install Qt Breeze Theme?')) return;
@@ -191,9 +233,15 @@ Future<void> _installQtBreezeTheme() async {
   await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
 }
 
-Future<void> _installVlc() => _installDnfApp('vlc', 'VLC');
+Future<void> _installVlc() => _installApp(
+      name: 'VLC',
+      dnf: 'vlc',
+      brew: 'vlc',
+    );
 
 Future<void> _installUpscaledVlc() async {
+  if (!Platform.isLinux) return;
+
   if (await Which.installed('upscaled_vlc.sh')) return;
 
   const gitRepo = 'https://github.com/adil192/upscaled_vlc';
@@ -218,7 +266,39 @@ Future<void> _installUpscaledVlc() async {
   await resultOfCommand('rm', [installScriptPath]);
 }
 
+Future<void> _installAltTab() => _installApp(
+      name: 'AltTab',
+      brew: 'alt-tab',
+    );
+Future<void> _installApplite() => _installApp(
+      name: 'Applite (homebrew frontend)',
+      brew: 'applite',
+    );
+Future<void> _installChrome() => _installApp(
+      name: 'Chrome',
+      brew: 'google-chrome',
+    );
+
+Future<bool> _installApp({
+  required String name,
+  String? dnf,
+  String? flatpak,
+  String? brew,
+}) async {
+  if (Platform.isLinux && dnf != null) {
+    if (await _installDnfApp(dnf, name)) return true;
+  }
+  if (Platform.isLinux && flatpak != null) {
+    if (await _installFlatpakApp(flatpak, name)) return true;
+  }
+  if (Platform.isMacOS && brew != null) {
+    if (await _installBrewApp(brew, name)) return true;
+  }
+  return false;
+}
+
 Future<bool> _installFlatpakApp(String id, String name) async {
+  if (!await Flatpak.hasFlatpak) return false;
   if (await Flatpak.installed(id)) return true;
   if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
@@ -232,5 +312,14 @@ Future<bool> _installDnfApp(String package, String name) async {
   if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Dnf.install([package]);
+  return true;
+}
+
+Future<bool> _installBrewApp(String package, String name) async {
+  if (!await Brew.hasBrew) return false;
+  if (await Brew.installed(package)) return true;
+  if (!await yesOrNo('Install $name?')) return false;
+  print('Installing $name...');
+  await Brew.install(package);
   return true;
 }

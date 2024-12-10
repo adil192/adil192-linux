@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'result_of_command.dart';
 
-final class Model {
+/// Information about the user's device
+final class Device {
   static Future<bool> hasAmdCpu() async {
     cpuInfo ??= await _getCpuInfo();
     return cpuInfo!.contains('AMD');

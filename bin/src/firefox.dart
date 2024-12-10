@@ -12,6 +12,8 @@ const _customSettings = {
 };
 
 Future<void> installFirefoxCss() async {
+  if (!Platform.isLinux) return;
+
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/customChrome.css');
 
@@ -28,6 +30,8 @@ Future<void> installFirefoxCss() async {
 }
 
 Future<void> uninstallFirefoxWindowButtons() async {
+  if (!Platform.isLinux) return;
+
   final profileDir = await _findFirefoxProfileDir();
   final customChromeCss = await _findCustomChromeCss(profileDir);
   if (customChromeCss.existsSync()) await customChromeCss.delete();

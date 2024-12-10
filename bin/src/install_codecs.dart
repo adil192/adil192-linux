@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'tools/dnf.dart';
-import 'tools/model.dart';
+import 'tools/device.dart';
 import 'tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
 Future<void> installCodecs() async {
+  if (!Platform.isLinux) return;
+
   if (!await Dnf.hasDnf) {
     print('DNF is not available, skipping multimedia codecs installation.');
     return;
@@ -41,11 +45,11 @@ Future<void> _installAdditionalCodecs() async {
 }
 
 Future<void> _installHardwareAcceleration() async {
-  if (await Model.hasAmdGpu()) await _installAmdDrivers();
+  if (await Device.hasAmdGpu()) await _installAmdDrivers();
 
-  if (await Model.hasIntelGpu()) await _installIntelDrivers();
+  if (await Device.hasIntelGpu()) await _installIntelDrivers();
 
-  if (await Model.hasNvidiaGpu()) await _installNvidiaDrivers();
+  if (await Device.hasNvidiaGpu()) await _installNvidiaDrivers();
 }
 
 Future<void> _installAmdDrivers() async {

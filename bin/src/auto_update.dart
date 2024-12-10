@@ -13,6 +13,8 @@ final _serviceTemplateFile = File('$_pwd/assets/auto_update/$_serviceName');
 final _timerTemplateFile = File('$_pwd/assets/auto_update/$_timerName');
 
 Future<void> enableAutoUpdate() async {
+  if (!Platform.isLinux) return;
+
   final serviceFileExists = _serviceFile.existsSync();
   final timerFileExists = _timerFile.existsSync();
 
@@ -47,6 +49,8 @@ Future<void> enableAutoUpdate() async {
 }
 
 Future<void> disableAutoUpdate() async {
+  if (!Platform.isLinux) return;
+
   if (_serviceFile.existsSync()) {
     print('Deactivating $_serviceName');
     await resultOfCommand('systemctl', ['--user', 'stop', _serviceName]);

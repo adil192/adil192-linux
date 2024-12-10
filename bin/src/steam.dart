@@ -3,6 +3,8 @@ import 'dart:io';
 import 'tools/result_of_command.dart';
 
 Future<void> installSteamTheme() async {
+  if (!Platform.isLinux) return;
+
   final home = Platform.environment['HOME'];
   final repoDir = Directory('$home/Documents/Sources/Adwaita-for-Steam/');
   if (!repoDir.existsSync()) {

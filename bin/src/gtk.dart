@@ -8,6 +8,8 @@ final _gtk3Css = File('$_home/.config/gtk-3.0/gtk.css');
 final _gtk4Css = File('$_home/.config/gtk-4.0/gtk.css');
 
 Future<void> installGtkCss() async {
+  if (!Platform.isLinux) return;
+
   final customCssContent =
       await File('$_pwd/assets/gtk/gtk.css').readAsString();
 
@@ -18,6 +20,8 @@ Future<void> installGtkCss() async {
 }
 
 Future<void> uninstallGtkCss() async {
+  if (!Platform.isLinux) return;
+
   const emptyCss = '';
 
   await _injectCss(_gtk3Css, emptyCss);
