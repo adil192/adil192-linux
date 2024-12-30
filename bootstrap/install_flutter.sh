@@ -4,10 +4,10 @@ FLUTTER_DIR="$HOME/Documents/Sources/flutter/"
 
 echo "Installing Flutter's dependencies..."
 if [ -n "$(which dnf)" ]; then
-  sudo dnf install curl git unzip xz zip libGLU
+  sudo dnf install -y curl git unzip xz zip libGLU
 elif [ -n "$(which apt)" ]; then
   sudo apt update
-  sudo apt install curl git unzip xz-utils zip libglu1-mesa
+  sudo apt install -y curl git unzip xz-utils zip libglu1-mesa
 else
   echo "Can't find apt or dnf. Please install dependencies manually."
 fi
