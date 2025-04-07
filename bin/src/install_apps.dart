@@ -76,7 +76,7 @@ Future<void> _installVSCode() async {
 Future<void> _installAndroidStudio() async {
   if (Platform.isLinux) {
     final home = Platform.environment['HOME'] ?? '~';
-    final applicationsDir = Directory('$home/Applications');
+    final applicationsDir = Directory('$home/Applications')..createSync();
     final toolboxExe = File('$home/Applications/jetbrains-toolbox');
 
     if (toolboxExe.existsSync()) {
@@ -126,8 +126,10 @@ Future<void> _installAndroidEmulatorIntegration() async {
   if (!await yesOrNo('Install Android Emulator integration?')) return;
 
   print('Installing Android Emulator integration...');
+  desktopFile.createSync(recursive: true);
   await File('assets/emulator_integration/com.adilhanney.pixel8.desktop')
       .copy(desktopFile.path);
+  iconFile.createSync(recursive: true);
   await File('assets/emulator_integration/com.adilhanney.pixel8.png')
       .copy(iconFile.path);
 
