@@ -72,7 +72,7 @@ Future<void> _installIntelDrivers() async {
 }
 
 Future<void> _installNvidiaDrivers() async {
-  if (await Dnf.installed('libva-nvidia-driver.x86_64')) return;
+  if (await Dnf.installed('libva-nvidia-driver')) return;
   if (!await yesOrNo('Install (proprietary) Nvidia drivers?')) return;
   print('Installing Nvidia drivers...');
   await Dnf.install([
