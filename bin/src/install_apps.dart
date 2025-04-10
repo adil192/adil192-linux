@@ -306,6 +306,7 @@ Future<bool> _installFlatpakApp(String id, String name) async {
   if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Flatpak.install(id);
+  print('');
   return true;
 }
 
@@ -315,6 +316,7 @@ Future<bool> _installDnfApp(String package, String name) async {
   if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Dnf.install([package]);
+  print('');
   return true;
 }
 
@@ -324,5 +326,6 @@ Future<bool> _installBrewApp(String package, String name) async {
   if (!await yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Brew.install(package);
+  print('');
   return true;
 }
