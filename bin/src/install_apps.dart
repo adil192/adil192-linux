@@ -31,7 +31,6 @@ Future<void> installApps() async {
   await _installQtBreezeTheme();
   await _installVlc();
   await _installUpscaledVlc();
-  await _installAltTab();
   await _installApplite();
   await _installChrome();
 }
@@ -268,10 +267,6 @@ Future<void> _installUpscaledVlc() async {
   await resultOfCommand('rm', [installScriptPath]);
 }
 
-Future<void> _installAltTab() => _installApp(
-      name: 'AltTab',
-      brew: 'alt-tab',
-    );
 Future<void> _installApplite() => _installApp(
       name: 'Applite (homebrew frontend)',
       brew: 'applite',
