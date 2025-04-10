@@ -33,6 +33,7 @@ Future<void> installApps() async {
   await _installUpscaledVlc();
   await _installApplite();
   await _installChrome();
+  await _installWine();
 }
 
 Future<void> _installFirefox() => _installApp(
@@ -274,6 +275,11 @@ Future<void> _installApplite() => _installApp(
 Future<void> _installChrome() => _installApp(
       name: 'Chrome',
       brew: 'google-chrome',
+    );
+
+Future<void> _installWine() => _installApp(
+      name: 'Wine',
+      dnf: 'wine',
     );
 
 Future<bool> _installApp({
