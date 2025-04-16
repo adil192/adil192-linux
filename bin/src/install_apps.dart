@@ -197,24 +197,36 @@ Future<bool> _installGnomeExtensionManager() => _installFlatpakApp(
 
 Future<void> _installPopShell() async {
   if (await _installDnfApp('gnome-shell-extension-pop-shell', 'Pop Shell')) {
-    await resultOfCommand(
-        'gnome-extensions', ['enable', 'pop-shell@system76.com']);
+    try {
+      await resultOfCommand(
+          'gnome-extensions', ['enable', 'pop-shell@system76.com']);
+    } catch (e) {
+      // Can't enable until next login
+    }
   }
 }
 
 Future<void> _installDashToPanel() async {
   if (await _installDnfApp(
       'gnome-shell-extension-dash-to-panel', 'Dash to Panel')) {
-    await resultOfCommand(
-        'gnome-extensions', ['enable', 'dash-to-panel@jderose9.github.com']);
+    try {
+      await resultOfCommand(
+          'gnome-extensions', ['enable', 'dash-to-panel@jderose9.github.com']);
+    } catch (e) {
+      // Can't enable until next login
+    }
   }
 }
 
 Future<void> _installAppindicatorSupport() async {
   if (await _installDnfApp('gnome-shell-extension-appindicator',
       'AppIndicator/KStatusNotifierItem support for GNOME Shell')) {
-    await resultOfCommand('gnome-extensions',
-        ['enable', 'appindicatorsupport@rgcjonas.gmail.com']);
+    try {
+      await resultOfCommand('gnome-extensions',
+          ['enable', 'appindicatorsupport@rgcjonas.gmail.com']);
+    } catch (e) {
+      // Can't enable until next login
+    }
   }
 }
 
