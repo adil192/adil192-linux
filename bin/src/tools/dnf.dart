@@ -38,15 +38,9 @@ class Dnf {
 
   static List<String>? installedPackages;
   static Future<bool> installed(String package) async {
-    if (dnfVersion == 5) {
-      installedPackages ??=
-          (await resultOfCommand('dnf', ['list', '--installed'], silent: true))
-              .split('\n');
-    } else {
-      installedPackages ??=
-          (await resultOfCommand('dnf', ['list', 'installed'], silent: true))
-              .split('\n');
-    }
+    installedPackages ??=
+        (await resultOfCommand('dnf', ['list', '--installed'], silent: true))
+            .split('\n');
 
     // could be package.x86_64, package.noarch, etc.
     final installed = installedPackages!
@@ -61,9 +55,8 @@ class Dnf {
     final repoList = await Dnf.repoList();
     final hasFree = repoList.contains('rpmfusion-free');
     final hasNonFree = repoList.contains('rpmfusion-nonfree');
-    final hasOpenh264 = repoList.contains('fedora-cisco-openh264');
 
-    if (hasFree && hasNonFree && hasOpenh264) return;
+    if (hasFree && hasNonFree) return;
 
     if (!await yesOrNo('Enable RPM Fusion repositories?')) return;
 
@@ -74,9 +67,6 @@ class Dnf {
       'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedoraVersion.noarch.rpm',
       'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$fedoraVersion.noarch.rpm',
     ]);
-    print('Enabling the fedora-cisco-openh264 repository...');
-    await resultOfCommand(
-        'sudo', ['dnf', 'config-manager', '--enable', 'fedora-cisco-openh264']);
     print('Updating Appstream metadata...');
     await update(['@core']);
   }
