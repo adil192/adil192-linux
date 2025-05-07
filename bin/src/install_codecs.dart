@@ -29,6 +29,7 @@ Future<void> _switchToFullFfmpeg() async {
 
   print('Switching to the full ffmpeg package...');
   await Dnf.swap('ffmpeg-free', 'ffmpeg', allowErasing: true);
+  await Dnf.install(['libavcodec-freeworld']);
 }
 
 Future<void> _installAdditionalCodecs() async {
