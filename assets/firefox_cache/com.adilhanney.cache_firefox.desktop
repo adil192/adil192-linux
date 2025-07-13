@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=cache_firefox.sh
+Comment=Precache Firefox profile and caches for faster browsing
+Exec=~/.local/bin/cache_firefox.sh
+X-GNOME-Autostart-enabled=true
+X-XDP-Autostart=com.adilhanney.cache_firefox
