@@ -18,9 +18,6 @@ const shouldThemeFirefox = true;
 /// Precaches Firefox profiles and disk cache into RAM (Linux only).
 /// This speeds up Firefox if you have enough RAM to spare.
 /// If your RAM gets full, linux will automatically remove the precached data.
-///
-/// Note that this tweak will not be installed if you have 8GB or less of RAM,
-/// even if this variable is set to true.
 const shouldInstallFirefoxCacher = true;
 
 /// Themes the window buttons (minimise, maximise, close)
