@@ -9,6 +9,7 @@ import 'tools/which.dart';
 import 'tools/yes_or_no.dart';
 
 Future<void> installApps() async {
+  await _installCachyosKernel();
   await _installFirefox();
   await _installSteam();
   await _installDiscord();
@@ -34,6 +35,32 @@ Future<void> installApps() async {
   await _installApplite();
   await _installChrome();
   await _installWine();
+}
+
+Future<void> _installCachyosKernel() async {
+  if (!Platform.isLinux) return;
+  if (!await Dnf.hasDnf) return;
+  if (await Dnf.installed('kernel-cachyos')) return;
+  if (await Dnf.installed('kernel-cachyos-lts')) return;
+  if (!await yesOrNo('Install CachyOS\'s kernel?')) return;
+  print('Installing kernel-cachyos...');
+
+  await resultOfCommand(
+      'sudo', ['setsebool', '-P', 'domain_kernel_load_modules', 'on']);
+
+  await Dnf.enableCopr('bieszczaders/kernel-cachyos');
+
+  // x86-64-v3 supports kernel-cachyos, x86-64-v2 only kernel-cachyos-lts
+  final archs =
+      await resultOfCommand('sudo', ['/lib64/ld-linux-x86-64.so.2', '--help']);
+  if (archs.contains('x86-64-v3 (supported, searched)')) {
+    await Dnf.install(['kernel-cachyos', 'kernel-cachyos-devel-matched']);
+  } else if (archs.contains('x86-64-v2 (supported, searched)')) {
+    await Dnf.install(
+        ['kernel-cachyos-lts', 'kernel-cachyos-lts-devel-matched']);
+  } else {
+    print('Your CPU may not be supported by kernel-cachyos, skipping...');
+  }
 }
 
 Future<void> _installFirefox() => _installApp(

@@ -70,4 +70,7 @@ class Dnf {
     print('Updating Appstream metadata...');
     await update(['@core']);
   }
+
+  static Future<void> enableCopr(String repo) =>
+      resultOfCommand('sudo', ['dnf', 'copr', 'enable', '-y', repo]);
 }
