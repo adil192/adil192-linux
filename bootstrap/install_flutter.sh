@@ -30,6 +30,7 @@ case "\$PATH" in
     # Flutter already in PATH
     ;;
   *)
+    export FLUTTER_ROOT="${FLUTTER_DIR}"
     export PATH="\$PATH:${FLUTTER_DIR}bin"
     export PATH="\$PATH:\$HOME/.pub-cache/bin"
     ;;
