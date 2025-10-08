@@ -1,6 +1,7 @@
 #!/bin/bash
 
 FLUTTER_DIR="$HOME/Documents/Sources/flutter/"
+FLUTTER_ENV="$HOME/.flutter_env"
 
 echo "Installing Flutter's dependencies..."
 if [ -n "$(which dnf)" ]; then
@@ -21,14 +22,32 @@ else
 fi
 echo
 
-if [ -n "$(which flutter)" ]; then
-  echo "Flutter is already on path."
-else
-  echo "Adding Flutter to PATH..."
-  echo "export PATH=\"\$PATH:${FLUTTER_DIR}bin\"" >> ~/.bashrc
-  echo "export PATH=\"\$PATH:\$HOME/.pub-cache/bin\"" >> ~/.bashrc
-  source ~/.bashrc
+echo "Writing Flutter env file to $FLUTTER_ENV ..."
+cat <<EOF > $FLUTTER_ENV
+#!/bin/sh
+case "\$PATH" in
+  *.pub-cache/bin*)
+    # Flutter already in PATH
+    ;;
+  *)
+    export PATH="\$PATH:${FLUTTER_DIR}bin"
+    export PATH="\$PATH:\$HOME/.pub-cache/bin"
+    ;;
+esac
+EOF
+chmod +x $FLUTTER_ENV
+echo
+
+echo "Adding Flutter to shell profiles..."
+echo ". \"${FLUTTER_ENV}\"" >> ~/.profile
+echo ". \"${FLUTTER_ENV}\"" >> ~/.bash_profile
+echo ". \"${FLUTTER_ENV}\"" >> ~/.bashrc
+if [ -n "$(which zsh)" ]; then
+  echo ". \"${FLUTTER_ENV}\"" >> ~/.zprofile
+  echo ". \"${FLUTTER_ENV}\"" >> ~/.zshrc
 fi
+# Load for current session
+. "$FLUTTER_ENV"
 echo
 
 echo "Running flutter doctor..."
