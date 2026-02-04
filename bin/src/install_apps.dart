@@ -56,12 +56,9 @@ Future<void> _installVSCode() async {
     print('Installing Visual Studio Code...');
 
     // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
-    await resultOfCommand('wget', [
+    await Dnf.install([
       'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64',
-      '-O',
-      '/tmp/code.rpm',
     ]);
-    await Dnf.install(['/tmp/code.rpm']);
   } else if (Platform.isMacOS) {
     await _installBrewApp('visual-studio-code', 'Visual Studio Code');
   }
@@ -260,6 +257,7 @@ Future<void> _disableFedoraBgLogo() async {
 }
 
 Future<void> _installQtBreezeTheme() async {
+  // TODO(adil192): Automate all of https://gist.github.com/adil192/61cd9c58a8bd0955cff9f1f7c52cb572
   if (!Platform.isLinux) return;
   if (!await Dnf.hasDnf) return;
   if (await Dnf.installed('plasma-breeze')) return;
