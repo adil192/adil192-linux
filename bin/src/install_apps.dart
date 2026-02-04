@@ -25,7 +25,7 @@ Future<void> installApps() async {
   await _installVlc();
   await _installUpscaledVlc();
   await _installApplite();
-  await _installChrome();
+  await _installChromium();
   await _installWine();
 }
 
@@ -230,8 +230,28 @@ Future<void> _installUpscaledVlc() async {
 
 Future<void> _installApplite() =>
     _installApp(name: 'Applite (homebrew frontend)', brew: 'applite');
-Future<void> _installChrome() =>
-    _installApp(name: 'Chrome', brew: 'google-chrome');
+
+Future<void> _installChromium() async {
+  if (Platform.isMacOS) {
+    _installBrewApp('google-chrome', 'Chrome');
+    return;
+  }
+
+  final installed = await _installFlatpakApp(
+    'org.chromium.Chromium',
+    'Chromium',
+  );
+
+  // Set CHROME_EXECUTABLE so Flutter can find the flatpak
+  if (!installed) return;
+  if (Platform.environment['CHROME_EXECUTABLE']?.isNotEmpty ?? false) return;
+  final home = Platform.environment['HOME'] ?? '~';
+  await resultOfCommand('sed', [
+    '-i',
+    '\$aexport CHROME_EXECUTABLE="/home/ahann/.local/share/flatpak/app/org.chromium.Chromium/x86_64/stable/active/export/bin/org.chromium.Chromium"',
+    '$home/.bashrc',
+  ]);
+}
 
 Future<void> _installWine() async {
   if (!Platform.isLinux) return;
