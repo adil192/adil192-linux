@@ -31,15 +31,6 @@ dart pub get
 dart run
 ```
 
-Note that by default,
-a timer is set up to update the scripts
-and apply the changes every day.
-While I'm not going to do anything malicious with this repository,
-you should still disable this unless you trust me,
-since I could theoretically push a malicious change at any time.
-Set `shouldAutomaticallyUpdate` to `false` in
-[`bin/src/config.dart`](bin/src/config.dart) to disable this.
-
 ## Uninstallation
 
 Run `dart run bin/uninstall.dart` in the root directory of the repository

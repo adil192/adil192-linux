@@ -28,12 +28,3 @@ const shouldThemeWindowButtons = true;
 ///
 /// See https://github.com/tkashkin/Adwaita-for-Steam
 const shouldThemeSteam = true;
-
-/// Installs a systemd timer
-/// to pull the latest changes in this repo and apply them
-/// once a day (Linux only).
-///
-/// Note that this basically gives me the ability to run arbitrary code
-/// on your machine, so unless you know me personally,
-/// you should probably set this to false.
-const shouldAutomaticallyUpdate = true;
