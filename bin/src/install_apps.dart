@@ -123,12 +123,11 @@ Future<void> _installAndroidEmulatorIntegration() async {
     'assets/emulator_integration/com.adilhanney.pixel8.png',
   ).copy(iconFile.path);
 
-  final user = Platform.environment['USER'] ?? 'ahann';
-  if (user != 'ahann') {
-    print('Patching .desktop file to use /home/$user instead of /home/ahann');
+  if (home != '/home/ahann') {
+    print('Patching .desktop file to use $home instead of /home/ahann');
     final desktopContents = await desktopFile.readAsString();
     await desktopFile.writeAsString(
-      desktopContents.replaceAll('/home/ahann/', '/home/$user/'),
+      desktopContents.replaceAll('/home/ahann', home),
     );
   }
 }
