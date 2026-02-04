@@ -21,13 +21,6 @@ Future<void> installApps() async {
   await _installRicochlime();
   await _installSaber();
   await _installPrismLauncher();
-  await _installGnomeTweaks();
-  if (await _installGnomeExtensionManager()) {
-    await _installPopShell();
-    await _installDashToPanel();
-    await _installAppindicatorSupport();
-    await _disableFedoraBgLogo();
-  }
   await _installQtBreezeTheme();
   await _installVlc();
   await _installUpscaledVlc();
@@ -195,69 +188,6 @@ Future<void> _installSaber() =>
 
 Future<void> _installPrismLauncher() =>
     _installFlatpakApp('org.prismlauncher.PrismLauncher', 'Prism Launcher');
-
-Future<void> _installGnomeTweaks() =>
-    _installDnfApp('gnome-tweaks', 'Gnome Tweaks');
-
-Future<bool> _installGnomeExtensionManager() => _installFlatpakApp(
-  'com.mattjakeman.ExtensionManager',
-  'Gnome Extension Manager',
-);
-
-Future<void> _installPopShell() async {
-  if (await _installDnfApp('gnome-shell-extension-pop-shell', 'Pop Shell')) {
-    try {
-      await resultOfCommand('gnome-extensions', [
-        'enable',
-        'pop-shell@system76.com',
-      ]);
-    } catch (e) {
-      // Can't enable until next login
-    }
-  }
-}
-
-Future<void> _installDashToPanel() async {
-  if (await _installDnfApp(
-    'gnome-shell-extension-dash-to-panel',
-    'Dash to Panel',
-  )) {
-    try {
-      await resultOfCommand('gnome-extensions', [
-        'enable',
-        'dash-to-panel@jderose9.github.com',
-      ]);
-    } catch (e) {
-      // Can't enable until next login
-    }
-  }
-}
-
-Future<void> _installAppindicatorSupport() async {
-  if (await _installDnfApp(
-    'gnome-shell-extension-appindicator',
-    'AppIndicator/KStatusNotifierItem support for GNOME Shell',
-  )) {
-    try {
-      await resultOfCommand('gnome-extensions', [
-        'enable',
-        'appindicatorsupport@rgcjonas.gmail.com',
-      ]);
-    } catch (e) {
-      // Can't enable until next login
-    }
-  }
-}
-
-Future<void> _disableFedoraBgLogo() async {
-  if (!Platform.isLinux) return;
-  if (!await yesOrNo('Disable Fedora\'s background logo?')) return;
-  print('Disabling Fedora\'s background logo...');
-  await resultOfCommand('gnome-extensions', [
-    'disable',
-    'background-logo@fedorahosted.org',
-  ]);
-}
 
 Future<void> _installQtBreezeTheme() async {
   // TODO(adil192): Automate all of https://gist.github.com/adil192/61cd9c58a8bd0955cff9f1f7c52cb572
