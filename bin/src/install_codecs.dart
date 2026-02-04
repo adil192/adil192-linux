@@ -46,17 +46,20 @@ Future<void> _installAdditionalCodecs() async {
 }
 
 Future<void> _installHardwareAcceleration() async {
-  if (await Device.hasAmdGpu()) await _installAmdDrivers();
+  await _installMesaDrivers();
 
   if (await Device.hasIntelGpu()) await _installIntelDrivers();
 
   if (await Device.hasNvidiaGpu()) await _installNvidiaDrivers();
 }
 
-Future<void> _installAmdDrivers() async {
-  if (await Dnf.installed('mesa-va-drivers-freeworld')) return;
-  if (!await yesOrNo('Install AMD drivers?')) return;
-  print('Installing AMD drivers...');
+Future<void> _installMesaDrivers() async {
+  if (await Dnf.installed('mesa-va-drivers-freeworld') &&
+      await Dnf.installed('mesa-vdpau-drivers-freeworld')) {
+    return;
+  }
+  if (!await yesOrNo('Install mesa drivers?')) return;
+  print('Installing mesa drivers...');
 
   await Dnf.swap('mesa-va-drivers.i686', 'mesa-va-drivers-freeworld.i686');
   await Dnf.swap(
