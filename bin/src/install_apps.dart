@@ -164,21 +164,24 @@ Future<void> _installSpotify() => _installApp(
 
 Future<void> _installGitHubDesktop() async {
   if (Platform.isLinux) {
-    if (await Which.installed('github-desktop')) return;
-    if (!await yesOrNo('Install GitHub Desktop?')) return;
-    print('Installing GitHub Desktop...');
+    if (await Which.installed('github-desktop-plus') ||
+        await Which.installed('github-desktop')) {
+      return;
+    }
+    if (!await yesOrNo('Install GitHub Desktop Plus?')) return;
+    print('Installing GitHub Desktop Plus...');
 
     await resultOfCommand('sudo', [
       'rpm',
       '--import',
-      'https://mirror.mwt.me/shiftkey-desktop/gpgkey',
+      'https://gpg.polrivero.com/public.key',
     ]);
     await resultOfCommand('sudo', [
       'sh',
       '-c',
-      'echo -e "[mwt-packages]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/shiftkey-desktop/rpm\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/shiftkey-desktop/gpgkey" > /etc/yum.repos.d/mwt-packages.repo',
+      'echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key" > /etc/yum.repos.d/github-desktop-plus.repo',
     ]);
-    await Dnf.install(['github-desktop']);
+    await Dnf.install(['github-desktop-plus']);
   } else if (Platform.isMacOS) {
     await _installBrewApp('github', 'GitHub Desktop');
   }
