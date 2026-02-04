@@ -233,7 +233,19 @@ Future<void> _installApplite() =>
 Future<void> _installChrome() =>
     _installApp(name: 'Chrome', brew: 'google-chrome');
 
-Future<void> _installWine() => _installApp(name: 'Wine', dnf: 'wine');
+Future<void> _installWine() async {
+  if (!Platform.isLinux) return;
+  if (!await Dnf.hasDnf) return;
+  if (await Dnf.installed('wine') ||
+      await Dnf.installed('winehq-stable') ||
+      await Dnf.installed('winehq-devel') ||
+      await Dnf.installed('winehq-staging')) {
+    return;
+  }
+  if (!await yesOrNo('Install Wine?')) return;
+  print('Installing Wine...');
+  await Dnf.install(['wine']);
+}
 
 Future<bool> _installApp({
   required String name,
