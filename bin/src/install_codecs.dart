@@ -60,7 +60,9 @@ Future<void> _installAmdDrivers() async {
 
   await Dnf.swap('mesa-va-drivers.i686', 'mesa-va-drivers-freeworld.i686');
   await Dnf.swap(
-      'mesa-vdpau-drivers.i686', 'mesa-vdpau-drivers-freeworld.i686');
+    'mesa-vdpau-drivers.i686',
+    'mesa-vdpau-drivers-freeworld.i686',
+  );
   await Dnf.swap('mesa-va-drivers', 'mesa-va-drivers-freeworld');
   await Dnf.swap('mesa-vdpau-drivers', 'mesa-vdpau-drivers-freeworld');
 }

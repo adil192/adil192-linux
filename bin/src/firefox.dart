@@ -76,8 +76,10 @@ Future<void> _alterUserJs(Directory profileDir) async {
 Future<FileSystemEntity> _findCustomChromeCss(Directory profileDir) async {
   final customChromeCssPath =
       '${profileDir.path}/chrome/firefox-gnome-theme/customChrome.css';
-  final type =
-      FileSystemEntity.typeSync(customChromeCssPath, followLinks: false);
+  final type = FileSystemEntity.typeSync(
+    customChromeCssPath,
+    followLinks: false,
+  );
   switch (type) {
     case FileSystemEntityType.file:
       return File(customChromeCssPath);
@@ -95,15 +97,18 @@ Future<Directory> _findFirefoxProfileDir({
   final home = Platform.environment['HOME'];
 
   final systemProfilesDir = Directory('$home/.mozilla/firefox');
-  final flatpakProfilesDir =
-      Directory('$home/.var/app/org.mozilla.firefox/.mozilla/firefox');
-  final profilesDir =
-      systemProfilesDir.existsSync() ? systemProfilesDir : flatpakProfilesDir;
+  final flatpakProfilesDir = Directory(
+    '$home/.var/app/org.mozilla.firefox/.mozilla/firefox',
+  );
+  final profilesDir = systemProfilesDir.existsSync()
+      ? systemProfilesDir
+      : flatpakProfilesDir;
 
   for (final profileDir in profilesDir.listSync()) {
     if (profileDir is! Directory) continue;
-    final readme =
-        File('${profileDir.path}/chrome/firefox-gnome-theme/README.md');
+    final readme = File(
+      '${profileDir.path}/chrome/firefox-gnome-theme/README.md',
+    );
     if (readme.existsSync()) return profileDir;
   }
 

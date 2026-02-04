@@ -4,8 +4,12 @@ class Which {
   static Future<bool> installed(String name) async {
     String? location;
     try {
-      location = await resultOfCommand('which', [name],
-          runInShell: true, silent: true);
+      location = await resultOfCommand(
+        'which',
+        [name],
+        runInShell: true,
+        silent: true,
+      );
       location = location.trim();
     } on StateError {
       // ignore

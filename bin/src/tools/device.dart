@@ -38,10 +38,12 @@ final class Device {
     final lspci = await resultOfCommand('lspci', ['-mm'], silent: true);
     return lspci
         .split('\n')
-        .where((line) =>
-            line.toLowerCase().contains('vga') ||
-            line.toLowerCase().contains('display') ||
-            line.toLowerCase().contains('3d'))
+        .where(
+          (line) =>
+              line.toLowerCase().contains('vga') ||
+              line.toLowerCase().contains('display') ||
+              line.toLowerCase().contains('3d'),
+        )
         .join('\n');
   }
 }

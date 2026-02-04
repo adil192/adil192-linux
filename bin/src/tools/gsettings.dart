@@ -2,8 +2,12 @@ import 'dart:io';
 
 abstract class Gsettings {
   static Future<void> set(String schema, String key, String value) async {
-    final process =
-        await Process.start('gsettings', ['set', schema, key, value]);
+    final process = await Process.start('gsettings', [
+      'set',
+      schema,
+      key,
+      value,
+    ]);
 
     stdout.addStream(process.stdout);
     stderr.addStream(process.stderr);

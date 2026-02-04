@@ -45,41 +45,40 @@ Future<void> _installCachyosKernel() async {
   if (!await yesOrNo('Install CachyOS\'s kernel?')) return;
   print('Installing kernel-cachyos...');
 
-  await resultOfCommand(
-      'sudo', ['setsebool', '-P', 'domain_kernel_load_modules', 'on']);
+  await resultOfCommand('sudo', [
+    'setsebool',
+    '-P',
+    'domain_kernel_load_modules',
+    'on',
+  ]);
 
   await Dnf.enableCopr('bieszczaders/kernel-cachyos');
 
   // x86-64-v3 supports kernel-cachyos, x86-64-v2 only kernel-cachyos-lts
-  final archs =
-      await resultOfCommand('sudo', ['/lib64/ld-linux-x86-64.so.2', '--help']);
+  final archs = await resultOfCommand('sudo', [
+    '/lib64/ld-linux-x86-64.so.2',
+    '--help',
+  ]);
   if (archs.contains('x86-64-v3 (supported, searched)')) {
     await Dnf.install(['kernel-cachyos', 'kernel-cachyos-devel-matched']);
   } else if (archs.contains('x86-64-v2 (supported, searched)')) {
-    await Dnf.install(
-        ['kernel-cachyos-lts', 'kernel-cachyos-lts-devel-matched']);
+    await Dnf.install([
+      'kernel-cachyos-lts',
+      'kernel-cachyos-lts-devel-matched',
+    ]);
   } else {
     print('Your CPU may not be supported by kernel-cachyos, skipping...');
   }
 }
 
-Future<void> _installFirefox() => _installApp(
-      name: 'Firefox',
-      dnf: 'firefox',
-      brew: 'firefox',
-    );
+Future<void> _installFirefox() =>
+    _installApp(name: 'Firefox', dnf: 'firefox', brew: 'firefox');
 
-Future<void> _installSteam() => _installApp(
-      name: 'Steam',
-      dnf: 'steam',
-      brew: 'steam',
-    );
+Future<void> _installSteam() =>
+    _installApp(name: 'Steam', dnf: 'steam', brew: 'steam');
 
-Future<void> _installDiscord() => _installApp(
-      name: 'Discord',
-      dnf: 'discord',
-      brew: 'discord',
-    );
+Future<void> _installDiscord() =>
+    _installApp(name: 'Discord', dnf: 'discord', brew: 'discord');
 
 Future<void> _installVSCode() async {
   if (Platform.isLinux) {
@@ -107,8 +106,10 @@ Future<void> _installAndroidStudio() async {
     final toolboxExe = File('$home/Applications/jetbrains-toolbox');
 
     if (toolboxExe.existsSync()) {
-      print('Jetbrains Toolbox already installed. '
-          'Please manually install Android Studio through the GUI.');
+      print(
+        'Jetbrains Toolbox already installed. '
+        'Please manually install Android Studio through the GUI.',
+      );
       return;
     }
 
@@ -141,10 +142,12 @@ Future<void> _installAndroidEmulatorIntegration() async {
   if (!Platform.isLinux) return;
 
   final home = Platform.environment['HOME'] ?? '~';
-  final desktopFile =
-      File('$home/.local/share/applications/com.adilhanney.pixel8.desktop');
+  final desktopFile = File(
+    '$home/.local/share/applications/com.adilhanney.pixel8.desktop',
+  );
   final iconFile = File(
-      '$home/.local/share/icons/hicolor/256x256/apps/com.adilhanney.pixel8.png');
+    '$home/.local/share/icons/hicolor/256x256/apps/com.adilhanney.pixel8.png',
+  );
 
   if (desktopFile.existsSync() && iconFile.existsSync()) {
     print('Android Emulator integration already installed.');
@@ -154,18 +157,21 @@ Future<void> _installAndroidEmulatorIntegration() async {
 
   print('Installing Android Emulator integration...');
   desktopFile.createSync(recursive: true);
-  await File('assets/emulator_integration/com.adilhanney.pixel8.desktop')
-      .copy(desktopFile.path);
+  await File(
+    'assets/emulator_integration/com.adilhanney.pixel8.desktop',
+  ).copy(desktopFile.path);
   iconFile.createSync(recursive: true);
-  await File('assets/emulator_integration/com.adilhanney.pixel8.png')
-      .copy(iconFile.path);
+  await File(
+    'assets/emulator_integration/com.adilhanney.pixel8.png',
+  ).copy(iconFile.path);
 
   final user = Platform.environment['USER'] ?? 'ahann';
   if (user != 'ahann') {
     print('Patching .desktop file to use /home/$user instead of /home/ahann');
     final desktopContents = await desktopFile.readAsString();
     await desktopFile.writeAsString(
-        desktopContents.replaceAll('/home/ahann/', '/home/$user/'));
+      desktopContents.replaceAll('/home/ahann/', '/home/$user/'),
+    );
   }
 }
 
@@ -174,8 +180,11 @@ Future<void> _installZed() async {
     if (await Which.installed('zed')) return;
     if (!await yesOrNo('Install Zed?')) return;
     print('Installing Zed...');
-    await resultOfCommand(
-        'wget', ['https://zed.dev/install.sh', '-O', '/tmp/zed-install.sh']);
+    await resultOfCommand('wget', [
+      'https://zed.dev/install.sh',
+      '-O',
+      '/tmp/zed-install.sh',
+    ]);
     await resultOfCommand('bash', ['/tmp/zed-install.sh']);
   } else if (Platform.isMacOS) {
     await _installBrewApp('zed', 'Zed');
@@ -183,10 +192,10 @@ Future<void> _installZed() async {
 }
 
 Future<void> _installSpotify() => _installApp(
-      name: 'Spotify',
-      flatpak: 'com.spotify.Client',
-      brew: 'spotify',
-    );
+  name: 'Spotify',
+  flatpak: 'com.spotify.Client',
+  brew: 'spotify',
+);
 
 Future<void> _installGitHubDesktop() async {
   if (Platform.isLinux) {
@@ -194,8 +203,11 @@ Future<void> _installGitHubDesktop() async {
     if (!await yesOrNo('Install GitHub Desktop?')) return;
     print('Installing GitHub Desktop...');
 
-    await resultOfCommand('sudo',
-        ['rpm', '--import', 'https://mirror.mwt.me/shiftkey-desktop/gpgkey']);
+    await resultOfCommand('sudo', [
+      'rpm',
+      '--import',
+      'https://mirror.mwt.me/shiftkey-desktop/gpgkey',
+    ]);
     await resultOfCommand('sudo', [
       'sh',
       '-c',
@@ -220,13 +232,17 @@ Future<void> _installGnomeTweaks() =>
     _installDnfApp('gnome-tweaks', 'Gnome Tweaks');
 
 Future<bool> _installGnomeExtensionManager() => _installFlatpakApp(
-    'com.mattjakeman.ExtensionManager', 'Gnome Extension Manager');
+  'com.mattjakeman.ExtensionManager',
+  'Gnome Extension Manager',
+);
 
 Future<void> _installPopShell() async {
   if (await _installDnfApp('gnome-shell-extension-pop-shell', 'Pop Shell')) {
     try {
-      await resultOfCommand(
-          'gnome-extensions', ['enable', 'pop-shell@system76.com']);
+      await resultOfCommand('gnome-extensions', [
+        'enable',
+        'pop-shell@system76.com',
+      ]);
     } catch (e) {
       // Can't enable until next login
     }
@@ -235,10 +251,14 @@ Future<void> _installPopShell() async {
 
 Future<void> _installDashToPanel() async {
   if (await _installDnfApp(
-      'gnome-shell-extension-dash-to-panel', 'Dash to Panel')) {
+    'gnome-shell-extension-dash-to-panel',
+    'Dash to Panel',
+  )) {
     try {
-      await resultOfCommand(
-          'gnome-extensions', ['enable', 'dash-to-panel@jderose9.github.com']);
+      await resultOfCommand('gnome-extensions', [
+        'enable',
+        'dash-to-panel@jderose9.github.com',
+      ]);
     } catch (e) {
       // Can't enable until next login
     }
@@ -246,11 +266,15 @@ Future<void> _installDashToPanel() async {
 }
 
 Future<void> _installAppindicatorSupport() async {
-  if (await _installDnfApp('gnome-shell-extension-appindicator',
-      'AppIndicator/KStatusNotifierItem support for GNOME Shell')) {
+  if (await _installDnfApp(
+    'gnome-shell-extension-appindicator',
+    'AppIndicator/KStatusNotifierItem support for GNOME Shell',
+  )) {
     try {
-      await resultOfCommand('gnome-extensions',
-          ['enable', 'appindicatorsupport@rgcjonas.gmail.com']);
+      await resultOfCommand('gnome-extensions', [
+        'enable',
+        'appindicatorsupport@rgcjonas.gmail.com',
+      ]);
     } catch (e) {
       // Can't enable until next login
     }
@@ -261,8 +285,10 @@ Future<void> _disableFedoraBgLogo() async {
   if (!Platform.isLinux) return;
   if (!await yesOrNo('Disable Fedora\'s background logo?')) return;
   print('Disabling Fedora\'s background logo...');
-  await resultOfCommand(
-      'gnome-extensions', ['disable', 'background-logo@fedorahosted.org']);
+  await resultOfCommand('gnome-extensions', [
+    'disable',
+    'background-logo@fedorahosted.org',
+  ]);
 }
 
 Future<void> _installQtBreezeTheme() async {
@@ -274,11 +300,7 @@ Future<void> _installQtBreezeTheme() async {
   await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
 }
 
-Future<void> _installVlc() => _installApp(
-      name: 'VLC',
-      dnf: 'vlc',
-      brew: 'vlc',
-    );
+Future<void> _installVlc() => _installApp(name: 'VLC', dnf: 'vlc', brew: 'vlc');
 
 Future<void> _installUpscaledVlc() async {
   if (!Platform.isLinux) return;
@@ -307,19 +329,12 @@ Future<void> _installUpscaledVlc() async {
   await resultOfCommand('rm', [installScriptPath]);
 }
 
-Future<void> _installApplite() => _installApp(
-      name: 'Applite (homebrew frontend)',
-      brew: 'applite',
-    );
-Future<void> _installChrome() => _installApp(
-      name: 'Chrome',
-      brew: 'google-chrome',
-    );
+Future<void> _installApplite() =>
+    _installApp(name: 'Applite (homebrew frontend)', brew: 'applite');
+Future<void> _installChrome() =>
+    _installApp(name: 'Chrome', brew: 'google-chrome');
 
-Future<void> _installWine() => _installApp(
-      name: 'Wine',
-      dnf: 'wine',
-    );
+Future<void> _installWine() => _installApp(name: 'Wine', dnf: 'wine');
 
 Future<bool> _installApp({
   required String name,

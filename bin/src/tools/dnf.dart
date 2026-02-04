@@ -10,8 +10,9 @@ class Dnf {
     if (_hasDnf != null) return _hasDnf!;
 
     try {
-      final versionInfo =
-          await resultOfCommand('dnf', ['--version'], silent: true);
+      final versionInfo = await resultOfCommand('dnf', [
+        '--version',
+      ], silent: true);
       dnfVersion = versionInfo.startsWith('dnf5') ? 5 : 4;
       return _hasDnf = true;
     } on ProcessException {
@@ -32,19 +33,26 @@ class Dnf {
     String from,
     String to, {
     bool allowErasing = false,
-  }) =>
-      resultOfCommand('sudo',
-          ['dnf', 'swap', from, to, if (allowErasing) '--allowerasing', '-y']);
+  }) => resultOfCommand('sudo', [
+    'dnf',
+    'swap',
+    from,
+    to,
+    if (allowErasing) '--allowerasing',
+    '-y',
+  ]);
 
   static List<String>? installedPackages;
   static Future<bool> installed(String package) async {
-    installedPackages ??=
-        (await resultOfCommand('dnf', ['list', '--installed'], silent: true))
-            .split('\n');
+    installedPackages ??= (await resultOfCommand('dnf', [
+      'list',
+      '--installed',
+    ], silent: true)).split('\n');
 
     // could be package.x86_64, package.noarch, etc.
-    final installed = installedPackages!
-        .any((installedPackage) => installedPackage.startsWith('$package.'));
+    final installed = installedPackages!.any(
+      (installedPackage) => installedPackage.startsWith('$package.'),
+    );
 
     print('$package is ${installed ? 'installed' : 'not installed'}');
 
@@ -60,8 +68,10 @@ class Dnf {
 
     if (!await yesOrNo('Enable RPM Fusion repositories?')) return;
 
-    final fedoraVersion =
-        await resultOfCommand('rpm', ['-E', '%fedora']).then((v) => v.trim());
+    final fedoraVersion = await resultOfCommand('rpm', [
+      '-E',
+      '%fedora',
+    ]).then((v) => v.trim());
     print('Installing RPM Fusion repositories...');
     await Dnf.install([
       'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedoraVersion.noarch.rpm',

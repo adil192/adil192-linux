@@ -6,11 +6,13 @@ import 'tools/yes_or_no.dart';
 final _home = Platform.environment['HOME'];
 final _pwd = Platform.environment['PWD'];
 final _scriptSrc = File('$_pwd/assets/firefox_cache/cache_firefox.sh');
-final _desktopSrc =
-    File('$_pwd/assets/firefox_cache/com.adilhanney.cache_firefox.desktop');
+final _desktopSrc = File(
+  '$_pwd/assets/firefox_cache/com.adilhanney.cache_firefox.desktop',
+);
 final _scriptDst = File('$_home/.local/bin/cache_firefox.sh');
-final _desktopDst =
-    File('$_home/.config/autostart/com.adilhanney.cache_firefox.desktop');
+final _desktopDst = File(
+  '$_home/.config/autostart/com.adilhanney.cache_firefox.desktop',
+);
 
 Future<void> installFirefoxCacher() async {
   if (!Platform.isLinux) return;
@@ -27,10 +29,7 @@ Future<void> installFirefoxCacher() async {
     await _desktopDst.parent.create(recursive: true);
   }
   var desktopContent = await _desktopSrc.readAsString();
-  desktopContent = desktopContent.replaceAll(
-    'Exec=~',
-    'Exec=$_home',
-  );
+  desktopContent = desktopContent.replaceAll('Exec=~', 'Exec=$_home');
   await _desktopDst.writeAsString(desktopContent);
   print('Copied ${_desktopSrc.path} to ${_desktopDst.path}');
 }
