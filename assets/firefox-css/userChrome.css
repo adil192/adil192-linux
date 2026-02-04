@@ -1,0 +1,23 @@
+.titlebar-buttonbox {
+    --titlebar-button-size: 32px !important;
+    --titlebar-button-spacing: 2px !important;
+    --titlebar-button-end-spacing: 8px !important;
+}
+
+.titlebar-button {
+    cursor: pointer !important;
+
+    & > .toolbarbutton-icon {
+        border-radius: 5px !important; /* rrect instead of circle buttons */
+
+        @media (-moz-gtk-theme-family: adwaita) or (-moz-gtk-theme-family: yaru) {
+            background-color: transparent !important; /* remove unhovered background */
+        }
+        @media not (-moz-gtk-theme-family: breeze) {
+            transition-duration: 0.05s !important; /* down from 0.2s */
+        }
+    }
+    &:hover > .toolbarbutton-icon {
+        background-color: color-mix(in srgb, currentColor 15%, transparent) !important; /* same as default but with !important*/
+    }
+}

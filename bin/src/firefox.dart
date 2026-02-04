@@ -1,30 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'config.dart';
-
 const _customSettings = {
   'widget.gtk.rounded-bottom-corners.enabled': true,
   'gnomeTheme.bookmarksToolbarUnderTabs': true,
   'gnomeTheme.normalWidthTabs': true,
   // Replaces the Fedora start page
   'browser.startup.homepage': 'about:newtab',
+  // Enables userChrome.css
+  'toolkit.legacyUserProfileCustomizations.stylesheets': true,
 };
 
 Future<void> installFirefoxCss() async {
   if (!Platform.isLinux) return;
 
   final pwd = Platform.environment['PWD'];
-  final target = File('$pwd/assets/firefox-css/customChrome.css');
+  final target = File('$pwd/assets/firefox-css/userChrome.css');
 
   final profileDir = await _findFirefoxProfileDir();
-  final customChromeCss = await _findCustomChromeCss(profileDir);
+  final userChromeCss = await _findUserChromeCss(profileDir);
 
-  if (shouldThemeWindowButtons) {
-    if (customChromeCss.existsSync()) await customChromeCss.delete();
-    await Link(customChromeCss.path).create(target.path);
-    print('Linked ${customChromeCss.path} to ${target.path}');
-  }
+  if (userChromeCss.existsSync()) await userChromeCss.delete();
+  await userChromeCss.parent.create(recursive: true);
+  await Link(userChromeCss.path).create(target.path);
+  print('Linked ${userChromeCss.path} to ${target.path}');
 
   await _alterUserJs(profileDir);
 }
@@ -33,9 +32,9 @@ Future<void> uninstallFirefoxWindowButtons() async {
   if (!Platform.isLinux) return;
 
   final profileDir = await _findFirefoxProfileDir();
-  final customChromeCss = await _findCustomChromeCss(profileDir);
-  if (customChromeCss.existsSync()) await customChromeCss.delete();
-  print('Deleted ${customChromeCss.path}');
+  final userChromeCss = await _findUserChromeCss(profileDir);
+  if (userChromeCss.existsSync()) await userChromeCss.delete();
+  print('Deleted ${userChromeCss.path}');
 }
 
 /// Alters Firefox's user.js
@@ -72,28 +71,18 @@ Future<void> _alterUserJs(Directory profileDir) async {
   }
 }
 
-/// Finds the customChrome.css file for Firefox.
-Future<FileSystemEntity> _findCustomChromeCss(Directory profileDir) async {
-  final customChromeCssPath =
-      '${profileDir.path}/chrome/firefox-gnome-theme/customChrome.css';
-  final type = FileSystemEntity.typeSync(
-    customChromeCssPath,
-    followLinks: false,
-  );
-  switch (type) {
-    case FileSystemEntityType.file:
-      return File(customChromeCssPath);
-    case FileSystemEntityType.link:
-    case FileSystemEntityType.notFound:
-      return Link(customChromeCssPath);
-    default:
-      throw StateError('Warning: Unknown type $type for $customChromeCssPath');
-  }
+/// Finds the userChrome.css file for Firefox.
+Future<FileSystemEntity> _findUserChromeCss(Directory profileDir) async {
+  final userChromeCssPath = '${profileDir.path}/chrome/userChrome.css';
+  final type = FileSystemEntity.typeSync(userChromeCssPath, followLinks: false);
+  return switch (type) {
+    .file => File(userChromeCssPath),
+    .link || .notFound => Link(userChromeCssPath),
+    _ => throw StateError('Warning: Unknown type $type for $userChromeCssPath'),
+  };
 }
 
-Future<Directory> _findFirefoxProfileDir({
-  bool downloadIfNotFound = true,
-}) async {
+Future<Directory> _findFirefoxProfileDir() async {
   final home = Platform.environment['HOME'];
 
   final systemProfilesDir = Directory('$home/.mozilla/firefox');
@@ -104,32 +93,17 @@ Future<Directory> _findFirefoxProfileDir({
       ? systemProfilesDir
       : flatpakProfilesDir;
 
-  for (final profileDir in profilesDir.listSync()) {
-    if (profileDir is! Directory) continue;
-    final readme = File(
-      '${profileDir.path}/chrome/firefox-gnome-theme/README.md',
-    );
-    if (readme.existsSync()) return profileDir;
+  final installsIni = File('${profilesDir.path}/installs.ini');
+  final installsIniContent = await installsIni.readAsLines();
+  // Find the line with `Default=8972389472934.default-release`
+  final defaultProfileId = installsIniContent
+      .firstWhere((line) => line.startsWith('Default='))
+      .substring('Default='.length);
+
+  final defaultProfileDir = Directory('${profilesDir.path}/$defaultProfileId');
+  if (!defaultProfileDir.existsSync()) {
+    throw StateError('Could not find Firefox profile: $defaultProfileId');
   }
 
-  if (downloadIfNotFound) {
-    print('Could not find customChrome.css, installing Firefox theme...');
-    await _installFirefoxTheme();
-    return _findFirefoxProfileDir(downloadIfNotFound: false);
-  } else {
-    throw StateError('Could not find customChrome.css');
-  }
-}
-
-Future<void> _installFirefoxTheme() async {
-  final curl = await Process.start('curl', [
-    '-s',
-    '-o-',
-    'https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh',
-  ]);
-  final bash = await Process.start('bash', []);
-  curl.stdout.pipe(bash.stdin);
-  stdout.addStream(bash.stdout);
-  stderr.addStream(bash.stderr);
-  await bash.exitCode;
+  return defaultProfileDir;
 }
