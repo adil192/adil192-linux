@@ -248,7 +248,7 @@ Future<void> _installChromium() async {
   final home = Platform.environment['HOME'] ?? '~';
   await resultOfCommand('sed', [
     '-i',
-    '\$aexport CHROME_EXECUTABLE="/home/ahann/.local/share/flatpak/app/org.chromium.Chromium/x86_64/stable/active/export/bin/org.chromium.Chromium"',
+    '\$aexport CHROME_EXECUTABLE="$home/.local/share/flatpak/app/org.chromium.Chromium/x86_64/stable/active/export/bin/org.chromium.Chromium"',
     '$home/.bashrc',
   ]);
 }
