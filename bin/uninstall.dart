@@ -3,12 +3,12 @@ import 'src/firefox_cache.dart';
 import 'src/firefox.dart';
 
 Future<void> main() async {
-  if (await yesOrNo('Uninstall custom firefox window buttons?')) {
-    await uninstallFirefoxWindowButtons();
+  if (yesOrNo('Uninstall custom firefox window buttons?')) {
+    uninstallFirefoxWindowButtons();
   }
   print('');
 
-  if (await yesOrNo('Uninstall firefox cacher?')) {
+  if (yesOrNo('Uninstall firefox cacher?')) {
     await uninstallFirefoxCacher();
   }
   print('');

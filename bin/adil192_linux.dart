@@ -22,7 +22,7 @@ Future<void> main(List<String> args) async {
     await installApps();
   }
   if (parsedArgs.flag('theme-firefox')) {
-    await installFirefoxCss();
+    installFirefoxCss();
   }
   if (parsedArgs.flag('install-firefox-cacher')) {
     await installFirefoxCacher();

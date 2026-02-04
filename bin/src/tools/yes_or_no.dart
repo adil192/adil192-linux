@@ -2,11 +2,11 @@ import 'dart:io';
 
 bool alwaysYes = false;
 
-Future<bool> yesOrNo(
+bool yesOrNo(
   String question, [
   String hint = 'Y/n',
   String defaultResponse = 'y',
-]) async {
+]) {
   stdout.write('$question ($hint): ');
 
   var response = alwaysYes ? defaultResponse : '';

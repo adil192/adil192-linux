@@ -1,16 +1,10 @@
 import 'result_of_command.dart';
 
 class Which {
-  static Future<bool> installed(String name) async {
+  static bool installed(String name) {
     String? location;
     try {
-      location = await resultOfCommand(
-        'which',
-        [name],
-        runInShell: true,
-        silent: true,
-      );
-      location = location.trim();
+      location = resultOfCommandSync('which', [name], runInShell: true).trim();
     } on StateError {
       // ignore
     }

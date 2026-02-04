@@ -11,39 +11,39 @@ const _customSettings = {
   'toolkit.legacyUserProfileCustomizations.stylesheets': true,
 };
 
-Future<void> installFirefoxCss() async {
+void installFirefoxCss() {
   if (!Platform.isLinux) return;
 
   final pwd = Platform.environment['PWD'];
   final target = File('$pwd/assets/firefox-css/userChrome.css');
 
-  final profileDir = await _findFirefoxProfileDir();
-  final userChromeCss = await _findUserChromeCss(profileDir);
+  final profileDir = _findFirefoxProfileDir();
+  final userChromeCss = _findUserChromeCss(profileDir);
 
-  if (userChromeCss.existsSync()) await userChromeCss.delete();
-  await userChromeCss.parent.create(recursive: true);
-  await Link(userChromeCss.path).create(target.path);
+  if (userChromeCss.existsSync()) userChromeCss.deleteSync();
+  userChromeCss.parent.createSync(recursive: true);
+  Link(userChromeCss.path).createSync(target.path);
   print('Linked ${userChromeCss.path} to ${target.path}');
 
-  await _alterUserJs(profileDir);
+  _alterUserJs(profileDir);
 }
 
-Future<void> uninstallFirefoxWindowButtons() async {
+void uninstallFirefoxWindowButtons() {
   if (!Platform.isLinux) return;
 
-  final profileDir = await _findFirefoxProfileDir();
-  final userChromeCss = await _findUserChromeCss(profileDir);
-  if (userChromeCss.existsSync()) await userChromeCss.delete();
+  final profileDir = _findFirefoxProfileDir();
+  final userChromeCss = _findUserChromeCss(profileDir);
+  if (userChromeCss.existsSync()) userChromeCss.deleteSync();
   print('Deleted ${userChromeCss.path}');
 }
 
 /// Alters Firefox's user.js
 /// (i.e. changes settings in about:config)
-Future<void> _alterUserJs(Directory profileDir) async {
+void _alterUserJs(Directory profileDir) {
   final userJs = File('${profileDir.path}/user.js');
   if (!userJs.existsSync()) throw StateError('Could not find user.js');
 
-  final lines = await userJs.readAsLines();
+  final lines = userJs.readAsLinesSync();
   int settingsAltered = 0;
   void setSetting(String key, dynamic value) {
     final newLine = 'user_pref("$key", ${jsonEncode(value)});';
@@ -64,7 +64,7 @@ Future<void> _alterUserJs(Directory profileDir) async {
   }
 
   if (settingsAltered > 0) {
-    await userJs.writeAsString(lines.join('\n'));
+    userJs.writeAsStringSync(lines.join('\n'));
     print('Altered $settingsAltered settings in user.js');
   } else {
     print('No settings altered in user.js');
@@ -72,7 +72,7 @@ Future<void> _alterUserJs(Directory profileDir) async {
 }
 
 /// Finds the userChrome.css file for Firefox.
-Future<FileSystemEntity> _findUserChromeCss(Directory profileDir) async {
+FileSystemEntity _findUserChromeCss(Directory profileDir) {
   final userChromeCssPath = '${profileDir.path}/chrome/userChrome.css';
   final type = FileSystemEntity.typeSync(userChromeCssPath, followLinks: false);
   return switch (type) {
@@ -82,7 +82,7 @@ Future<FileSystemEntity> _findUserChromeCss(Directory profileDir) async {
   };
 }
 
-Future<Directory> _findFirefoxProfileDir() async {
+Directory _findFirefoxProfileDir() {
   final home = Platform.environment['HOME'];
 
   final systemProfilesDir = Directory('$home/.mozilla/firefox');
@@ -94,7 +94,7 @@ Future<Directory> _findFirefoxProfileDir() async {
       : flatpakProfilesDir;
 
   final installsIni = File('${profilesDir.path}/installs.ini');
-  final installsIniContent = await installsIni.readAsLines();
+  final installsIniContent = installsIni.readAsLinesSync();
   // Find the line with `Default=8972389472934.default-release`
   final defaultProfileId = installsIniContent
       .firstWhere((line) => line.startsWith('Default='))

@@ -1,33 +1,19 @@
-import 'dart:io';
-
 import 'result_of_command.dart';
 import 'yes_or_no.dart';
+import 'which.dart';
 
 class Dnf {
-  static bool? _hasDnf;
-  static int? dnfVersion;
-  static Future<bool> get hasDnf async {
-    if (_hasDnf != null) return _hasDnf!;
+  static final hasDnf = Which.installed('dnf');
 
-    try {
-      final versionInfo = await resultOfCommand('dnf', [
-        '--version',
-      ], silent: true);
-      dnfVersion = versionInfo.startsWith('dnf5') ? 5 : 4;
-      return _hasDnf = true;
-    } on ProcessException {
-      return _hasDnf = false;
-    }
+  static Future<void> install(List<String> packages) async {
+    await resultOfCommand('sudo', ['dnf', 'install', '-y', ...packages]);
+    _installedPackages.addAll(packages);
   }
-
-  static Future<void> install(List<String> packages) =>
-      resultOfCommand('sudo', ['dnf', 'install', '-y', ...packages]);
 
   static Future<void> update(List<String> packages) =>
       resultOfCommand('sudo', ['dnf', 'update', '-y', ...packages]);
 
-  static Future<String> repoList() =>
-      resultOfCommand('dnf', ['repolist'], silent: true);
+  static String repoList() => resultOfCommandSync('dnf', ['repolist']);
 
   static Future<void> swap(
     String from,
@@ -42,15 +28,13 @@ class Dnf {
     '-y',
   ]);
 
-  static List<String>? installedPackages;
-  static Future<bool> installed(String package) async {
-    installedPackages ??= (await resultOfCommand('dnf', [
-      'list',
-      '--installed',
-    ], silent: true)).split('\n');
-
+  static final _installedPackages = resultOfCommandSync('dnf', [
+    'list',
+    '--installed',
+  ]).split('\n').toSet();
+  static bool installed(String package) {
     // could be package.x86_64, package.noarch, etc.
-    final installed = installedPackages!.any(
+    final installed = _installedPackages.any(
       (installedPackage) => installedPackage.startsWith('$package.'),
     );
 
@@ -60,20 +44,16 @@ class Dnf {
   }
 
   static Future<void> configureRpmFusion() async {
-    final repoList = await Dnf.repoList();
+    final repoList = Dnf.repoList();
     final hasFree = repoList.contains('rpmfusion-free');
     final hasNonFree = repoList.contains('rpmfusion-nonfree');
-
     if (hasFree && hasNonFree) return;
 
-    if (!await yesOrNo('Enable RPM Fusion repositories?')) return;
+    if (!yesOrNo('Enable RPM Fusion repositories?')) return;
 
-    final fedoraVersion = await resultOfCommand('rpm', [
-      '-E',
-      '%fedora',
-    ]).then((v) => v.trim());
+    final fedoraVersion = resultOfCommandSync('rpm', ['-E', '%fedora']).trim();
     print('Installing RPM Fusion repositories...');
-    await Dnf.install([
+    await install([
       'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedoraVersion.noarch.rpm',
       'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$fedoraVersion.noarch.rpm',
     ]);

@@ -43,9 +43,9 @@ Future<void> _installEquibop() => _installApp(
 
 Future<void> _installVSCode() async {
   if (Platform.isLinux) {
-    if (!await Dnf.hasDnf) return;
-    if (await Dnf.installed('code')) return;
-    if (!await yesOrNo('Install Visual Studio Code?')) return;
+    if (!Dnf.hasDnf) return;
+    if (Dnf.installed('code')) return;
+    if (!yesOrNo('Install Visual Studio Code?')) return;
     print('Installing Visual Studio Code...');
 
     // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
@@ -71,7 +71,7 @@ Future<void> _installAndroidStudio() async {
       return;
     }
 
-    if (!await yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
+    if (!yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
     print('Installing Jetbrains Toolbox...');
 
     final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
@@ -111,7 +111,7 @@ Future<void> _installAndroidEmulatorIntegration() async {
     print('Android Emulator integration already installed.');
     return;
   }
-  if (!await yesOrNo('Install Android Emulator integration?')) return;
+  if (!yesOrNo('Install Android Emulator integration?')) return;
 
   print('Installing Android Emulator integration...');
   desktopFile.createSync(recursive: true);
@@ -134,8 +134,8 @@ Future<void> _installAndroidEmulatorIntegration() async {
 
 Future<void> _installZed() async {
   if (Platform.isLinux) {
-    if (await Which.installed('zed')) return;
-    if (!await yesOrNo('Install Zed?')) return;
+    if (Which.installed('zed')) return;
+    if (!yesOrNo('Install Zed?')) return;
     print('Installing Zed...');
     await resultOfCommand('wget', [
       'https://zed.dev/install.sh',
@@ -156,11 +156,11 @@ Future<void> _installSpotify() => _installApp(
 
 Future<void> _installGitHubDesktop() async {
   if (Platform.isLinux) {
-    if (await Which.installed('github-desktop-plus') ||
-        await Which.installed('github-desktop')) {
+    if (Which.installed('github-desktop-plus') ||
+        Which.installed('github-desktop')) {
       return;
     }
-    if (!await yesOrNo('Install GitHub Desktop Plus?')) return;
+    if (!yesOrNo('Install GitHub Desktop Plus?')) return;
     print('Installing GitHub Desktop Plus...');
 
     await resultOfCommand('sudo', [
@@ -191,9 +191,9 @@ Future<void> _installPrismLauncher() =>
 Future<void> _installQtBreezeTheme() async {
   // TODO(adil192): Automate all of https://gist.github.com/adil192/61cd9c58a8bd0955cff9f1f7c52cb572
   if (!Platform.isLinux) return;
-  if (!await Dnf.hasDnf) return;
-  if (await Dnf.installed('plasma-breeze')) return;
-  if (!await yesOrNo('Install Qt Breeze Theme?')) return;
+  if (!Dnf.hasDnf) return;
+  if (Dnf.installed('plasma-breeze')) return;
+  if (!yesOrNo('Install Qt Breeze Theme?')) return;
   print('Installing Qt Breeze Theme...');
   await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
 }
@@ -203,12 +203,12 @@ Future<void> _installVlc() => _installApp(name: 'VLC', dnf: 'vlc', brew: 'vlc');
 Future<void> _installUpscaledVlc() async {
   if (!Platform.isLinux) return;
 
-  if (await Which.installed('upscaled_vlc.sh')) return;
+  if (Which.installed('upscaled_vlc.sh')) return;
 
   const gitRepo = 'https://github.com/adil192/upscaled_vlc';
-  if (!await yesOrNo('Install Upscaled VLC ($gitRepo)?')) return;
+  if (!yesOrNo('Install Upscaled VLC ($gitRepo)?')) return;
 
-  if (await Dnf.hasDnf) {
+  if (Dnf.hasDnf) {
     print('Installing Upscaled VLC\'s dependencies...');
     await Dnf.configureRpmFusion();
     await Dnf.install(['ffmpeg', 'xdpyinfo', 'vlc', 'gamescope']);
@@ -254,14 +254,14 @@ Future<void> _installChromium() async {
 
 Future<void> _installWine() async {
   if (!Platform.isLinux) return;
-  if (!await Dnf.hasDnf) return;
-  if (await Dnf.installed('wine') ||
-      await Dnf.installed('winehq-stable') ||
-      await Dnf.installed('winehq-devel') ||
-      await Dnf.installed('winehq-staging')) {
+  if (!Dnf.hasDnf) return;
+  if (Dnf.installed('wine') ||
+      Dnf.installed('winehq-stable') ||
+      Dnf.installed('winehq-devel') ||
+      Dnf.installed('winehq-staging')) {
     return;
   }
-  if (!await yesOrNo('Install Wine?')) return;
+  if (!yesOrNo('Install Wine?')) return;
   print('Installing Wine...');
   await Dnf.install(['wine']);
 }
@@ -285,9 +285,9 @@ Future<bool> _installApp({
 }
 
 Future<bool> _installFlatpakApp(String id, String name) async {
-  if (!await Flatpak.hasFlatpak) return false;
-  if (await Flatpak.installed(id)) return true;
-  if (!await yesOrNo('Install $name?')) return false;
+  if (!Flatpak.hasFlatpak) return false;
+  if (Flatpak.installed(id)) return true;
+  if (!yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Flatpak.install(id);
   print('');
@@ -295,9 +295,9 @@ Future<bool> _installFlatpakApp(String id, String name) async {
 }
 
 Future<bool> _installDnfApp(String package, String name) async {
-  if (!await Dnf.hasDnf) return false;
-  if (await Dnf.installed(package)) return true;
-  if (!await yesOrNo('Install $name?')) return false;
+  if (!Dnf.hasDnf) return false;
+  if (Dnf.installed(package)) return true;
+  if (!yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Dnf.install([package]);
   print('');
@@ -305,9 +305,9 @@ Future<bool> _installDnfApp(String package, String name) async {
 }
 
 Future<bool> _installBrewApp(String package, String name) async {
-  if (!await Brew.hasBrew) return false;
-  if (await Brew.installed(package)) return true;
-  if (!await yesOrNo('Install $name?')) return false;
+  if (!Brew.hasBrew) return false;
+  if (Brew.installed(package)) return true;
+  if (!yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Brew.install(package);
   print('');

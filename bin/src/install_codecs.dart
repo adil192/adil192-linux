@@ -8,7 +8,7 @@ import 'tools/yes_or_no.dart';
 Future<void> installCodecs() async {
   if (!Platform.isLinux) return;
 
-  if (!await Dnf.hasDnf) {
+  if (!Dnf.hasDnf) {
     print('DNF is not available, skipping multimedia codecs installation.');
     return;
   }
@@ -23,9 +23,9 @@ Future<void> installCodecs() async {
 }
 
 Future<void> _switchToFullFfmpeg() async {
-  if (!await Dnf.installed('ffmpeg-free')) return;
+  if (!Dnf.installed('ffmpeg-free')) return;
 
-  if (!await yesOrNo('Switch from ffmpeg-free to the full ffmpeg?')) return;
+  if (!yesOrNo('Switch from ffmpeg-free to the full ffmpeg?')) return;
 
   print('Switching to the full ffmpeg package...');
   await Dnf.swap('ffmpeg-free', 'ffmpeg', allowErasing: true);
@@ -33,9 +33,9 @@ Future<void> _switchToFullFfmpeg() async {
 }
 
 Future<void> _installAdditionalCodecs() async {
-  if (await Dnf.installed('gstreamer1-plugins-ugly')) return;
+  if (Dnf.installed('gstreamer1-plugins-ugly')) return;
 
-  if (!await yesOrNo('Install additional multimedia codecs?')) return;
+  if (!yesOrNo('Install additional multimedia codecs?')) return;
 
   print('Installing additional multimedia codecs...');
   await Dnf.update([
@@ -48,17 +48,17 @@ Future<void> _installAdditionalCodecs() async {
 Future<void> _installHardwareAcceleration() async {
   await _installMesaDrivers();
 
-  if (await Device.hasIntelGpu()) await _installIntelDrivers();
+  if (Device.hasIntelGpu()) await _installIntelDrivers();
 
-  if (await Device.hasNvidiaGpu()) await _installNvidiaDrivers();
+  if (Device.hasNvidiaGpu()) await _installNvidiaDrivers();
 }
 
 Future<void> _installMesaDrivers() async {
-  if (await Dnf.installed('mesa-va-drivers-freeworld') &&
-      await Dnf.installed('mesa-vdpau-drivers-freeworld')) {
+  if (Dnf.installed('mesa-va-drivers-freeworld') &&
+      Dnf.installed('mesa-vdpau-drivers-freeworld')) {
     return;
   }
-  if (!await yesOrNo('Install mesa drivers?')) return;
+  if (!yesOrNo('Install mesa drivers?')) return;
   print('Installing mesa drivers...');
 
   await Dnf.swap('mesa-va-drivers.i686', 'mesa-va-drivers-freeworld.i686');
@@ -71,15 +71,15 @@ Future<void> _installMesaDrivers() async {
 }
 
 Future<void> _installIntelDrivers() async {
-  if (await Dnf.installed('intel-media-driver')) return;
-  if (!await yesOrNo('Install Intel drivers?')) return;
+  if (Dnf.installed('intel-media-driver')) return;
+  if (!yesOrNo('Install Intel drivers?')) return;
   print('Installing Intel drivers...');
   await Dnf.install(['intel-media-driver', 'libva-intel-driver']);
 }
 
 Future<void> _installNvidiaDrivers() async {
-  if (await Dnf.installed('libva-nvidia-driver')) return;
-  if (!await yesOrNo('Install (proprietary) Nvidia drivers?')) return;
+  if (Dnf.installed('libva-nvidia-driver')) return;
+  if (!yesOrNo('Install (proprietary) Nvidia drivers?')) return;
   print('Installing Nvidia drivers...');
   await Dnf.install([
     'akmod-nvidia',

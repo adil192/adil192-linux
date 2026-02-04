@@ -4,46 +4,23 @@ import 'result_of_command.dart';
 
 /// Information about the user's device
 final class Device {
-  static Future<bool> hasAmdCpu() async {
-    cpuInfo ??= await _getCpuInfo();
-    return cpuInfo!.toLowerCase().contains('amd');
-  }
+  static bool hasAmdCpu() => cpuInfo.contains('amd');
+  static bool hasIntelCpu() => cpuInfo.contains('intel');
 
-  static Future<bool> hasIntelCpu() async {
-    cpuInfo ??= await _getCpuInfo();
-    return cpuInfo!.toLowerCase().contains('intel');
-  }
+  static bool hasAmdGpu() => gpuInfo.toLowerCase().contains('amd');
+  static bool hasIntelGpu() => gpuInfo.toLowerCase().contains('intel');
+  static bool hasNvidiaGpu() => gpuInfo.toLowerCase().contains('nvidia');
 
-  static Future<bool> hasAmdGpu() async {
-    gpuInfo ??= await _getGpuInfo();
-    return gpuInfo!.toLowerCase().contains('amd');
-  }
+  static final cpuInfo = File('/proc/cpuinfo').readAsStringSync().toLowerCase();
 
-  static Future<bool> hasIntelGpu() async {
-    gpuInfo ??= await _getGpuInfo();
-    return gpuInfo!.toLowerCase().contains('intel');
-  }
-
-  static Future<bool> hasNvidiaGpu() async {
-    gpuInfo ??= await _getGpuInfo();
-    return gpuInfo!.toLowerCase().contains('nvidia');
-  }
-
-  static String? cpuInfo;
-  static Future<String> _getCpuInfo() => File('/proc/cpuinfo').readAsString();
-
-  static String? gpuInfo;
-  static Future<String> _getGpuInfo() async {
-    // lspci | egrep -i "vga|display|3d"
-    final lspci = await resultOfCommand('lspci', ['-mm'], silent: true);
-    return lspci
-        .split('\n')
-        .where(
-          (line) =>
-              line.toLowerCase().contains('vga') ||
-              line.toLowerCase().contains('display') ||
-              line.toLowerCase().contains('3d'),
-        )
-        .join('\n');
-  }
+  // lspci | egrep -i "vga|display|3d"
+  static final gpuInfo = resultOfCommandSync('lspci', ['-mm'])
+      .split('\n')
+      .where(
+        (line) =>
+            line.toLowerCase().contains('vga') ||
+            line.toLowerCase().contains('display') ||
+            line.toLowerCase().contains('3d'),
+      )
+      .join('\n');
 }

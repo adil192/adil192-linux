@@ -2,19 +2,17 @@ import 'result_of_command.dart';
 import 'which.dart';
 
 class Flatpak {
-  static bool? _hasFlatpak;
-  static Future<bool> get hasFlatpak async =>
-      _hasFlatpak ??= await Which.installed('flatpak');
+  static final hasFlatpak = Which.installed('flatpak');
 
-  static Future<void> install(String name) =>
-      resultOfCommand('flatpak', ['install', name, '-y']);
-
-  static Future<bool> installed(String name) async {
-    final allInstalled = await resultOfCommand('flatpak', [
-      'list',
-    ], silent: true);
-    final installed = allInstalled.contains(name);
+  static var _allInstalled = resultOfCommandSync('flatpak', ['list']);
+  static bool installed(String name) {
+    final installed = _allInstalled.contains(name);
     print('flatpak $name is ${installed ? 'installed' : 'not installed'}');
     return installed;
+  }
+
+  static Future<void> install(String name) async {
+    await resultOfCommand('flatpak', ['install', name, '-y']);
+    _allInstalled += '\n$name';
   }
 }

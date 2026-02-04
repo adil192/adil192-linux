@@ -20,17 +20,19 @@ Future<void> installFirefoxCacher() async {
   await _installVmtouch();
 
   if (!_scriptDst.parent.existsSync()) {
-    await _scriptDst.parent.create(recursive: true);
+    _scriptDst.parent.createSync(recursive: true);
   }
-  await _scriptSrc.copy(_scriptDst.path);
+  _scriptSrc.copySync(_scriptDst.path);
   print('Copied ${_scriptSrc.path} to ${_scriptDst.path}');
 
   if (!_desktopDst.parent.existsSync()) {
-    await _desktopDst.parent.create(recursive: true);
+    _desktopDst.parent.createSync(recursive: true);
   }
-  var desktopContent = await _desktopSrc.readAsString();
-  desktopContent = desktopContent.replaceAll('Exec=~', 'Exec=$_home');
-  await _desktopDst.writeAsString(desktopContent);
+  final desktopContent = _desktopSrc.readAsStringSync().replaceAll(
+    'Exec=~',
+    'Exec=$_home',
+  );
+  _desktopDst.writeAsStringSync(desktopContent);
   print('Copied ${_desktopSrc.path} to ${_desktopDst.path}');
 }
 
@@ -38,20 +40,20 @@ Future<void> uninstallFirefoxCacher() async {
   if (!Platform.isLinux) return;
 
   if (_scriptDst.existsSync()) {
-    await _scriptDst.delete();
+    _scriptDst.deleteSync();
     print('Deleted ${_scriptDst.path}');
   }
 
   if (_desktopDst.existsSync()) {
-    await _desktopDst.delete();
+    _desktopDst.deleteSync();
     print('Deleted ${_desktopDst.path}');
   }
 }
 
 Future<bool> _installVmtouch() async {
-  if (!await Dnf.hasDnf) return false;
-  if (await Dnf.installed('vmtouch')) return true;
-  if (!await yesOrNo('Install vmtouch for faster precaching?')) return false;
+  if (!Dnf.hasDnf) return false;
+  if (Dnf.installed('vmtouch')) return true;
+  if (!yesOrNo('Install vmtouch for faster precaching?')) return false;
   print('Installing vmtouch...');
   await Dnf.install(['vmtouch']);
   print('');
