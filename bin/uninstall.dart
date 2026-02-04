@@ -3,12 +3,6 @@ import 'src/firefox_cache.dart';
 import 'src/firefox.dart';
 
 Future<void> main() async {
-  print(
-    'If you want to uninstall the gnome firefox theme, uninstall it manually by following the instructions at:',
-  );
-  print('https://github.com/rafaelmardojai/firefox-gnome-theme#uninstalling');
-  print('');
-
   if (await yesOrNo('Uninstall custom firefox window buttons?')) {
     await uninstallFirefoxWindowButtons();
   }
@@ -17,6 +11,7 @@ Future<void> main() async {
   if (await yesOrNo('Uninstall firefox cacher?')) {
     await uninstallFirefoxCacher();
   }
+  print('');
 
   print('Uninstall complete');
 }

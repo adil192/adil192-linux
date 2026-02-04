@@ -23,13 +23,12 @@ cd ~/Documents/GitHub/
 git clone https://github.com/adil192/adil192-linux.git
 cd adil192-linux
 
-# Consider altering the config before running the scripts
-gnome-text-editor bin/src/config.dart
-
 # Run the scripts
 dart pub get
 dart run
 ```
+
+You can view available options by running `dart run bin/adil192_linux.dart --help`.
 
 ## Uninstallation
 
