@@ -4,7 +4,6 @@ import 'src/firefox_cache.dart';
 import 'src/firefox.dart';
 import 'src/install_apps.dart';
 import 'src/install_codecs.dart';
-import 'src/steam.dart';
 
 Future<void> main(List<String> args) async {
   final noInteraction = args.contains('--no-interaction');
@@ -14,5 +13,4 @@ Future<void> main(List<String> args) async {
   if (shouldInstallApps && !noInteraction) await installApps();
   if (shouldThemeFirefox) await installFirefoxCss();
   if (shouldInstallFirefoxCacher) await installFirefoxCacher();
-  if (shouldThemeSteam) await installSteamTheme();
 }

@@ -15,8 +15,3 @@ const shouldThemeFirefox = true;
 /// This speeds up Firefox if you have enough RAM to spare.
 /// If your RAM gets full, linux will automatically remove the precached data.
 const shouldInstallFirefoxCacher = true;
-
-/// Installs an Adwaita theme for Steam (Linux only)
-///
-/// See https://github.com/tkashkin/Adwaita-for-Steam
-const shouldThemeSteam = true;
