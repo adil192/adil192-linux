@@ -11,7 +11,7 @@ import 'tools/yes_or_no.dart';
 Future<void> installApps() async {
   await _installFirefox();
   await _installSteam();
-  await _installDiscord();
+  await _installEquibop();
   await _installVSCode();
   await _installAndroidStudio();
   await _installAndroidEmulatorIntegration();
@@ -42,8 +42,11 @@ Future<void> _installFirefox() =>
 Future<void> _installSteam() =>
     _installApp(name: 'Steam', dnf: 'steam', brew: 'steam');
 
-Future<void> _installDiscord() =>
-    _installApp(name: 'Discord', dnf: 'discord', brew: 'discord');
+Future<void> _installEquibop() => _installApp(
+  name: 'Equibop (Discord client)',
+  flatpak: 'org.equicord.equibop',
+  brew: 'equibop',
+);
 
 Future<void> _installVSCode() async {
   if (Platform.isLinux) {
