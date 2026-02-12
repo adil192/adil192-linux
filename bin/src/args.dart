@@ -14,7 +14,7 @@ final argParser = ArgParser()
   ..addFlag(
     'theme-firefox',
     defaultsTo: true,
-    help: 'Theme Firefox\'s window buttons to match those of COSMIC.',
+    help: 'Theme Firefox to match my COSMIC theme.',
   )
   ..addFlag(
     'install-firefox-cacher',

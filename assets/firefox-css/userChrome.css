@@ -1,3 +1,26 @@
+:root {
+    /* background behind tabs, where the minimize/maximize/close buttons are located */
+    --toolbox-bgcolor: #cbddad !important;
+    --toolbox-textcolor: #101010 !important;
+    --toolbox-bgcolor-inactive: #bcc8a9 !important;
+    --toolbox-textcolor-inactive: #292b1f !important;
+    /* background of toolbar, i.e. where the url bar is located */
+    --toolbar-bgcolor: #e8faca !important;
+    --toolbar-color: #101010 !important;
+    /* background of blank page like about:blank or while a page is loading */
+    --tabpanel-background-color: #cbddad !important;
+
+    @media (-moz-content-prefers-color-scheme: dark) {
+        --toolbox-bgcolor: #0c1106 !important;
+        --toolbox-textcolor: #d3dace !important;
+        --toolbox-bgcolor-inactive: #0e100b !important;
+        --toolbox-textcolor-inactive: #aab8a1 !important;
+        --toolbar-bgcolor: #181d11 !important;
+        --toolbar-color: #d3dace !important;
+        --tabpanel-background-color: #0c1106 !important;
+    }
+}
+
 .titlebar-buttonbox {
     --titlebar-button-size: 32px !important;
     --titlebar-button-spacing: 2px !important;

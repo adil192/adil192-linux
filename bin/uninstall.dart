@@ -3,7 +3,7 @@ import 'src/firefox_cache.dart';
 import 'src/firefox.dart';
 
 Future<void> main() async {
-  if (yesOrNo('Uninstall custom firefox window buttons?')) {
+  if (yesOrNo('Uninstall custom firefox theme?')) {
     uninstallFirefoxWindowButtons();
   }
   print('');
