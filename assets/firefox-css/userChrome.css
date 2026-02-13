@@ -1,24 +1,29 @@
 :root {
-    /* background behind tabs, where the minimize/maximize/close buttons are located */
-    --toolbox-bgcolor: #cbddad !important;
-    --toolbox-textcolor: #101010 !important;
-    --toolbox-bgcolor-inactive: #bcc8a9 !important;
-    --toolbox-textcolor-inactive: #292b1f !important;
-    /* background of toolbar, i.e. where the url bar is located */
-    --toolbar-bgcolor: #e8faca !important;
-    --toolbar-color: #101010 !important;
-    /* background of blank page like about:blank or while a page is loading */
-    --tabpanel-background-color: #cbddad !important;
-
+    --adil192-background-base: #cbddad;
+    --adil192-background-on: #101010;
+    --adil192-background-inactive-base: #bcc8a9;
+    --adil192-background-inactive-on: #292b1f;
+    --adil192-surface-base: #e8faca;
+    --adil192-surface-on: #101010;
     @media (-moz-content-prefers-color-scheme: dark) {
-        --toolbox-bgcolor: #0c1106 !important;
-        --toolbox-textcolor: #d3dace !important;
-        --toolbox-bgcolor-inactive: #0e100b !important;
-        --toolbox-textcolor-inactive: #aab8a1 !important;
-        --toolbar-bgcolor: #181d11 !important;
-        --toolbar-color: #d3dace !important;
-        --tabpanel-background-color: #0c1106 !important;
+        --adil192-background-base: #0c1106 !important;
+        --adil192-background-on: #d3dace !important;
+        --adil192-background-inactive-base: #0e100b !important;
+        --adil192-background-inactive-on: #aab8a1 !important;
+        --adil192-surface-base: #181d11 !important;
+        --adil192-surface-on: #d3dace !important;
     }
+
+    /* background behind tabs, where the minimize/maximize/close buttons are located */
+    --toolbox-bgcolor: var(--adil192-background-base) !important;
+    --toolbox-textcolor: var(--adil192-background-on) !important;
+    --toolbox-bgcolor-inactive: var(--adil192-background-inactive-base) !important;
+    --toolbox-textcolor-inactive: var(--adil192-background-inactive-on) !important;
+    /* background of toolbar, i.e. where the url bar is located */
+    --toolbar-bgcolor: var(--adil192-surface-base) !important;
+    --toolbar-color: var(--adil192-background-on) !important;
+    /* background of blank page like about:blank or while a page is loading */
+    --tabpanel-background-color: var(--adil192-background-base) !important;
 }
 
 .titlebar-buttonbox {
