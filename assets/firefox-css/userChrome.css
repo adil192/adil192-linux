@@ -27,11 +27,6 @@
     --toolbar-color: var(--adil192-background-on) !important;
     /* background of blank page like about:blank or while a page is loading */
     --tabpanel-background-color: var(--adil192-background-base) !important;
-    /* background of new tab page */
-    --newtab-background-color: var(--adil192-background-base) !important;
-    /* background of search bar inside new tab page */
-    --newtab-background-color-secondary: var(--adil192-surface-base) !important;
-    --text-color: var(--adil192-background-on) !important;
 }
 
 .titlebar-buttonbox {
