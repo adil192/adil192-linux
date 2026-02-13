@@ -4,7 +4,7 @@ import 'src/firefox.dart';
 
 Future<void> main() async {
   if (yesOrNo('Uninstall custom firefox theme?')) {
-    uninstallFirefoxWindowButtons();
+    uninstallFirefoxCss();
   }
   print('');
 

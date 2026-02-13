@@ -14,27 +14,32 @@ const _customSettings = {
 void installFirefoxCss() {
   if (!Platform.isLinux) return;
 
-  final pwd = Platform.environment['PWD'];
-  final target = File('$pwd/assets/firefox-css/userChrome.css');
-
   final profileDir = _findFirefoxProfileDir();
-  final userChromeCss = _findUserChromeCss(profileDir);
+  final pwd = Platform.environment['PWD'] ?? '.';
 
-  if (userChromeCss.existsSync()) userChromeCss.deleteSync();
-  userChromeCss.parent.createSync(recursive: true);
-  Link(userChromeCss.path).createSync(target.path);
-  print('Linked ${userChromeCss.path} to ${target.path}');
+  for (final cssFileName in ['userChrome.css', 'userContent.css']) {
+    final src = File('$pwd/assets/firefox-css/$cssFileName');
+    final dest = _findChromeCssFile(cssFileName, profileDir);
+
+    if (dest.existsSync()) dest.deleteSync();
+    dest.parent.createSync(recursive: true);
+    Link(dest.path).createSync(src.path);
+    print('Linked ${dest.path} to ${src.path}');
+  }
 
   _alterUserJs(profileDir);
 }
 
-void uninstallFirefoxWindowButtons() {
+void uninstallFirefoxCss() {
   if (!Platform.isLinux) return;
 
   final profileDir = _findFirefoxProfileDir();
-  final userChromeCss = _findUserChromeCss(profileDir);
-  if (userChromeCss.existsSync()) userChromeCss.deleteSync();
-  print('Deleted ${userChromeCss.path}');
+  for (final cssFileName in ['userChrome.css', 'userContent.css']) {
+    final dest = _findChromeCssFile(cssFileName, profileDir);
+    if (!dest.existsSync()) continue;
+    dest.deleteSync();
+    print('Deleted ${dest.path}');
+  }
 }
 
 /// Alters Firefox's user.js
@@ -71,14 +76,15 @@ void _alterUserJs(Directory profileDir) {
   }
 }
 
-/// Finds the userChrome.css file for Firefox.
-FileSystemEntity _findUserChromeCss(Directory profileDir) {
-  final userChromeCssPath = '${profileDir.path}/chrome/userChrome.css';
-  final type = FileSystemEntity.typeSync(userChromeCssPath, followLinks: false);
+/// Finds the userChrome.css or userContent.css file for Firefox.
+FileSystemEntity _findChromeCssFile(String cssFileName, Directory profileDir) {
+  assert(cssFileName.endsWith('.css'));
+  final cssFilePath = '${profileDir.path}/chrome/$cssFileName';
+  final type = FileSystemEntity.typeSync(cssFilePath, followLinks: false);
   return switch (type) {
-    .file => File(userChromeCssPath),
-    .link || .notFound => Link(userChromeCssPath),
-    _ => throw StateError('Warning: Unknown type $type for $userChromeCssPath'),
+    .file => File(cssFilePath),
+    .link || .notFound => Link(cssFilePath),
+    _ => throw StateError('Warning: Unknown type $type for $cssFilePath'),
   };
 }
 
