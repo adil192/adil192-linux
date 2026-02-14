@@ -12,12 +12,23 @@
     }
 }
 
-@-moz-document url("about:home"), url("about:newtab") {
+@-moz-document url-prefix("about:") {
     :root {
         /* background of new tab page */
         --newtab-background-color: var(--adil192-background) !important;
         /* background of search bar inside new tab page */
         --newtab-background-color-secondary: var(--adil192-surface) !important;
         --text-color: var(--adil192-foreground) !important;
+        /* toolbar contains search bar in about:preferences */
+        --toolbar-bgcolor: var(--adil192-surface) !important;
+        --background-color-box: var(--adil192-surface) !important;
+        --background-color-canvas: var(--adil192-background) !important;
+        --promo-background-color: var(--adil192-surface) !important;
+        --table-row-background-color-alternate: var(--adil192-surface) !important;
+    }
+    html, body {
+        /* set default (non-important) background if unspecified */
+        background-color: var(--adil192-background);
+        color: var(--adil192-foreground);
     }
 }
