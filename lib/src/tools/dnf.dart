@@ -1,6 +1,6 @@
-import 'result_of_command.dart';
-import 'yes_or_no.dart';
-import 'which.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
+import 'package:adil192_linux/src/tools/which.dart';
 
 class Dnf {
   static final hasDnf = Which.installed('dnf');

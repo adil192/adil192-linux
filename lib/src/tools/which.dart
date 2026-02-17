@@ -1,4 +1,4 @@
-import 'result_of_command.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
 
 class Which {
   static bool installed(String name) {

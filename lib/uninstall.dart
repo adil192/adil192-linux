@@ -1,9 +1,9 @@
 #!/usr/bin/env dart
 
-import 'src/tools/yes_or_no.dart';
-import 'src/firefox_cache.dart';
-import 'src/firefox.dart';
-import 'src/thunderbird.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
+import 'package:adil192_linux/src/firefox_cache.dart';
+import 'package:adil192_linux/src/firefox.dart';
+import 'package:adil192_linux/src/thunderbird.dart';
 
 Future<void> main() async {
   if (yesOrNo('Uninstall custom firefox theme?')) {

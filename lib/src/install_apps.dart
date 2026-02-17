@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'tools/brew.dart';
-import 'tools/dnf.dart';
-import 'tools/flatpak.dart';
-import 'tools/result_of_command.dart';
-import 'tools/which.dart';
-import 'tools/yes_or_no.dart';
+import 'package:adil192_linux/src/tools/brew.dart';
+import 'package:adil192_linux/src/tools/dnf.dart';
+import 'package:adil192_linux/src/tools/flatpak.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/which.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 Future<void> installApps() async {
   await _installFirefox();

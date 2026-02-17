@@ -1,12 +1,12 @@
 #!/usr/bin/env dart
 
-import 'src/tools/yes_or_no.dart';
-import 'src/args.dart';
-import 'src/firefox_cache.dart';
-import 'src/firefox.dart';
-import 'src/install_apps.dart';
-import 'src/install_codecs.dart';
-import 'src/thunderbird.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
+import 'package:adil192_linux/src/args.dart';
+import 'package:adil192_linux/src/firefox_cache.dart';
+import 'package:adil192_linux/src/firefox.dart';
+import 'package:adil192_linux/src/install_apps.dart';
+import 'package:adil192_linux/src/install_codecs.dart';
+import 'package:adil192_linux/src/thunderbird.dart';
 
 Future<void> main(List<String> args) async {
   final parsedArgs = argParser.parse(args);

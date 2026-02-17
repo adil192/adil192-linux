@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'tools/dnf.dart';
-import 'tools/device.dart';
-import 'tools/yes_or_no.dart';
+import 'package:adil192_linux/src/tools/dnf.dart';
+import 'package:adil192_linux/src/tools/device.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
 Future<void> installCodecs() async {

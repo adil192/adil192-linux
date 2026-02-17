@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'result_of_command.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
 
 /// Information about the user's device
 final class Device {

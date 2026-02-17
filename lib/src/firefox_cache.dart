@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'tools/dnf.dart';
-import 'tools/yes_or_no.dart';
+import 'package:adil192_linux/src/tools/dnf.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 final _home = Platform.environment['HOME'];
 final _pwd = Platform.environment['PWD'];

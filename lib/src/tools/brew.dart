@@ -1,5 +1,5 @@
-import 'result_of_command.dart';
-import 'which.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/which.dart';
 
 abstract class Brew {
   static final hasBrew = Which.installed('brew');

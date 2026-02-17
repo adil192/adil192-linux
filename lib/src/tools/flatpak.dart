@@ -1,5 +1,5 @@
-import 'result_of_command.dart';
-import 'which.dart';
+import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/which.dart';
 
 class Flatpak {
   static final hasFlatpak = Which.installed('flatpak');
