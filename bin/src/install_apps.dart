@@ -189,13 +189,12 @@ Future<void> _installPrismLauncher() =>
     _installFlatpakApp('org.prismlauncher.PrismLauncher', 'Prism Launcher');
 
 Future<void> _installQtBreezeTheme() async {
-  // TODO(adil192): Automate all of https://gist.github.com/adil192/61cd9c58a8bd0955cff9f1f7c52cb572
   if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
   if (Dnf.installed('plasma-breeze')) return;
   if (!yesOrNo('Install Qt Breeze Theme?')) return;
   print('Installing Qt Breeze Theme...');
-  await Dnf.install(['plasma-breeze', 'qt5ct', 'qt6ct']);
+  await Dnf.install(['plasma-breeze', 'breeze-icon-theme', 'qt5ct', 'qt6ct']);
 }
 
 Future<void> _installVlc() => _installApp(name: 'VLC', dnf: 'vlc', brew: 'vlc');
