@@ -1,3 +1,5 @@
+#!/usr/bin/env dart
+
 import 'src/tools/yes_or_no.dart';
 import 'src/firefox_cache.dart';
 import 'src/firefox.dart';

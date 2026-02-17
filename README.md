@@ -23,12 +23,12 @@ cd adil192-linux
 
 # Run the scripts
 dart pub get
-dart run
+./lib/install.dart
 ```
 
-You can view available options by running `dart run bin/adil192_linux.dart --help`.
+You can view available options by running `./lib/install.dart --help`.
 
 ## Uninstallation
 
-Run `dart run bin/uninstall.dart` in the root directory of the repository
+Run `./lib/uninstall.dart` in the root directory of the repository
 and follow the yes/no prompts.
