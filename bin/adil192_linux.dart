@@ -4,6 +4,7 @@ import 'src/firefox_cache.dart';
 import 'src/firefox.dart';
 import 'src/install_apps.dart';
 import 'src/install_codecs.dart';
+import 'src/thunderbird.dart';
 
 Future<void> main(List<String> args) async {
   final parsedArgs = argParser.parse(args);
@@ -23,6 +24,9 @@ Future<void> main(List<String> args) async {
   }
   if (parsedArgs.flag('theme-firefox')) {
     installFirefoxCss();
+  }
+  if (parsedArgs.flag('theme-thunderbird')) {
+    installThunderbirdCss();
   }
   if (parsedArgs.flag('install-firefox-cacher')) {
     await installFirefoxCacher();

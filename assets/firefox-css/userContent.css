@@ -32,3 +32,31 @@
         color: var(--adil192-foreground);
     }
 }
+
+@-moz-document url-prefix("about:"),
+               domain("mozilla.org"),
+               domain("thunderbird.net") {
+    :root {
+        --color-white: hsl(90 100% 99.6%) !important;
+        --color-gray-05: hsl(90 9.1% 97.8%) !important;
+        --color-gray-10: hsl(90 14.3% 95.9%) !important;
+        --color-gray-20: hsl(90 13.2% 89.6%) !important;
+        --color-gray-30: hsl(90 14% 83.1%) !important;
+        --color-gray-40: hsl(90 14% 64.9%) !important;
+        --color-gray-50: hsl(90 14% 46.1%) !important;
+        --color-gray-60: hsl(90 26% 33.9%) !important;
+        --color-gray-70: hsl(90 25.8% 19%) !important;
+        --color-gray-80: hsl(90 26.1% 9%) !important;
+        --color-gray-90: hsl(90 47.8% 4.5%) !important;
+        --color-black: hsl(90 100% 0.4%) !important;
+        --ink-10: hsl(110 47.4% 96.3%) !important;
+        --ink-20: hsl(110 36.6% 92%) !important;
+        --ink-30: hsl(110 31.6% 85.1%) !important;
+        --ink-40: hsl(110 24.2% 68.4%) !important;
+        --ink-50: hsl(110 18.4% 52%) !important;
+        --ink-60: hsl(110 21.6% 40%) !important;
+        --ink-70: hsl(110 26.4% 32%) !important;
+        --ink-80: hsl(110 30.4% 22.5%) !important;
+        --ink-90: hsl(110 40% 15.7%) !important;
+    }
+}

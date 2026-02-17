@@ -17,6 +17,11 @@ final argParser = ArgParser()
     help: 'Theme Firefox to match my COSMIC theme.',
   )
   ..addFlag(
+    'theme-thunderbird',
+    defaultsTo: true,
+    help: 'Theme Thunderbird to match my COSMIC theme.',
+  )
+  ..addFlag(
     'install-firefox-cacher',
     defaultsTo: true,
     help:
