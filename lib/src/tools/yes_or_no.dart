@@ -1,6 +1,7 @@
 import 'dart:io';
 
 bool alwaysYes = false;
+String? get yFlag => alwaysYes ? '-y' : null;
 
 bool yesOrNo(
   String question, [

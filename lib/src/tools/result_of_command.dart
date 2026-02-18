@@ -19,6 +19,7 @@ Future<String> resultOfCommand(
     runInShell: runInShell,
     mode: mode,
   );
+  stdin.listen(process.stdin.add);
   final output = [];
   process.stdout.listen((data) {
     stdout.add(data);

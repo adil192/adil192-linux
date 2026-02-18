@@ -6,12 +6,12 @@ class Dnf {
   static final hasDnf = Which.installed('dnf');
 
   static Future<void> install(List<String> packages) async {
-    await resultOfCommand('sudo', ['dnf', 'install', '-y', ...packages]);
+    await resultOfCommand('sudo', ['dnf', 'install', ?yFlag, ...packages]);
     _installedPackages.addAll(packages);
   }
 
   static Future<void> update(List<String> packages) =>
-      resultOfCommand('sudo', ['dnf', 'update', '-y', ...packages]);
+      resultOfCommand('sudo', ['dnf', 'update', ?yFlag, ...packages]);
 
   static String repoList() => resultOfCommandSync('dnf', ['repolist']);
 
@@ -25,7 +25,7 @@ class Dnf {
     from,
     to,
     if (allowErasing) '--allowerasing',
-    '-y',
+    ?yFlag,
   ]);
 
   static final _installedPackages = resultOfCommandSync('dnf', [
@@ -62,5 +62,5 @@ class Dnf {
   }
 
   static Future<void> enableCopr(String repo) =>
-      resultOfCommand('sudo', ['dnf', 'copr', 'enable', '-y', repo]);
+      resultOfCommand('sudo', ['dnf', 'copr', 'enable', ?yFlag, repo]);
 }

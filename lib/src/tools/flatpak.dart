@@ -1,5 +1,6 @@
 import 'package:adil192_linux/src/tools/result_of_command.dart';
 import 'package:adil192_linux/src/tools/which.dart';
+import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 class Flatpak {
   static final hasFlatpak = Which.installed('flatpak');
@@ -12,7 +13,7 @@ class Flatpak {
   }
 
   static Future<void> install(String name) async {
-    await resultOfCommand('flatpak', ['install', name, '-y']);
+    await resultOfCommand('flatpak', ['install', name, ?yFlag]);
     _allInstalled += '\n$name';
   }
 }
