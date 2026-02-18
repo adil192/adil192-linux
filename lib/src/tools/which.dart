@@ -1,10 +1,10 @@
-import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 
 class Which {
   static bool installed(String name) {
     String? location;
     try {
-      location = resultOfCommandSync('which', [name], runInShell: true).trim();
+      location = runSilent('which', [name]).trim();
     } on StateError {
       // ignore
     }

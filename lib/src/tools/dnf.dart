@@ -1,4 +1,4 @@
-import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 import 'package:adil192_linux/src/tools/which.dart';
 
@@ -6,20 +6,20 @@ class Dnf {
   static final hasDnf = Which.installed('dnf');
 
   static Future<void> install(List<String> packages) async {
-    await resultOfCommand('sudo', ['dnf', 'install', ?yFlag, ...packages]);
+    await run('sudo', ['dnf', 'install', ?yFlag, ...packages]);
     _installedPackages.addAll(packages);
   }
 
   static Future<void> update(List<String> packages) =>
-      resultOfCommand('sudo', ['dnf', 'update', ?yFlag, ...packages]);
+      run('sudo', ['dnf', 'update', ?yFlag, ...packages]);
 
-  static String repoList() => resultOfCommandSync('dnf', ['repolist']);
+  static String repoList() => runSilent('dnf', ['repolist']);
 
   static Future<void> swap(
     String from,
     String to, {
     bool allowErasing = false,
-  }) => resultOfCommand('sudo', [
+  }) => run('sudo', [
     'dnf',
     'swap',
     from,
@@ -28,7 +28,7 @@ class Dnf {
     ?yFlag,
   ]);
 
-  static final _installedPackages = resultOfCommandSync('dnf', [
+  static final _installedPackages = runSilent('dnf', [
     'list',
     '--installed',
   ]).split('\n').toSet();
@@ -51,7 +51,7 @@ class Dnf {
 
     if (!yesOrNo('Enable RPM Fusion repositories?')) return;
 
-    final fedoraVersion = resultOfCommandSync('rpm', ['-E', '%fedora']).trim();
+    final fedoraVersion = runSilent('rpm', ['-E', '%fedora']).trim();
     print('Installing RPM Fusion repositories...');
     await install([
       'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$fedoraVersion.noarch.rpm',
@@ -62,5 +62,5 @@ class Dnf {
   }
 
   static Future<void> enableCopr(String repo) =>
-      resultOfCommand('sudo', ['dnf', 'copr', 'enable', ?yFlag, repo]);
+      run('sudo', ['dnf', 'copr', 'enable', ?yFlag, repo]);
 }

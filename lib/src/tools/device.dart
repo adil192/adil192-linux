@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 
 /// Information about the user's device
 final class Device {
@@ -14,7 +14,7 @@ final class Device {
   static final cpuInfo = File('/proc/cpuinfo').readAsStringSync().toLowerCase();
 
   // lspci | egrep -i "vga|display|3d"
-  static final gpuInfo = resultOfCommandSync('lspci', ['-mm'])
+  static final gpuInfo = runSilent('lspci', ['-mm'])
       .split('\n')
       .where(
         (line) =>

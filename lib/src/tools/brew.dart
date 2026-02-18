@@ -1,10 +1,10 @@
-import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/which.dart';
 
 abstract class Brew {
   static final hasBrew = Which.installed('brew');
 
-  static final installedFormulae = resultOfCommandSync('brew', [
+  static final installedFormulae = runSilent('brew', [
     'list',
     '--full-name',
     '-1',
@@ -16,5 +16,5 @@ abstract class Brew {
   }
 
   static Future<void> install(String formula) =>
-      resultOfCommand('brew', ['install', formula]);
+      run('brew', ['install', formula]);
 }

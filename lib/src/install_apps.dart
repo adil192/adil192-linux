@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:adil192_linux/src/tools/brew.dart';
 import 'package:adil192_linux/src/tools/dnf.dart';
 import 'package:adil192_linux/src/tools/flatpak.dart';
-import 'package:adil192_linux/src/tools/result_of_command.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/which.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
@@ -76,12 +76,12 @@ Future<void> _installAndroidStudio() async {
 
     final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
     final archiveName = 'jetbrains-toolbox-2.4.2.32922';
-    await resultOfCommand('wget', [
+    await run('wget', [
       'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
       '-O',
       tarFile.path,
     ]);
-    await resultOfCommand('tar', [
+    await run('tar', [
       '-xf',
       tarFile.path,
       '-C',
@@ -137,12 +137,12 @@ Future<void> _installZed() async {
     if (Which.installed('zed')) return;
     if (!yesOrNo('Install Zed?')) return;
     print('Installing Zed...');
-    await resultOfCommand('wget', [
+    await run('wget', [
       'https://zed.dev/install.sh',
       '-O',
       '/tmp/zed-install.sh',
     ]);
-    await resultOfCommand('bash', ['/tmp/zed-install.sh']);
+    await run('bash', ['/tmp/zed-install.sh']);
   } else if (Platform.isMacOS) {
     await _installBrewApp('zed', 'Zed');
   }
@@ -163,12 +163,12 @@ Future<void> _installGitHubDesktop() async {
     if (!yesOrNo('Install GitHub Desktop Plus?')) return;
     print('Installing GitHub Desktop Plus...');
 
-    await resultOfCommand('sudo', [
+    await run('sudo', [
       'rpm',
       '--import',
       'https://gpg.polrivero.com/public.key',
     ]);
-    await resultOfCommand('sudo', [
+    await run('sudo', [
       'sh',
       '-c',
       'echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key" > /etc/yum.repos.d/github-desktop-plus.repo',
@@ -221,9 +221,9 @@ Future<void> _installUpscaledVlc() async {
   const installScriptUrl =
       'https://raw.githubusercontent.com/adil192/upscaled_vlc/main/install.sh';
   const installScriptPath = '/tmp/install_upscaled_vlc.sh';
-  await resultOfCommand('wget', [installScriptUrl, '-O', installScriptPath]);
-  await resultOfCommand('bash', [installScriptPath]);
-  await resultOfCommand('rm', [installScriptPath]);
+  await run('wget', [installScriptUrl, '-O', installScriptPath]);
+  await run('bash', [installScriptPath]);
+  await run('rm', [installScriptPath]);
 }
 
 Future<void> _installApplite() =>
@@ -244,7 +244,7 @@ Future<void> _installChromium() async {
   if (!installed) return;
   if (Platform.environment['CHROME_EXECUTABLE']?.isNotEmpty ?? false) return;
   final home = Platform.environment['HOME'] ?? '~';
-  await resultOfCommand('sed', [
+  await run('sed', [
     '-i',
     '\$aexport CHROME_EXECUTABLE="$home/.local/share/flatpak/app/org.chromium.Chromium/x86_64/stable/active/export/bin/org.chromium.Chromium"',
     '$home/.bashrc',
