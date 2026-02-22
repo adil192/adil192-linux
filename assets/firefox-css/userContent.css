@@ -33,22 +33,34 @@
     }
 }
 
-@-moz-document url-prefix("about:"),
-               domain("mozilla.org"),
-               domain("thunderbird.net") {
+@-moz-document url-prefix("about:") {
     :root {
         --color-white: hsl(90 100% 99.6%) !important;
-        --color-gray-05: hsl(90 9.1% 97.8%) !important;
-        --color-gray-10: hsl(90 14.3% 95.9%) !important;
-        --color-gray-20: hsl(90 13.2% 89.6%) !important;
+        --color-gray-05: hsl(90 14% 97.8%) !important;
+        --color-gray-10: hsl(90 14% 95.9%) !important;
+        --color-gray-20: hsl(90 14% 89.6%) !important;
         --color-gray-30: hsl(90 14% 83.1%) !important;
         --color-gray-40: hsl(90 14% 64.9%) !important;
         --color-gray-50: hsl(90 14% 46.1%) !important;
-        --color-gray-60: hsl(90 26% 33.9%) !important;
-        --color-gray-70: hsl(90 25.8% 19%) !important;
-        --color-gray-80: hsl(90 26.1% 9%) !important;
-        --color-gray-90: hsl(90 47.8% 4.5%) !important;
+        --color-gray-60: hsl(90 14% 33.9%) !important;
+        --color-gray-70: hsl(90 14% 19%) !important;
+        --color-gray-80: hsl(90 14% 9%) !important;
+        --color-gray-90: hsl(90 14% 4.5%) !important;
         --color-black: hsl(90 100% 0.4%) !important;
+    }
+}
+@-moz-document domain("thunderbird.net") {
+    :root {
+        --gray-05: hsl(90 14% 97.8%) !important;
+        --gray-10: hsl(90 14% 95.9%) !important;
+        --gray-20: hsl(90 14% 89.6%) !important;
+        --gray-30: hsl(90 14% 83.1%) !important;
+        --gray-40: hsl(90 14% 64.9%) !important;
+        --gray-50: hsl(90 14% 46.1%) !important;
+        --gray-60: hsl(90 14% 33.9%) !important;
+        --gray-70: hsl(90 14% 19%) !important;
+        --gray-80: hsl(90 14% 9%) !important;
+        --gray-90: hsl(90 14% 4.5%) !important;
         --ink-10: hsl(110 47.4% 96.3%) !important;
         --ink-20: hsl(110 36.6% 92%) !important;
         --ink-30: hsl(110 31.6% 85.1%) !important;
@@ -58,5 +70,46 @@
         --ink-70: hsl(110 26.4% 32%) !important;
         --ink-80: hsl(110 30.4% 22.5%) !important;
         --ink-90: hsl(110 40% 15.7%) !important;
+    }
+    [data-channel] {
+        --bg-gradient-hsl-values: 90 97.5% 52%;
+        --bg-gradient2-hsl-values: 130 97.5% 52%;
+        --bg-gradient:
+            linear-gradient(
+                to top right,
+                hsl(var(--bg-gradient-hsl-values) / 0.1) 0%,
+                hsl(var(--bg-gradient-hsl-values) / 0) 33%,
+                hsl(var(--bg-gradient-hsl-values) / 0) 67%,
+                hsl(var(--bg-gradient-hsl-values) / 0.1) 100%
+            ),
+            linear-gradient(
+                to right,
+                hsl(var(--bg-gradient2-hsl-values) / 0.05) 0%,
+                hsl(var(--bg-gradient2-hsl-values) / 0) 30%,
+                hsl(var(--bg-gradient2-hsl-values) / 0.05) 100%
+            ) !important;
+        --text-gradient: linear-gradient(90deg, hsl(90 83.9% 46.3%) 0%, hsl(130 81.3% 55.9%) 100%) !important;
+        --button-bg: radial-gradient(ellipse at center, hsl(90 97.2% 80% / 0.25) 0%, transparent 70%) !important;
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg: var(--gray-90) !important;
+        }
+        [data-channel] {
+            --bg-gradient-hsl-values: 90 97.5% 15.7%;
+            --bg-gradient2-hsl-values: 130 97.5% 15.7%;
+            --button-bg: radial-gradient(ellipse at center, hsl(90 97.2% 15.7% / 0.25) 0%, transparent 70%) !important;
+        }
+    }
+}
+@-moz-document domain("developer.mozilla.org") {
+    :root {
+        --color-gray-90: hsl(90 10% 95.9%) !important;
+        --color-gray-80: hsl(90 10% 89.6%) !important;
+        --color-gray-60: hsl(90 10% 64.9%) !important;
+        --color-gray-40: hsl(90 10% 33.9%) !important;
+        --color-gray-20: hsl(90 10% 19%) !important;
+        --color-gray-10: hsl(90 10% 9%) !important;
+        --color-gray-05: hsl(90 10% 4.5%) !important;
     }
 }
