@@ -1,7 +1,7 @@
 :root {
     /* Keep these colors synced between userContent.css and userChrome.css */
-    --adil192-background: #cbddad;
-    --adil192-surface: #e8faca;
+    --adil192-background: #d2dfbd;
+    --adil192-surface: #e4f1cf;
     --adil192-foreground: #101010;
     --adil192-foreground-inactive: #292b1f;
     @media (-moz-content-prefers-color-scheme: dark) {
