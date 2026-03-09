@@ -91,3 +91,9 @@
         background-color: color-mix(in srgb, currentColor 15%, transparent) !important; /* same as default but with !important*/
     }
 }
+
+menupopup,
+panel {
+  --panel-background: var(--adil192-surface) !important;
+  --panel-color: var(--adil192-foreground) !important;
+}
