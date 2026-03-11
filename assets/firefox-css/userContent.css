@@ -150,3 +150,13 @@
     pointer-events: none !important;
   }
 }
+
+@-moz-document domain("github.com") {
+  :root {
+    --bgColor-default: var(--adil192-background) !important;
+    --bgColor-inset: var(--adil192-surface) !important;
+    --bgColor-muted: var(--adil192-surface) !important;
+    --fgColor-default: var(--adil192-foreground) !important;
+    --fgColor-muted: var(--adil192-foreground-inactive) !important;
+  }
+}

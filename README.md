@@ -1,6 +1,7 @@
 # adil192-linux
 
 This is a collection of scripts that apply my personal preferences to a Linux system.
+It installs apps, drivers and themes.
 
 It is generally intended to be used with the [Fedora COSMIC Spin](https://fedoraproject.org/spins/cosmic/)
 but it will work for other Fedora/RHEL distributions.
