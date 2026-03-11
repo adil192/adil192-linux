@@ -118,8 +118,11 @@
   html, html[color-version="v2_0"] {
     --yt-spec-frosted-glass-desktop: color(from var(--adil192-background) srgb r g b / 0.8) !important;
     --yt-spec-base-background: var(--adil192-background) !important;
+    color-scheme: light dark;
   }
   html, html[color-version="v2_0"],
+  html[dark], html[light],
+  body,
   #home-container-skeleton,
   #guide-skeleton,
   ytd-masthead.shell,
