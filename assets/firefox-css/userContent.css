@@ -113,3 +113,37 @@
         --color-gray-05: hsl(90 10% 4.5%) !important;
     }
 }
+
+@-moz-document domain("youtube.com") {
+  html, html[color-version="v2_0"] {
+    --yt-spec-frosted-glass-desktop: color(from var(--adil192-background) srgb r g b / 0.8) !important;
+    --yt-spec-base-background: var(--adil192-background) !important;
+  }
+  html, html[color-version="v2_0"],
+  #home-container-skeleton,
+  #guide-skeleton,
+  ytd-masthead.shell,
+  #home-chips {
+    background-color: var(--adil192-background) !important;
+  }
+  #guide-content.ytd-app {
+    /* sidebar */
+    background-color: var(--adil192-surface) !important;
+    margin: 0 0 1rem 1rem !important;
+    border-radius: 1rem;
+  }
+  ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy {
+    /* black bars around video */
+    background-color: rgba(0, 0, 0, 0.9) !important;
+  }
+  #frosted-glass.with-chipbar.ytd-app {
+    backdrop-filter: blur(16px) !important;
+  }
+
+  .ytp-overlays-container .ytp-paid-content-overlay,
+  .ytp-big-mode .ytp-overlays-container .ytp-paid-content-overlay {
+    /* I hate accidentally clicking this "Includes paid promotion" message */
+    display: none !important;
+    pointer-events: none !important;
+  }
+}
