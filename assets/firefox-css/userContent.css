@@ -178,8 +178,12 @@
     --bgColor-default: var(--cosmic-background-base) !important;
     --bgColor-inset: var(--cosmic-component-base) !important;
     --bgColor-muted: var(--cosmic-component-base) !important;
+    --bgColor-disabled: var(--cosmic-component-base) !important;
     --fgColor-default: var(--cosmic-component-on) !important;
     --fgColor-muted: var(--cosmic-inactive-on) !important;
     --borderColor-default: color(from var(--cosmic-component-on) srgb r g b / 0.3) !important;
+    --control-bgColor-rest: var(--cosmic-button-base) !important;
+    --control-bgColor-hover: color-mix(in srgb, var(--cosmic-button-base) 90%, var(--cosmic-button-on)) !important;
+    --buttonCounter-default-bgColor-rest: color(from var(--cosmic-button-on) srgb r g b / 0.1) !important;
   }
 }
