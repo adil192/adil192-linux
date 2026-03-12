@@ -8,6 +8,9 @@ environment:
 
 dependencies:
   args: ^2.4.2
+  hooks: ^1.0.2
+  native_toolchain_rust: ^1.0.3
 
 dev_dependencies:
+  ffigen: ^20.1.1
   lints: ^6.1.0
