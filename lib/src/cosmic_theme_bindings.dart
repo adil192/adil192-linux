@@ -3,29 +3,8 @@ import 'dart:io';
 import 'package:adil192_linux/src/cosmic_theme_bindings.g.dart';
 export 'package:adil192_linux/src/cosmic_theme_bindings.g.dart' hide get_theme;
 
-extension CosmicThemeCssVars on CosmicThemeFfi {
-  List<(String name, Rgb value)> get cssVars {
-    return [
-      ('--cosmic-background-base', background_base),
-      ('--cosmic-background-on', background_on),
-      ('--cosmic-component-base', component_base),
-      ('--cosmic-component-on', component_on),
-      ('--cosmic-button-base', button_base),
-      ('--cosmic-button-on', button_on),
-    ];
-  }
-}
-
-extension RgbaConverter on Rgb {
-  String toHex() {
-    return '#'
-        '${r.toRadixString(16).padLeft(2, '0')}'
-        '${g.toRadixString(16).padLeft(2, '0')}'
-        '${b.toRadixString(16).padLeft(2, '0')}';
-  }
-}
-
 void generateCosmicTokensCss() {
+  print('Generating CSS for your COSMIC theme...');
   final generatedCss = _generateCosmicTokensCssContent();
   final pwd = Platform.environment['PWD'] ?? '.';
   for (final cssFileName in ['userChrome.css', 'userContent.css']) {
@@ -75,4 +54,26 @@ String _generateCosmicTokensCssContent() {
   );
   buffer.write('}');
   return buffer.toString();
+}
+
+extension on CosmicThemeFfi {
+  List<(String name, Rgb value)> get cssVars {
+    return [
+      ('--cosmic-background-base', background_base),
+      ('--cosmic-background-on', background_on),
+      ('--cosmic-component-base', component_base),
+      ('--cosmic-component-on', component_on),
+      ('--cosmic-button-base', button_base),
+      ('--cosmic-button-on', button_on),
+    ];
+  }
+}
+
+extension on Rgb {
+  String toHex() {
+    return '#'
+        '${r.toRadixString(16).padLeft(2, '0')}'
+        '${g.toRadixString(16).padLeft(2, '0')}'
+        '${b.toRadixString(16).padLeft(2, '0')}';
+  }
 }

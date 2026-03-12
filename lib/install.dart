@@ -1,7 +1,11 @@
 #!/usr/bin/env dart
 
+import 'package:adil192_linux/src/tools/run.dart';
+import 'package:adil192_linux/src/tools/which.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 import 'package:adil192_linux/src/args.dart';
+import 'package:adil192_linux/src/cosmic_theme_bindings.dart'
+    deferred as cosmic_theme_bindings;
 import 'package:adil192_linux/src/firefox_cache.dart';
 import 'package:adil192_linux/src/firefox.dart';
 import 'package:adil192_linux/src/install_apps.dart';
@@ -23,6 +27,14 @@ Future<void> main(List<String> args) async {
   }
   if (!noInteraction && parsedArgs.flag('install-apps')) {
     await installApps();
+  }
+  if (parsedArgs.flag('theme-firefox') ||
+      parsedArgs.flag('theme-thunderbird')) {
+    if (Which.installed('rustc')) {
+      await run('./bootstrap/run_ffigen.sh', []);
+      await cosmic_theme_bindings.loadLibrary();
+      cosmic_theme_bindings.generateCosmicTokensCss();
+    }
   }
   if (parsedArgs.flag('theme-firefox')) {
     installFirefoxCss();

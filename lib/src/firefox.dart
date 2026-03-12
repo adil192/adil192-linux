@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:adil192_linux/src/cosmic_theme_bindings.dart';
-
 const _customSettings = {
   'widget.gtk.rounded-bottom-corners.enabled': true,
   'gnomeTheme.bookmarksToolbarUnderTabs': true,
@@ -19,7 +17,6 @@ void installFirefoxCss() {
   final profileDir = _findFirefoxProfileDir();
   final pwd = Platform.environment['PWD'] ?? '.';
 
-  generateCosmicTokensCss();
   for (final cssFileName in ['userChrome.css', 'userContent.css']) {
     final src = File('$pwd/assets/firefox-css/$cssFileName');
     final dest = _findChromeCssFile(cssFileName, profileDir);
