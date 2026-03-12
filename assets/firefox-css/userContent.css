@@ -158,5 +158,6 @@
     --bgColor-muted: var(--adil192-surface) !important;
     --fgColor-default: var(--adil192-foreground) !important;
     --fgColor-muted: var(--adil192-foreground-inactive) !important;
+    --borderColor-default: color(from var(--adil192-foreground) srgb r g b / 0.3) !important;
   }
 }
