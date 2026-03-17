@@ -187,3 +187,32 @@
     --buttonCounter-default-bgColor-rest: color(from var(--cosmic-button-on) srgb r g b / 0.1) !important;
   }
 }
+
+@-moz-document domain("duckduckgo.com") {
+  :root {
+    --theme-col-bg-header: var(--cosmic-component-base) !important;
+    --theme-col-bg-page: var(--cosmic-background-base) !important;
+    --theme-assist-bg-chat-system: color-mix(in srgb, var(--cosmic-component-base) 80%, #af8) !important;
+    --theme-col-bg-expandcollapse: color-mix(in srgb, var(--cosmic-component-base) 90%, var(--cosmic-component-on)) !important;
+    --theme-col-bg-button-secondary: var(--cosmic-button-base) !important;
+    --theme-col-txt-button-secondary: var(--cosmic-button-on) !important;
+  }
+  html, body, .body--home, .site-wrapper, .region__body, .badge-link, .module--carousel__image-wrapper, .result__image, .vertical--map__sidebar, .vertical--map__sidebar__header, .page-chrome_newtab, .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded, .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded .metabar:not(.is-stuck) {
+    background: var(--cosmic-background-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
+  .header-wrap,
+  article,
+  [data-testid="about"],
+  .related-searches__item,
+  li[data-layout="videos"] ol > li,
+  .footer {
+    background: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
+  article {
+    border-radius: var(--default-border-radius);
+    padding: calc(var(--default-border-radius) * 2) !important;
+    margin: calc(var(--default-border-radius) * -1) !important;
+  }
+}
