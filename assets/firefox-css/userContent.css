@@ -140,6 +140,7 @@
   html, html[color-version="v2_0"] {
     --yt-spec-frosted-glass-desktop: color(from var(--cosmic-background-base) srgb r g b / 0.8) !important;
     --yt-spec-base-background: var(--cosmic-background-base) !important;
+    --yt-spec-outline: var(--cosmic-component-base) !important;
     color-scheme: light dark;
   }
   html, html[color-version="v2_0"],
@@ -163,6 +164,9 @@
   }
   #frosted-glass.with-chipbar.ytd-app {
     backdrop-filter: blur(16px) !important;
+  }
+  .ytThumbnailViewModelImage {
+    background-color: var(--cosmic-component-base) !important;
   }
 
   .ytp-overlays-container .ytp-paid-content-overlay,
