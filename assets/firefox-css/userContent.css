@@ -137,11 +137,29 @@
 }
 
 @-moz-document domain("youtube.com") {
+  /* Use youtube's own light/dark mode */
+  html[color-version="v2_0"], [color-version="v2_0"] [light] {
+    --cosmic-background-base: var(--cosmic-background-base-light);
+    --cosmic-background-on: var(--cosmic-background-on-light);
+    --cosmic-component-base: var(--cosmic-component-base-light);
+    --cosmic-component-on: var(--cosmic-component-on-light);
+    --cosmic-button-base: var(--cosmic-button-base-light);
+    --cosmic-button-on: var(--cosmic-button-on-light);
+  }
+  html[color-version="v2_0"][dark], [color-version="v2_0"] [dark] {
+    --cosmic-background-base: var(--cosmic-background-base-dark);
+    --cosmic-background-on: var(--cosmic-background-on-dark);
+    --cosmic-component-base: var(--cosmic-component-base-dark);
+    --cosmic-component-on: var(--cosmic-component-on-dark);
+    --cosmic-button-base: var(--cosmic-button-base-dark);
+    --cosmic-button-on: var(--cosmic-button-on-dark);
+  }
+
   html, html[color-version="v2_0"] {
     --yt-spec-frosted-glass-desktop: color(from var(--cosmic-background-base) srgb r g b / 0.8) !important;
     --yt-spec-base-background: var(--cosmic-background-base) !important;
     --yt-spec-outline: var(--cosmic-component-base) !important;
-    color-scheme: light dark;
+    --yt-spec-text-primary: var(--cosmic-component-on) !important;
   }
   html, html[color-version="v2_0"],
   html[dark], html[light],
