@@ -255,3 +255,45 @@
     margin: calc(var(--default-border-radius) * -1) !important;
   }
 }
+
+@-moz-document domain("pub.dev") {
+  :root, .light-theme, .dark-theme {
+    --pub-color-darkBlack: var(--cosmic-background-base-dark) !important;
+    --pub-neutral-bgColor: var(--cosmic-background-base) !important;
+    --pub-neutral-textColor: var(--cosmic-component-on) !important;
+    --dash-surface-fgColor: var(--cosmic-component-on) !important;
+    --pub-inset-bgColor: var(--cosmic-component-base) !important;
+    --pub-site_header_banner-background-color: var(--cosmic-component-base) !important;
+    --pub-site_header_banner-text-color: var(--cosmic-component-on) !important;
+    --pub-footer-background-color: var(--cosmic-component-base) !important;
+    --pub-footer-text-color: var(--cosmic-component-on) !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    body.light-theme:not(:has(main)) {
+      /* pub.dev defaults to light-mode while loading which causes a white flash in dark mode in Firefox. */
+      /* Force pub.dev to use dark theme while loading. */
+      color-scheme: dark light;
+      background: var(--cosmic-background-base-dark) !important;
+      color: var(--cosmic-component-on-dark) !important;
+    }
+  }
+  /* Also augment the light and dark themes. */
+  .light-theme {
+    color-scheme: light;
+    --cosmic-background-base: var(--cosmic-background-base-light);
+    --cosmic-background-on: var(--cosmic-background-on-light);
+    --cosmic-component-base: var(--cosmic-component-base-light);
+    --cosmic-component-on: var(--cosmic-component-on-light);
+    --cosmic-button-base: var(--cosmic-button-base-light);
+    --cosmic-button-on: var(--cosmic-button-on-light);
+  }
+  .dark-theme {
+    color-scheme: dark;
+    --cosmic-background-base: var(--cosmic-background-base-dark);
+    --cosmic-background-on: var(--cosmic-background-on-dark);
+    --cosmic-component-base: var(--cosmic-component-base-dark);
+    --cosmic-component-on: var(--cosmic-component-on-dark);
+    --cosmic-button-base: var(--cosmic-button-base-dark);
+    --cosmic-button-on: var(--cosmic-button-on-dark);
+  }
+}
