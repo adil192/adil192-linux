@@ -9,6 +9,7 @@ import 'package:adil192_linux/src/tools/which.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 Future<void> installApps() async {
+  await _installCosmicCopr();
   await _installFirefox();
   await _installSteam();
   await _installEquibop();
@@ -27,6 +28,19 @@ Future<void> installApps() async {
   await _installApplite();
   await _installChromium();
   await _installWine();
+}
+
+Future<void> _installCosmicCopr() async {
+  if (!Platform.isLinux) return;
+  if (!Dnf.hasDnf) return;
+  final repoFile = File(
+    '/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:cosmic-epoch.repo',
+  );
+  if (repoFile.existsSync()) return;
+  if (!yesOrNo('Install my repo for faster COSMIC updates?')) return;
+  print('Installing my repo for faster COSMIC updates...');
+  await run('sudo', ['dnf', 'copr', 'enable', 'adil192/cosmic-epoch']);
+  print('Run `sudo dnf update` to update to the builds from my repo.');
 }
 
 Future<void> _installFirefox() =>

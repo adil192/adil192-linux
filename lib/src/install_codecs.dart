@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:adil192_linux/src/tools/dnf.dart';
 import 'package:adil192_linux/src/tools/device.dart';
+import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
@@ -46,35 +47,36 @@ Future<void> _installAdditionalCodecs() async {
 }
 
 Future<void> _installHardwareAcceleration() async {
-  await _installMesaDrivers();
+  await _installMesaCopr();
 
   if (Device.hasIntelGpu()) await _installIntelDrivers();
 
   if (Device.hasNvidiaGpu()) await _installNvidiaDrivers();
 }
 
-Future<void> _installMesaDrivers() async {
-  if (Dnf.installed('mesa-va-drivers-freeworld') &&
-      Dnf.installed('mesa-vdpau-drivers-freeworld')) {
-    return;
-  }
-  if (!yesOrNo('Install mesa drivers?')) return;
-  print('Installing mesa drivers...');
-
-  await Dnf.swap('mesa-va-drivers.i686', 'mesa-va-drivers-freeworld.i686');
-  await Dnf.swap(
-    'mesa-vdpau-drivers.i686',
-    'mesa-vdpau-drivers-freeworld.i686',
+Future<void> _installMesaCopr() async {
+  if (!Platform.isLinux) return;
+  if (!Dnf.hasDnf) return;
+  final repoFile = File(
+    '/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:mesa-rc.repo',
   );
-  await Dnf.swap('mesa-va-drivers', 'mesa-va-drivers-freeworld');
-  await Dnf.swap('mesa-vdpau-drivers', 'mesa-vdpau-drivers-freeworld');
+  if (repoFile.existsSync()) return;
+  if (!yesOrNo('Install my repo for faster Mesa driver updates?')) return;
+  print('Installing my repo for faster Mesa driver updates...');
+  await run('sudo', ['dnf', 'copr', 'enable', 'adil192/mesa-rc']);
+  print('Run `sudo dnf update` to update to the builds from my repo.');
 }
 
 Future<void> _installIntelDrivers() async {
   if (Dnf.installed('intel-media-driver')) return;
   if (!yesOrNo('Install Intel drivers?')) return;
   print('Installing Intel drivers...');
-  await Dnf.install(['intel-media-driver', 'libva-intel-driver']);
+  await Dnf.install([
+    'intel-media-driver',
+    'libva-intel-driver',
+    'mesa-libOpenCL',
+    'intel-opencl',
+  ]);
 }
 
 Future<void> _installNvidiaDrivers() async {
