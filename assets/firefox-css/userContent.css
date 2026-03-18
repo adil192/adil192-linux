@@ -211,6 +211,23 @@
 }
 
 @-moz-document domain("duckduckgo.com") {
+  html[style*="--theme-col-bg-ui: var(--col-silver)"] {
+    --cosmic-background-base: var(--cosmic-background-base-light);
+    --cosmic-background-on: var(--cosmic-background-on-light);
+    --cosmic-component-base: var(--cosmic-component-base-light);
+    --cosmic-component-on: var(--cosmic-component-on-light);
+    --cosmic-button-base: var(--cosmic-button-base-light);
+    --cosmic-button-on: var(--cosmic-button-on-light);
+  }
+  html[style*="--theme-col-bg-ui: #282828"] {
+    --cosmic-background-base: var(--cosmic-background-base-dark);
+    --cosmic-background-on: var(--cosmic-background-on-dark);
+    --cosmic-component-base: var(--cosmic-component-base-dark);
+    --cosmic-component-on: var(--cosmic-component-on-dark);
+    --cosmic-button-base: var(--cosmic-button-base-dark);
+    --cosmic-button-on: var(--cosmic-button-on-dark);
+  }
+
   :root {
     --theme-col-bg-header: var(--cosmic-component-base) !important;
     --theme-col-bg-page: var(--cosmic-background-base) !important;
