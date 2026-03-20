@@ -297,3 +297,35 @@
     --cosmic-button-on: var(--cosmic-button-on-dark);
   }
 }
+
+@-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476") {
+    html.theme_light {
+      --cosmic-background-base: var(--cosmic-background-base-light);
+      --cosmic-background-on: var(--cosmic-background-on-light);
+      --cosmic-component-base: var(--cosmic-component-base-light);
+      --cosmic-component-on: var(--cosmic-component-on-light);
+      --cosmic-button-base: var(--cosmic-button-base-light);
+      --cosmic-button-on: var(--cosmic-button-on-light);
+    }
+    html.theme_dark {
+      --cosmic-background-base: var(--cosmic-background-base-dark);
+      --cosmic-background-on: var(--cosmic-background-on-dark);
+      --cosmic-component-base: var(--cosmic-component-base-dark);
+      --cosmic-component-on: var(--cosmic-component-on-dark);
+      --cosmic-button-base: var(--cosmic-button-base-dark);
+      --cosmic-button-on: var(--cosmic-button-on-dark);
+    }
+    .tw-bg-background {
+        background-color: var(--cosmic-component-base) !important;
+        color: var(--cosmic-component-on) !important;
+    }
+    .tw-bg-background-alt {
+        background-color: var(--cosmic-background-base) !important;
+        color: var(--cosmic-component-on) !important;
+    }
+    html body,
+    html app-root {
+        background-color: var(--cosmic-background-base) !important;
+        color: var(--cosmic-component-on) !important;
+    }
+}
