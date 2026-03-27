@@ -5,14 +5,14 @@
   --cosmic-background-on-light: #101010;
   --cosmic-component-base-light: #e8faca;
   --cosmic-component-on-light: #252525;
-  --cosmic-button-base-light: #a4b18e;
+  --cosmic-button-base-light: #a0b382;
   --cosmic-button-on-light: #252525;
 
   --cosmic-background-base-dark: #0c1106;
   --cosmic-background-on-dark: #d3dace;
   --cosmic-component-base-dark: #1f2418;
   --cosmic-component-on-dark: #edf4e8;
-  --cosmic-button-base-dark: #31342c;
+  --cosmic-button-base-dark: #193c04;
   --cosmic-button-on-dark: #edf4e8;
 
   --cosmic-background-base: var(--cosmic-background-base-light);

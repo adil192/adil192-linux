@@ -5,14 +5,14 @@
   --cosmic-background-on-light: #101010;
   --cosmic-component-base-light: #e8faca;
   --cosmic-component-on-light: #252525;
-  --cosmic-button-base-light: #a4b18e;
+  --cosmic-button-base-light: #a0b382;
   --cosmic-button-on-light: #252525;
 
   --cosmic-background-base-dark: #0c1106;
   --cosmic-background-on-dark: #d3dace;
   --cosmic-component-base-dark: #1f2418;
   --cosmic-component-on-dark: #edf4e8;
-  --cosmic-button-base-dark: #31342c;
+  --cosmic-button-base-dark: #193c04;
   --cosmic-button-on-dark: #edf4e8;
 
   --cosmic-background-base: var(--cosmic-background-base-light);
@@ -296,6 +296,55 @@
     --cosmic-button-base: var(--cosmic-button-base-dark);
     --cosmic-button-on: var(--cosmic-button-on-dark);
   }
+}
+
+@-moz-document domain("aliexpress.com") {
+    :root:not([data-darkreader-scheme="dark"]) {
+      /* Only light mode supported (unless using darkreader) */
+      --cosmic-background-base: var(--cosmic-background-base-light);
+      --cosmic-background-on: var(--cosmic-background-on-light);
+      --cosmic-component-base: var(--cosmic-component-base-light);
+      --cosmic-component-on: var(--cosmic-component-on-light);
+      --cosmic-button-base: var(--cosmic-button-base-light);
+      --cosmic-button-on: var(--cosmic-button-on-light);
+    }
+    body {
+        background-color: var(--cosmic-background-base) !important;
+        color: var(--cosmic-background-on) !important;
+    }
+    #root,
+    #root > div,
+    #root > div > div,
+    main,
+    #main,
+    nav,
+    .common-floor > *
+    {
+        background-color: transparent !important;
+        color: var(--cosmic-background-on) !important;
+    }
+    #_global_header_23_,
+    #_full_container_header_23_,
+    .header-dir-ltr,
+    .header-dir-rtl,
+    .site-footer,
+    .search-card-item,
+    .group-header-container,
+    .cart-header-content,
+    .cart-header-checkbox,
+    .group-top-notice-wrap,
+    .group-title-ctn,
+    .group-container,
+    .cart-summary,
+    .cart-service-wrap > section,
+    .card-out-wrapper > a,
+    [data-spm="superdeal"],
+    [data-spm="3fornn"]
+    {
+        background-color: var(--cosmic-component-base) !important;
+        background-image: none !important;
+        color: var(--cosmic-component-on) !important;
+    }
 }
 
 @-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476") {
