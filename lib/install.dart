@@ -10,7 +10,7 @@ import 'package:adil192_linux/src/cosmic_theme_bindings.dart'
 import 'package:adil192_linux/src/firefox_cache.dart';
 import 'package:adil192_linux/src/firefox.dart';
 import 'package:adil192_linux/src/install_apps.dart';
-import 'package:adil192_linux/src/install_codecs.dart';
+import 'package:adil192_linux/src/install_drivers.dart';
 import 'package:adil192_linux/src/thunderbird.dart';
 
 Future<void> main(List<String> args) async {
@@ -24,7 +24,7 @@ Future<void> main(List<String> args) async {
   alwaysYes = parsedArgs.flag('yes');
 
   if (!noInteraction && parsedArgs.flag('install-drivers')) {
-    await installCodecs();
+    await installDrivers();
   }
   if (!noInteraction && parsedArgs.flag('install-apps')) {
     await installApps();

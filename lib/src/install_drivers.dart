@@ -6,11 +6,11 @@ import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
-Future<void> installCodecs() async {
+Future<void> installDrivers() async {
   if (!Platform.isLinux) return;
 
   if (!Dnf.hasDnf) {
-    print('DNF is not available, skipping multimedia codecs installation.');
+    print('DNF is not available, skipping drivers installation.');
     return;
   }
 
