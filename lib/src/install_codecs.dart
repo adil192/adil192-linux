@@ -85,6 +85,9 @@ Future<void> _installIntelDrivers() async {
     'gstreamer1-plugins-icamerasrc',
     'akmod-v4l2loopback',
     'v4l2-relayd',
+    'libcamera',
+    'libcamera-gstreamer',
+    'libcamera-v4l2',
   ]);
 }
 
