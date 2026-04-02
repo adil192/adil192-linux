@@ -254,6 +254,7 @@ Future<void> _installChromium() async {
   final installed = await _installFlatpakApp(
     'org.chromium.Chromium',
     'Chromium',
+    ['com.google.Chrome'],
   );
 
   // Set CHROME_EXECUTABLE so Flutter can find the flatpak
