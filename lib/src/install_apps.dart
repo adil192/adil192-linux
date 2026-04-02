@@ -53,6 +53,7 @@ Future<void> _installEquibop() => _installApp(
   name: 'Equibop (Discord client)',
   flatpak: 'org.equicord.equibop',
   brew: 'equibop',
+  alternativeFlatpaks: ['dev.vencord.Vesktop', 'com.discordapp.Discord'],
 );
 
 Future<void> _installVSCode() async {
@@ -284,12 +285,15 @@ Future<bool> _installApp({
   String? dnf,
   String? flatpak,
   String? brew,
+  List<String>? alternativeFlatpaks,
 }) async {
   if (Platform.isLinux && dnf != null) {
     if (await _installDnfApp(dnf, name)) return true;
   }
   if (Platform.isLinux && flatpak != null) {
-    if (await _installFlatpakApp(flatpak, name)) return true;
+    if (await _installFlatpakApp(flatpak, name, alternativeFlatpaks)) {
+      return true;
+    }
   }
   if (Platform.isMacOS && brew != null) {
     if (await _installBrewApp(brew, name)) return true;
@@ -297,9 +301,14 @@ Future<bool> _installApp({
   return false;
 }
 
-Future<bool> _installFlatpakApp(String id, String name) async {
+Future<bool> _installFlatpakApp(
+  String id,
+  String name, [
+  List<String>? alternatives,
+]) async {
   if (!Flatpak.hasFlatpak) return false;
   if (Flatpak.installed(id)) return true;
+  if (alternatives?.any(Flatpak.installed) ?? false) return true;
   if (!yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Flatpak.install(id);
