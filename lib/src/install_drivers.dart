@@ -20,7 +20,12 @@ Future<void> installDrivers() async {
 
   await _installAdditionalCodecs();
 
-  await _installHardwareAcceleration();
+  await _installMesaCopr();
+
+  if (Device.hasIntelGpu()) await _installIntelGpuDrivers();
+  if (Device.hasIntelCpu()) await _installIntelWebcamDrivers();
+
+  if (Device.hasNvidiaGpu()) await _installNvidiaGpuDrivers();
 }
 
 Future<void> _switchToFullFfmpeg() async {
@@ -46,14 +51,6 @@ Future<void> _installAdditionalCodecs() async {
   ]);
 }
 
-Future<void> _installHardwareAcceleration() async {
-  await _installMesaCopr();
-
-  if (Device.hasIntelGpu()) await _installIntelDrivers();
-
-  if (Device.hasNvidiaGpu()) await _installNvidiaDrivers();
-}
-
 Future<void> _installMesaCopr() async {
   if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
@@ -67,18 +64,25 @@ Future<void> _installMesaCopr() async {
   print('Run `sudo dnf update` to update to the builds from my repo.');
 }
 
-Future<void> _installIntelDrivers() async {
-  if (Dnf.installed('intel-media-driver') && Dnf.installed('intel-vision')) {
-    return;
-  }
-  if (!yesOrNo('Install Intel drivers?')) return;
-  print('Installing Intel drivers...');
+Future<void> _installIntelGpuDrivers() async {
+  if (Dnf.installed('intel-media-driver')) return;
+  if (!yesOrNo('Install Intel GPU drivers?')) return;
+  print('Installing Intel GPU drivers...');
   await Dnf.install([
     'intel-media-driver',
-    'intel-vision',
     'libva-intel-driver',
     'mesa-libOpenCL',
     'intel-opencl',
+  ]);
+}
+
+Future<void> _installIntelWebcamDrivers() async {
+  if (Dnf.installed('ipu6-camera-hal')) return;
+  if (!yesOrNo('Install Intel webcam drivers?')) return;
+  print('Installing Intel webcam drivers...');
+  await Dnf.install([
+    'intel-media-driver',
+    'intel-vision',
     'akmod-intel-ipu6',
     'ipu6-camera-bins',
     'ipu6-camera-hal',
@@ -91,7 +95,7 @@ Future<void> _installIntelDrivers() async {
   ]);
 }
 
-Future<void> _installNvidiaDrivers() async {
+Future<void> _installNvidiaGpuDrivers() async {
   if (Dnf.installed('libva-nvidia-driver')) return;
   if (!yesOrNo('Install (proprietary) Nvidia drivers?')) return;
   print('Installing Nvidia drivers...');
