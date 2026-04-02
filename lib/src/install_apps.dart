@@ -167,6 +167,7 @@ Future<void> _installSpotify() => _installApp(
   name: 'Spotify',
   flatpak: 'com.spotify.Client',
   brew: 'spotify',
+  alternativeBins: ['spotify'],
 );
 
 Future<void> _installGitHubDesktop() async {
@@ -286,7 +287,9 @@ Future<bool> _installApp({
   String? flatpak,
   String? brew,
   List<String>? alternativeFlatpaks,
+  List<String>? alternativeBins,
 }) async {
+  if (alternativeBins?.any(Which.installed) ?? false) return true;
   if (Platform.isLinux && dnf != null) {
     if (await _installDnfApp(dnf, name)) return true;
   }
