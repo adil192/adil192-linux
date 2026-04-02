@@ -1,6 +1,7 @@
 #!/usr/bin/env dart
 
 import 'package:adil192_linux/src/tools/run.dart';
+import 'package:adil192_linux/src/tools/should_apply_cosmic_theme.dart';
 import 'package:adil192_linux/src/tools/which.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
 import 'package:adil192_linux/src/args.dart';
@@ -28,21 +29,31 @@ Future<void> main(List<String> args) async {
   if (!noInteraction && parsedArgs.flag('install-apps')) {
     await installApps();
   }
-  if (parsedArgs.flag('theme-firefox') ||
-      parsedArgs.flag('theme-thunderbird')) {
-    if (Which.installed('rustc')) {
-      await run('./bootstrap/run_ffigen.sh', []);
-      await cosmic_theme_bindings.loadLibrary();
-      cosmic_theme_bindings.generateCosmicTokensCss();
-    }
-  }
-  if (parsedArgs.flag('theme-firefox')) {
-    installFirefoxCss();
-  }
-  if (parsedArgs.flag('theme-thunderbird')) {
-    installThunderbirdCss();
-  }
   if (parsedArgs.flag('install-firefox-cacher')) {
     await installFirefoxCacher();
+  }
+  if (shouldApplyCosmicTheme) {
+    if (parsedArgs.flag('theme-firefox') ||
+        parsedArgs.flag('theme-thunderbird')) {
+      if (Which.installed('rustc')) {
+        // Generate customized CSS if we have rust
+        await run('./bootstrap/run_ffigen.sh', []);
+        await cosmic_theme_bindings.loadLibrary();
+        cosmic_theme_bindings.generateCosmicTokensCss();
+      }
+    }
+    if (parsedArgs.flag('theme-firefox')) {
+      installFirefoxCss();
+    }
+    if (parsedArgs.flag('theme-thunderbird')) {
+      installThunderbirdCss();
+    }
+  } else {
+    if (parsedArgs.flag('theme-firefox') ||
+        parsedArgs.flag('theme-thunderbird')) {
+      print(
+        'It doesn\'t look like you\'re using COSMIC, so we\'ll skip theme generation',
+      );
+    }
   }
 }
