@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:adil192_linux/src/tools/brew.dart';
@@ -7,6 +8,7 @@ import 'package:adil192_linux/src/tools/flatpak.dart';
 import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/which.dart';
 import 'package:adil192_linux/src/tools/yes_or_no.dart';
+import 'package:http/http.dart' as http;
 
 Future<void> installApps() async {
   await _installCosmicCopr();
@@ -17,6 +19,7 @@ Future<void> installApps() async {
   await _installAndroidStudio();
   await _installAndroidEmulatorIntegration();
   await _installZed();
+  await _installGitCredentialManager();
   await _installSpotify();
   await _installGitHubDesktop();
   await _installRicochlime();
@@ -161,6 +164,36 @@ Future<void> _installZed() async {
   } else if (Platform.isMacOS) {
     await _installBrewApp('zed', 'Zed');
   }
+}
+
+Future<void> _installGitCredentialManager() async {
+  if (Which.installed('git-credential-manager')) return;
+  if (!yesOrNo('Install Git Credential Manager?')) return;
+  print('Installing Git Credential Manager...');
+
+  // Find the latest release URL
+  final response = await http.get(
+    Uri.parse(
+      'https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest',
+    ),
+  );
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
+  final tarballUrl =
+      (json['assets'] as List).firstWhere((asset) {
+            final name = asset['name'] as String;
+            return RegExp(r'^gcm-linux-x64-[0-9.]+\.tar\.gz$').hasMatch(name);
+          })['browser_download_url']
+          as String;
+
+  await run('wget', [tarballUrl, '-O', '/tmp/gcm-linux-x64.tar.gz']);
+  await run('sudo', [
+    'tar',
+    '-xvf',
+    '/tmp/gcm-linux-x64.tar.gz',
+    '-C',
+    '/usr/local/bin',
+  ]);
+  await run('/usr/local/bin/git-credential-manager', ['configure']);
 }
 
 Future<void> _installSpotify() => _installApp(
