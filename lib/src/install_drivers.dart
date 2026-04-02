@@ -23,7 +23,10 @@ Future<void> installDrivers() async {
   await _installMesaCopr();
 
   if (Device.hasIntelGpu()) await _installIntelGpuDrivers();
-  if (Device.hasIntelCpu()) await _installIntelWebcamDrivers();
+  if (Device.hasIntelCpu()) {
+    await _installIntelWebcamDrivers();
+    await _installIntelBatteryOptimizer();
+  }
 
   if (Device.hasNvidiaGpu()) await _installNvidiaGpuDrivers();
 }
@@ -93,6 +96,16 @@ Future<void> _installIntelWebcamDrivers() async {
     'libcamera-gstreamer',
     'libcamera-v4l2',
   ]);
+  print('Your webcam should work after a reboot :)');
+}
+
+Future<void> _installIntelBatteryOptimizer() async {
+  if (Dnf.installed('intel_lpmd')) return;
+  if (!yesOrNo('Install Intel\'s battery optimizer?')) return;
+  print('Installing Intel\'s battery optimizer...');
+  await Dnf.install(['intel_lpmd']);
+  await run('sudo', ['systemctl', 'enable', '--now', 'intel_lpmd']);
+  await run('sudo', ['intel_lpmd_control', 'AUTO']);
 }
 
 Future<void> _installNvidiaGpuDrivers() async {
