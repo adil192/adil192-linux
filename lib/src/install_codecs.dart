@@ -68,14 +68,23 @@ Future<void> _installMesaCopr() async {
 }
 
 Future<void> _installIntelDrivers() async {
-  if (Dnf.installed('intel-media-driver')) return;
+  if (Dnf.installed('intel-media-driver') && Dnf.installed('intel-vision')) {
+    return;
+  }
   if (!yesOrNo('Install Intel drivers?')) return;
   print('Installing Intel drivers...');
   await Dnf.install([
     'intel-media-driver',
+    'intel-vision',
     'libva-intel-driver',
     'mesa-libOpenCL',
     'intel-opencl',
+    'akmod-intel-ipu6',
+    'ipu6-camera-bins',
+    'ipu6-camera-hal',
+    'gstreamer1-plugins-icamerasrc',
+    'akmod-v4l2loopback',
+    'v4l2-relayd',
   ]);
 }
 
