@@ -187,6 +187,8 @@
     background-color: var(--cosmic-component-base) !important;
   }
 
+  .ytmPaidContentOverlayHost,
+  .ytmPaidContentOverlayLink,
   .ytp-overlays-container .ytp-paid-content-overlay,
   .ytp-big-mode .ytp-overlays-container .ytp-paid-content-overlay {
     /* I hate accidentally clicking this "Includes paid promotion" message */
