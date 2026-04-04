@@ -100,10 +100,10 @@ Future<void> _installIntelWebcamDrivers() async {
 }
 
 Future<void> _installIntelBatteryOptimizer() async {
-  if (Dnf.installed('intel_lpmd')) return;
+  if (Dnf.installed('intel-lpmd')) return;
   if (!yesOrNo('Install Intel\'s battery optimizer?')) return;
   print('Installing Intel\'s battery optimizer...');
-  await Dnf.install(['intel_lpmd']);
+  await Dnf.install(['intel-lpmd']);
   await run('sudo', ['systemctl', 'enable', '--now', 'intel_lpmd']);
   await run('sudo', ['intel_lpmd_control', 'AUTO']);
 }
