@@ -29,6 +29,8 @@ Future<void> installDrivers() async {
   }
 
   if (Device.hasNvidiaGpu()) await _installNvidiaGpuDrivers();
+
+  await _installBroadcomFingerprintDrivers();
 }
 
 Future<void> _switchToFullFfmpeg() async {
@@ -117,4 +119,22 @@ Future<void> _installNvidiaGpuDrivers() async {
     'xorg-x11-drv-nvidia-cuda',
     'libva-nvidia-driver.{i686,x86_64}',
   ]);
+}
+
+Future<void> _installBroadcomFingerprintDrivers() async {
+  final lsusb = runSilent('lsusb', []);
+  final hasOlderBroadcom = lsusb.contains('0a5c:584');
+  final hasNewerBroadcom = lsusb.contains('0a5c:586');
+  if (!hasOlderBroadcom && !hasNewerBroadcom) return;
+  final driver = hasOlderBroadcom
+      ? 'libfprint-2-tod1-broadcom'
+      : 'libfprint-2-tod1-broadcom-cv3plus';
+
+  if (Dnf.installed(driver)) return;
+  if (!yesOrNo('Install Broadcom fingerprint drivers?')) return;
+  print('Installing Broadcom fingerprint drivers...');
+
+  await run('sudo', ['dnf', 'copr', 'enable', 'grahamwhiteuk/libfprint-tod']);
+  await Dnf.swap('libfprint', 'libfprint-tod');
+  await Dnf.install([driver]);
 }
