@@ -31,6 +31,8 @@ Future<void> installApps() async {
   await _installApplite();
   await _installChromium();
   await _installWine();
+  await _installGearLever();
+  await _installLMStudio();
 }
 
 Future<void> _installCosmicCopr() async {
@@ -313,6 +315,35 @@ Future<void> _installWine() async {
   if (!yesOrNo('Install Wine?')) return;
   print('Installing Wine...');
   await Dnf.install(['wine']);
+}
+
+Future<void> _installGearLever() => _installFlatpakApp(
+  'it.mijorus.gearlever',
+  'Gear Lever (AppImage integration)',
+);
+
+Future<bool> _installLMStudio() async {
+  if (Platform.isMacOS) return _installBrewApp('lm-studio', 'LM Studio');
+  if (!Platform.isLinux) return false;
+
+  final home = Platform.environment['HOME'] ?? '~';
+  final applicationsDir = Directory('$home/Applications')..createSync();
+  final expectedAppimage = File('${applicationsDir.path}/lmstudio.appimage');
+  if (expectedAppimage.existsSync()) return true;
+  if (applicationsDir.listSync().any(
+    (child) => RegExp(r'LM-Studio.*\.AppImage').hasMatch(child.path),
+  )) {
+    return true;
+  }
+  if (!yesOrNo('Install LM Studio?')) return false;
+  print('Installing LM Studio...');
+
+  await run('wget', [
+    '-O',
+    expectedAppimage.path,
+    'https://lmstudio.ai/download/latest/linux/x64',
+  ]);
+  return true;
 }
 
 Future<bool> _installApp({
