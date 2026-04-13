@@ -78,42 +78,44 @@ Future<void> _installVSCode() async {
 }
 
 Future<void> _installAndroidStudio() async {
-  if (Platform.isLinux) {
-    final home = Platform.environment['HOME'] ?? '~';
-    final applicationsDir = Directory('$home/Applications')..createSync();
-    final toolboxExe = File('$home/Applications/jetbrains-toolbox');
-
-    if (toolboxExe.existsSync()) {
-      print(
-        'Jetbrains Toolbox already installed. '
-        'Please manually install Android Studio through the GUI.',
-      );
-      return;
-    }
-
-    if (!yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
-    print('Installing Jetbrains Toolbox...');
-
-    final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
-    final archiveName = 'jetbrains-toolbox-2.4.2.32922';
-    await run('wget', [
-      'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
-      '-O',
-      tarFile.path,
-    ]);
-    await run('tar', [
-      '-xf',
-      tarFile.path,
-      '-C',
-      applicationsDir.path,
-      '--strip-components=1',
-      '$archiveName/jetbrains-toolbox',
-    ]);
-    tarFile.delete(recursive: true);
-    unawaited(Process.start(toolboxExe.path, const []));
-  } else if (Platform.isMacOS) {
+  if (Platform.isMacOS) {
     await _installBrewApp('android-studio', 'Android Studio');
+    return;
   }
+  if (!Platform.isLinux) return;
+
+  final home = Platform.environment['HOME'] ?? '~';
+  final applicationsDir = Directory('$home/Applications')..createSync();
+  final toolboxExe = File('$home/Applications/jetbrains-toolbox');
+
+  if (toolboxExe.existsSync()) {
+    print(
+      'Jetbrains Toolbox already installed. '
+      'Please manually install Android Studio through the GUI.',
+    );
+    return;
+  }
+
+  if (!yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
+  print('Installing Jetbrains Toolbox...');
+
+  final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
+  final archiveName = 'jetbrains-toolbox-2.4.2.32922';
+  await run('wget', [
+    'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
+    '-O',
+    tarFile.path,
+  ]);
+  await run('tar', [
+    '-xf',
+    tarFile.path,
+    '-C',
+    applicationsDir.path,
+    '--strip-components=1',
+    '$archiveName/jetbrains-toolbox',
+  ]);
+  tarFile.delete(recursive: true);
+  unawaited(Process.start(toolboxExe.path, const []));
 }
 
 Future<void> _installAndroidEmulatorIntegration() async {
