@@ -16,7 +16,7 @@ Future<void> installApps() async {
   await _installSteam();
   await _installEquibop();
   await _installVSCode();
-  await _installAndroidStudio();
+  await _installJetbrainsToolbox();
   await _installAndroidEmulatorIntegration();
   await _installZed();
   await _installGitCredentialManager();
@@ -77,30 +77,24 @@ Future<void> _installVSCode() async {
   }
 }
 
-Future<void> _installAndroidStudio() async {
+Future<void> _installJetbrainsToolbox() async {
   if (Platform.isMacOS) {
-    await _installBrewApp('android-studio', 'Android Studio');
+    await _installBrewApp('jetbrains-toolbox', 'Jetbrains Toolbox');
     return;
   }
   if (!Platform.isLinux) return;
 
   final home = Platform.environment['HOME'] ?? '~';
-  final applicationsDir = Directory('$home/Applications')..createSync();
-  final toolboxExe = File('$home/Applications/jetbrains-toolbox');
+  final installDir = Directory('$home/.local/share/JetBrains/Toolbox')
+    ..createSync();
+  final exe = File('${installDir.path}/bin/jetbrains-toolbox');
 
-  if (toolboxExe.existsSync()) {
-    print(
-      'Jetbrains Toolbox already installed. '
-      'Please manually install Android Studio through the GUI.',
-    );
-    return;
-  }
-
-  if (!yesOrNo('Install Android Studio via Jetbrains Toolbox?')) return;
+  if (exe.existsSync()) return;
+  if (!yesOrNo('Install Jetbrains Toolbox?')) return;
   print('Installing Jetbrains Toolbox...');
 
   final tarFile = File('/tmp/jetbrains-toolbox.tar.gz');
-  final archiveName = 'jetbrains-toolbox-2.4.2.32922';
+  final archiveName = 'jetbrains-toolbox-3.4.1.78303';
   await run('wget', [
     'https://download.jetbrains.com/toolbox/$archiveName.tar.gz',
     '-O',
@@ -110,12 +104,12 @@ Future<void> _installAndroidStudio() async {
     '-xf',
     tarFile.path,
     '-C',
-    applicationsDir.path,
+    installDir.path,
     '--strip-components=1',
-    '$archiveName/jetbrains-toolbox',
   ]);
   tarFile.delete(recursive: true);
-  unawaited(Process.start(toolboxExe.path, const []));
+  runSilent('chmod', ['+x', exe.path]);
+  unawaited(Process.start(exe.path, const [], mode: .detached));
 }
 
 Future<void> _installAndroidEmulatorIntegration() async {
