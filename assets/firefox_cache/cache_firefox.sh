@@ -19,5 +19,13 @@ function precache() {
     echo
 }
 
+total_ram=$(free -g | awk '/^Mem:/{print $2}')
+if [ "$total_ram" -lt 9 ]; then
+  echo "Detected 8GB of RAM or less."
+  echo "Precaching your Firefox profile could exhaust your available memory."
+  echo "Skipping..."
+  exit
+fi
+
 precache ~/.mozilla/firefox/
 precache ~/.cache/mozilla/firefox/
