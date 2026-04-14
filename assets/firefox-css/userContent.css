@@ -160,6 +160,11 @@
     --yt-spec-base-background: var(--cosmic-background-base) !important;
     --yt-spec-outline: var(--cosmic-component-base) !important;
     --yt-spec-text-primary: var(--cosmic-component-on) !important;
+
+    --yt-sys-color-baseline--base-background: var(--yt-spec-base-background) !important;
+    --yt-sys-color-baseline--text-primary: var(--yt-spec-text-primary) !important;
+    --yt-sys-color-baseline--frosted-glass-desktop: var(--yt-spec-frosted-glass-desktop) !important;
+    --yt-sys-color-baseline--frosted-glass-mobile: var(--yt-spec-frosted-glass-desktop) !important;
   }
   html, html[color-version="v2_0"],
   html[dark], html[light],
