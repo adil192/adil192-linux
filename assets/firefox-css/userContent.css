@@ -169,11 +169,15 @@
   html, html[color-version="v2_0"],
   html[dark], html[light],
   body,
+  ytd-app,
   #home-container-skeleton,
   #guide-skeleton,
   ytd-masthead.shell,
   #home-chips {
     background-color: var(--cosmic-background-base) !important;
+  }
+  ytd-app {
+    --app-drawer-content-container-background-color: transparent !important;
   }
   #guide-content.ytd-app {
     /* sidebar */
@@ -186,6 +190,7 @@
     background-color: rgba(0, 0, 0, 0.9) !important;
   }
   #frosted-glass.with-chipbar.ytd-app {
+    background-color: var(--yt-spec-frosted-glass-desktop) !important;
     backdrop-filter: blur(16px) !important;
   }
   .ytThumbnailViewModelImage {
