@@ -173,11 +173,19 @@
   #home-container-skeleton,
   #guide-skeleton,
   ytd-masthead.shell,
+  #background.ytd-masthead,
   #home-chips {
     background-color: var(--cosmic-background-base) !important;
   }
   ytd-app {
     --app-drawer-content-container-background-color: transparent !important;
+  }
+  ytd-tabbed-page-header {
+    --yt-lightsource-section1-color: var(--cosmic-background-base) !important;
+  }
+  #page-header-container.ytd-tabbed-page-header,
+  #tabs-container.ytd-tabbed-page-header {
+    background-color: transparent !important;
   }
   #guide-content.ytd-app {
     /* sidebar */
@@ -193,8 +201,20 @@
     background-color: var(--yt-spec-frosted-glass-desktop) !important;
     backdrop-filter: blur(16px) !important;
   }
+  ytd-post-renderer,
   .ytThumbnailViewModelImage {
     background-color: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
+  .ytSearchboxComponentSearchButton,
+  .arrow.yt-horizontal-list-renderer {
+    background-color: var(--cosmic-button-base) !important;
+    color: var(--cosmic-button-on) !important;
+  }
+  .ytSearchboxComponentInputBox {
+    background-color: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+    box-shadow: none !important;
   }
 
   .ytmPaidContentOverlayHost,
