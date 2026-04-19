@@ -4,11 +4,11 @@ FLUTTER_DIR="$HOME/Documents/Sources/flutter/"
 FLUTTER_ENV="$HOME/.flutter_env"
 
 echo "Installing Flutter's dependencies..."
-if [ -n "$(which dnf)" ]; then
+if command -v dnf &> /dev/null; then
   DEPS="curl git unzip xz zip mesa-libGLU clang cmake ninja-build egl-utils gtk3-devel"
   # shellcheck disable=SC2086
   rpm -q $DEPS --quiet || sudo dnf install -y $DEPS
-elif [ -n "$(which apt)" ]; then
+elif command -v apt &> /dev/null; then
   sudo apt update
   sudo apt install -y curl git unzip xz-utils zip libglu1-mesa clang cmake ninja-build mesa-utils libgtk-3-dev
 else
@@ -45,7 +45,7 @@ echo "Adding Flutter to shell profiles..."
 echo ". \"${FLUTTER_ENV}\"" >> ~/.profile
 echo ". \"${FLUTTER_ENV}\"" >> ~/.bash_profile
 echo ". \"${FLUTTER_ENV}\"" >> ~/.bashrc
-if [ -n "$(which zsh)" ]; then
+if command -v zsh &> /dev/null; then
   echo ". \"${FLUTTER_ENV}\"" >> ~/.zprofile
   echo ". \"${FLUTTER_ENV}\"" >> ~/.zshrc
 fi
