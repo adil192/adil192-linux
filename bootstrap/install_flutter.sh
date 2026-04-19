@@ -42,12 +42,18 @@ chmod +x "$FLUTTER_ENV"
 echo
 
 echo "Adding Flutter to shell profiles..."
-echo ". \"${FLUTTER_ENV}\"" >> ~/.profile
-echo ". \"${FLUTTER_ENV}\"" >> ~/.bash_profile
-echo ". \"${FLUTTER_ENV}\"" >> ~/.bashrc
+insert_path() {
+  if ! grep -q ". \"${FLUTTER_ENV}\"" "$1"; then
+    echo ". \"${FLUTTER_ENV}\"" >> "$1"
+    echo "PATH added to $1"
+  fi
+}
+insert_path ~/.profile
+insert_path ~/.bash_profile
+insert_path ~/.bashrc
 if command -v zsh &> /dev/null; then
-  echo ". \"${FLUTTER_ENV}\"" >> ~/.zprofile
-  echo ". \"${FLUTTER_ENV}\"" >> ~/.zshrc
+  insert_path ~/.zprofile
+  insert_path ~/.zshrc
 fi
 # Load for current session
 # shellcheck disable=SC1090
