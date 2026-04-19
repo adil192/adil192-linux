@@ -63,3 +63,7 @@ echo
 echo "Running flutter doctor..."
 flutter doctor
 echo
+
+echo "Installed Flutter!"
+echo "Open a new terminal or run the following to get started:"
+echo "  source \"${FLUTTER_ENV}\""
