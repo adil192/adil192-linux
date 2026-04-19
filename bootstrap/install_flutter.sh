@@ -6,6 +6,7 @@ FLUTTER_ENV="$HOME/.flutter_env"
 echo "Installing Flutter's dependencies..."
 if [ -n "$(which dnf)" ]; then
   DEPS="curl git unzip xz zip mesa-libGLU clang cmake ninja-build egl-utils gtk3-devel"
+  # shellcheck disable=SC2086
   rpm -q $DEPS --quiet || sudo dnf install -y $DEPS
 elif [ -n "$(which apt)" ]; then
   sudo apt update
@@ -16,15 +17,15 @@ fi
 echo
 
 echo "Downloading Flutter into $FLUTTER_DIR ..."
-if [ -d $FLUTTER_DIR ]; then
+if [ -d "$FLUTTER_DIR" ]; then
   echo "Flutter already exists in $FLUTTER_DIR. Skipping download."
 else
-  git clone https://github.com/flutter/flutter.git $FLUTTER_DIR -b stable
+  git clone https://github.com/flutter/flutter.git "$FLUTTER_DIR" -b stable
 fi
 echo
 
 echo "Writing Flutter env file to $FLUTTER_ENV ..."
-cat <<EOF > $FLUTTER_ENV
+cat <<EOF > "$FLUTTER_ENV"
 #!/bin/sh
 case "\$PATH" in
   *.pub-cache/bin*)
@@ -37,7 +38,7 @@ case "\$PATH" in
     ;;
 esac
 EOF
-chmod +x $FLUTTER_ENV
+chmod +x "$FLUTTER_ENV"
 echo
 
 echo "Adding Flutter to shell profiles..."
@@ -49,6 +50,7 @@ if [ -n "$(which zsh)" ]; then
   echo ". \"${FLUTTER_ENV}\"" >> ~/.zshrc
 fi
 # Load for current session
+# shellcheck disable=SC1090
 . "$FLUTTER_ENV"
 echo
 
