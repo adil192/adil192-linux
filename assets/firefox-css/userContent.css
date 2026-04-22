@@ -225,6 +225,48 @@
     display: none !important;
     pointer-events: none !important;
   }
+
+  ytd-rich-grid-renderer {
+    /* List view in feed instead of grid */
+    --ytd-rich-grid-items-per-row: 1 !important;
+  }
+  .ytLockupViewModelVertical {
+    /* Display title next to thumbnail, not below it */
+    flex-direction: row-reverse !important;
+    /* Turn into a card so it's easier to distinguish from the background */
+    background-color: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+    border-radius: 1rem;
+
+    /* Layout fixes for horizontal layout */
+    .ytLockupViewModelContentImage {
+      flex-basis: 40%;
+      flex-shrink: 0;
+      padding-bottom: 0 !important;
+    }
+    .ytLockupViewModelMetadata {
+      flex-grow: 1;
+      padding: 1rem !important;
+      .ytLockupMetadataViewModelAvatar {
+        align-self: end;
+      }
+      .ytLockupMetadataViewModelMenuButton {
+        position: unset;
+        align-self: end;
+      }
+    }
+    .ytThumbnailViewModelLarge {
+      border-radius: 1rem;
+    }
+
+    /* Better align text to make use of available space */
+    .ytLockupMetadataViewModelHost {
+      height: 100%;
+    }
+    .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
+      flex-grow: 1;
+    }
+  }
 }
 
 @-moz-document domain("github.com") {
