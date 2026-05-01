@@ -28,6 +28,7 @@ Future<void> installDrivers() async {
     await _installIntelBatteryOptimizer();
   }
 
+  if (Device.hasAmdGpu()) await _installRocm();
   if (Device.hasNvidiaGpu()) await _installNvidiaGpuDrivers();
 
   await _installBroadcomFingerprintDrivers();
@@ -73,6 +74,7 @@ Future<void> _installIntelGpuDrivers() async {
   if (Dnf.installed('intel-media-driver')) return;
   if (!yesOrNo('Install Intel GPU drivers?')) return;
   print('Installing Intel GPU drivers...');
+  await _addToRenderVideoGroups();
   await Dnf.install([
     'intel-media-driver',
     'libva-intel-driver',
@@ -108,6 +110,22 @@ Future<void> _installIntelBatteryOptimizer() async {
   await Dnf.install(['intel-lpmd']);
   await run('sudo', ['systemctl', 'enable', '--now', 'intel_lpmd']);
   await run('sudo', ['intel_lpmd_control', 'AUTO']);
+}
+
+Future<void> _installRocm() async {
+  if (Dnf.installed('rocm')) return;
+  if (!yesOrNo('Install AMD ROCm?')) return;
+  print('Installing AMD ROCm');
+  await _addToRenderVideoGroups();
+  await Dnf.install(['rocm']);
+}
+
+Future<void> _addToRenderVideoGroups() async {
+  final user = Platform.environment['LOGNAME'] ?? Platform.environment['USER']!;
+  final groups = runSilent('groups', [user]).split(' ');
+  if (!groups.contains('render') || !groups.contains('video')) {
+    await run('sudo', ['usermod', '-a', '-G', 'render,video', user]);
+  }
 }
 
 Future<void> _installNvidiaGpuDrivers() async {
