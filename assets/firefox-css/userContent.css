@@ -237,6 +237,10 @@
   ytd-rich-item-renderer[rendered-from-rich-grid] {
       width: 100% !important;
   }
+  ytd-item-section-renderer[lockup-container-type="2"][is-grid-view-enabled] #contents.ytd-item-section-renderer {
+    /* List view in suggestions instead of grid */
+    grid-template-columns: 1fr !important;
+  }
   .ytLockupViewModelVertical {
     /* Display title next to thumbnail, not below it */
     flex-direction: row-reverse !important;
