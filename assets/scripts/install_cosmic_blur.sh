@@ -43,4 +43,10 @@ install cosmic-panel theme-v2
 install cosmic-settings theme-v2
 install cosmic-store theme-v2
 install cosmic-term theme-v2
-install cosmic-launcher theme-v2
+install cosmic-workspaces-epoch theme-v2
+
+echo
+echo "All done! Changes will take effect after a reboot/relogin."
+echo
+echo "If you wish to revert back to the stable versions, reinstall the official packages like this:"
+echo "    sudo apt install --reinstall cosmic-app-library cosmic-applets cosmic-comp cosmic-edit cosmic-files cosmic-launcher cosmic-panel cosmic-settings cosmic-store cosmic-term cosmic-workspaces"
