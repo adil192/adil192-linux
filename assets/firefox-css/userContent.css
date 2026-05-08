@@ -245,60 +245,62 @@
     /* Use a more reasonable aspect ratio for the card after clicking "Not interested" */
     padding-top: 25% !important;
   }
-  .ytLockupViewModelVertical {
-    /* Display title next to thumbnail, not below it */
-    flex-direction: row-reverse !important;
-    /* Turn into a card so it's easier to distinguish from the background */
-    background-color: var(--cosmic-component-base) !important;
-    color: var(--cosmic-component-on) !important;
-    border-radius: 1rem;
+  ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer) {
+    .ytLockupViewModelVertical {
+      /* Display title next to thumbnail, not below it */
+      flex-direction: row-reverse !important;
+      /* Turn into a card so it's easier to distinguish from the background */
+      background-color: var(--cosmic-component-base) !important;
+      color: var(--cosmic-component-on) !important;
+      border-radius: 1rem;
 
-    /* Layout fixes for horizontal layout */
-    .ytLockupViewModelContentImage {
-      padding-bottom: 0 !important;
+      /* Layout fixes for horizontal layout */
+      .ytLockupViewModelContentImage {
+        padding-bottom: 0 !important;
 
-      .ytThumbnailViewModelAspectRatio16By9 {
-          padding: 0 !important;
-          aspect-ratio: 16 / 9 !important;
-          width: min(40vw, 40vh) !important;
-          height: auto !important;
+        .ytThumbnailViewModelAspectRatio16By9 {
+            padding: 0 !important;
+            aspect-ratio: 16 / 9 !important;
+            width: min(40vw, 40vh) !important;
+            height: auto !important;
 
-          .ytThumbnailViewModelImage {
-              position: static !important;
-              transform: none !important;
-          }
-      }
-    }
-    .ytLockupViewModelMetadata {
-      flex-grow: 1;
-      padding: 1rem !important;
-      .ytLockupMetadataViewModelAvatar {
-        align-self: end;
-      }
-      .ytLockupMetadataViewModelMenuButton {
-        position: unset;
-        align-self: end;
-      }
-
-      h3.ytLockupMetadataViewModelHeadingReset {
-        /* increase title's clickable area */
-        display: flex;
-        align-content: stretch;
-        .ytLockupMetadataViewModelTitle {
-          max-height: 12rem !important;
+            .ytThumbnailViewModelImage {
+                position: static !important;
+                transform: none !important;
+            }
         }
       }
-    }
-    .ytThumbnailViewModelLarge {
-      border-radius: 1rem;
-    }
+      .ytLockupViewModelMetadata {
+        flex-grow: 1;
+        padding: 1rem !important;
+        .ytLockupMetadataViewModelAvatar {
+          align-self: end;
+        }
+        .ytLockupMetadataViewModelMenuButton {
+          position: unset;
+          align-self: end;
+        }
 
-    /* Better align text to make use of available space */
-    .ytLockupMetadataViewModelHost {
-      height: 100%;
-    }
-    .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
-      flex-grow: 1;
+        h3.ytLockupMetadataViewModelHeadingReset {
+          /* increase title's clickable area */
+          display: flex;
+          align-content: stretch;
+          .ytLockupMetadataViewModelTitle {
+            max-height: 12rem !important;
+          }
+        }
+      }
+      .ytThumbnailViewModelLarge {
+        border-radius: 1rem;
+      }
+
+      /* Better align text to make use of available space */
+      .ytLockupMetadataViewModelHost {
+        height: 100%;
+      }
+      .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
+        flex-grow: 1;
+      }
     }
   }
 }
