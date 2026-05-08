@@ -241,6 +241,10 @@
     /* List view in suggestions instead of grid */
     grid-template-columns: 1fr !important;
   }
+  ytd-rich-item-renderer .ytDismissibleItemAspectRatio16By9 {
+    /* Use a more reasonable aspect ratio for the card after clicking "Not interested" */
+    padding-top: 25% !important;
+  }
   .ytLockupViewModelVertical {
     /* Display title next to thumbnail, not below it */
     flex-direction: row-reverse !important;
