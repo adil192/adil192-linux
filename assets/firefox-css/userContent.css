@@ -275,6 +275,15 @@
         position: unset;
         align-self: end;
       }
+
+      h3.ytLockupMetadataViewModelHeadingReset {
+        /* increase title's clickable area */
+        display: flex;
+        align-content: stretch;
+        .ytLockupMetadataViewModelTitle {
+          max-height: 12rem !important;
+        }
+      }
     }
     .ytThumbnailViewModelLarge {
       border-radius: 1rem;
