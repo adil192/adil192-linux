@@ -38,12 +38,15 @@ install cosmic-applets theme-v2
 install cosmic-comp frosted-glass_noble
 install cosmic-edit theme-v2
 install cosmic-files theme-v2
+install cosmic-greeter theme-v2
 install cosmic-launcher theme-v2
+install cosmic-osd theme-v2
 install cosmic-panel theme-v2
 install cosmic-settings theme-v2
 install cosmic-store theme-v2
 install cosmic-term theme-v2
 install cosmic-workspaces-epoch theme-v2
+install xdg-desktop-portal-cosmic theme-v2
 
 echo
 echo "All done! Changes will take effect after a reboot/relogin."
