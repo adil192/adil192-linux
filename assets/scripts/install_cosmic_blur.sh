@@ -33,6 +33,9 @@ install() {
   popd
 }
 
+# Suppress warnings since they flood the logs
+export RUSTFLAGS=-Awarnings
+
 install cosmic-app-library theme-v2
 install cosmic-applets theme-v2
 install cosmic-comp frosted-glass_noble
