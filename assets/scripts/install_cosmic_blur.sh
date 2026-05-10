@@ -3,7 +3,7 @@
 set -e
 mkdir -p ~/Documents/Sources/ && cd ~/Documents/Sources/
 
-if [ "$EUID" -eq 0 ]; then
+if [[ "${EUID}" -eq 0 ]]; then
   echo "Run this script as a regular user, not as root!"
   exit 1
 fi
@@ -23,10 +23,10 @@ echo
 clone() {
   PROJECT=$1
   BRANCH=$2
-  [ -d "$PROJECT" ] || git clone "https://github.com/pop-os/$PROJECT.git" -b "$BRANCH" --recurse-submodules
-  git -C "$PROJECT" fetch
-  git -C "$PROJECT" switch "$BRANCH"
-  git -C "$PROJECT" pull
+  [[ -d "${PROJECT}" ]] || git clone "https://github.com/pop-os/${PROJECT}.git" -b "${BRANCH}" --recurse-submodules
+  git -C "${PROJECT}" fetch
+  git -C "${PROJECT}" switch "${BRANCH}"
+  git -C "${PROJECT}" pull
 }
 clone cosmic-app-library theme-v2
 clone cosmic-applets theme-v2
@@ -54,8 +54,8 @@ sleep 1
 export RUSTFLAGS=-Awarnings
 install() {
   PROJECT=$1
-  pushd "$PROJECT"
-  if [ -f Makefile ]; then
+  pushd "${PROJECT}"
+  if [[ -f Makefile ]]; then
     make && sudo make install
   else
     just && sudo just install
@@ -64,7 +64,7 @@ install() {
 }
 install cosmic-app-library
 install cosmic-applets
-install cosmic-comp frosted-glass_noble
+install cosmic-comp
 install cosmic-edit
 install cosmic-files
 install cosmic-greeter
