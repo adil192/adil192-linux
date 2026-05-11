@@ -8,6 +8,6 @@ pub fn installed(id: &str) -> bool {
   todo!();
 }
 
-pub fn install(ids: &[&str]) -> anyhow::Result<()> {
+pub fn install(ids: &[&str]) -> anyhow::Result<bool> {
   todo!();
 }
