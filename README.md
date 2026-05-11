@@ -6,7 +6,8 @@ It installs apps, drivers and themes.
 It is generally intended to be used with the [Fedora COSMIC Spin](https://fedoraproject.org/spins/cosmic/)
 but it will work for other Fedora/RHEL distributions.
 
-It also has partial support for macOS with [Homebrew](https://brew.sh/) since I'm forced to use it for iOS development.
+This project is for my personal use:
+no guarantees of any kind are made.
 
 ## Installation
 

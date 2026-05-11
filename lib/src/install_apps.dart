@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:adil192_linux/src/tools/brew.dart';
 import 'package:adil192_linux/src/tools/dnf.dart';
 import 'package:adil192_linux/src/tools/flatpak.dart';
 import 'package:adil192_linux/src/tools/run.dart';
@@ -28,7 +27,6 @@ Future<void> installApps() async {
   await _installQtBreezeTheme();
   await _installVlc();
   await _installUpscaledVlc();
-  await _installApplite();
   await _installChromium();
   await _installWine();
   await _installGearLever();
@@ -36,7 +34,6 @@ Future<void> installApps() async {
 }
 
 Future<void> _installCosmicCopr() async {
-  if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
   final repoFile = File(
     '/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:cosmic-epoch.repo',
@@ -48,42 +45,29 @@ Future<void> _installCosmicCopr() async {
   print('Run `sudo dnf update` to update to the builds from my repo.');
 }
 
-Future<void> _installFirefox() =>
-    _installApp(name: 'Firefox', dnf: 'firefox', brew: 'firefox');
+Future<void> _installFirefox() => _installApp(name: 'Firefox', dnf: 'firefox');
 
-Future<void> _installSteam() =>
-    _installApp(name: 'Steam', dnf: 'steam', brew: 'steam');
+Future<void> _installSteam() => _installApp(name: 'Steam', dnf: 'steam');
 
 Future<void> _installEquibop() => _installApp(
   name: 'Equibop (Discord client)',
   flatpak: 'org.equicord.equibop',
-  brew: 'equibop',
   alternativeFlatpaks: ['dev.vencord.Vesktop', 'com.discordapp.Discord'],
 );
 
 Future<void> _installVSCode() async {
-  if (Platform.isLinux) {
-    if (!Dnf.hasDnf) return;
-    if (Dnf.installed('code')) return;
-    if (!yesOrNo('Install Visual Studio Code?')) return;
-    print('Installing Visual Studio Code...');
+  if (!Dnf.hasDnf) return;
+  if (Dnf.installed('code')) return;
+  if (!yesOrNo('Install Visual Studio Code?')) return;
+  print('Installing Visual Studio Code...');
 
-    // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
-    await Dnf.install([
-      'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64',
-    ]);
-  } else if (Platform.isMacOS) {
-    await _installBrewApp('visual-studio-code', 'Visual Studio Code');
-  }
+  // Download rpm https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64
+  await Dnf.install([
+    'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64',
+  ]);
 }
 
 Future<void> _installJetbrainsToolbox() async {
-  if (Platform.isMacOS) {
-    await _installBrewApp('jetbrains-toolbox', 'Jetbrains Toolbox');
-    return;
-  }
-  if (!Platform.isLinux) return;
-
   final home = Platform.environment['HOME'] ?? '~';
   final installDir = Directory('$home/.local/share/JetBrains/Toolbox')
     ..createSync();
@@ -113,8 +97,6 @@ Future<void> _installJetbrainsToolbox() async {
 }
 
 Future<void> _installAndroidEmulatorIntegration() async {
-  if (!Platform.isLinux) return;
-
   final home = Platform.environment['HOME'] ?? '~';
   final desktopFile = File(
     '$home/.local/share/applications/com.adilhanney.pixel8.desktop',
@@ -149,19 +131,15 @@ Future<void> _installAndroidEmulatorIntegration() async {
 }
 
 Future<void> _installZed() async {
-  if (Platform.isLinux) {
-    if (Which.installed('zed')) return;
-    if (!yesOrNo('Install Zed?')) return;
-    print('Installing Zed...');
-    await run('wget', [
-      'https://zed.dev/install.sh',
-      '-O',
-      '/tmp/zed-install.sh',
-    ]);
-    await run('bash', ['/tmp/zed-install.sh']);
-  } else if (Platform.isMacOS) {
-    await _installBrewApp('zed', 'Zed');
-  }
+  if (Which.installed('zed')) return;
+  if (!yesOrNo('Install Zed?')) return;
+  print('Installing Zed...');
+  await run('wget', [
+    'https://zed.dev/install.sh',
+    '-O',
+    '/tmp/zed-install.sh',
+  ]);
+  await run('bash', ['/tmp/zed-install.sh']);
 }
 
 Future<void> _installGitCredentialManager() async {
@@ -197,33 +175,28 @@ Future<void> _installGitCredentialManager() async {
 Future<void> _installSpotify() => _installApp(
   name: 'Spotify',
   flatpak: 'com.spotify.Client',
-  brew: 'spotify',
   alternativeBins: ['spotify'],
 );
 
 Future<void> _installGitHubDesktop() async {
-  if (Platform.isLinux) {
-    if (Which.installed('github-desktop-plus') ||
-        Which.installed('github-desktop')) {
-      return;
-    }
-    if (!yesOrNo('Install GitHub Desktop Plus?')) return;
-    print('Installing GitHub Desktop Plus...');
-
-    await run('sudo', [
-      'rpm',
-      '--import',
-      'https://gpg.polrivero.com/public.key',
-    ]);
-    await run('sudo', [
-      'sh',
-      '-c',
-      'echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key" > /etc/yum.repos.d/github-desktop-plus.repo',
-    ]);
-    await Dnf.install(['github-desktop-plus']);
-  } else if (Platform.isMacOS) {
-    await _installBrewApp('github', 'GitHub Desktop');
+  if (Which.installed('github-desktop-plus') ||
+      Which.installed('github-desktop')) {
+    return;
   }
+  if (!yesOrNo('Install GitHub Desktop Plus?')) return;
+  print('Installing GitHub Desktop Plus...');
+
+  await run('sudo', [
+    'rpm',
+    '--import',
+    'https://gpg.polrivero.com/public.key',
+  ]);
+  await run('sudo', [
+    'sh',
+    '-c',
+    'echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key" > /etc/yum.repos.d/github-desktop-plus.repo',
+  ]);
+  await Dnf.install(['github-desktop-plus']);
 }
 
 Future<void> _installRicochlime() =>
@@ -236,7 +209,6 @@ Future<void> _installPrismLauncher() =>
     _installFlatpakApp('org.prismlauncher.PrismLauncher', 'Prism Launcher');
 
 Future<void> _installQtBreezeTheme() async {
-  if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
   if (Dnf.installed('plasma-breeze')) return;
   if (!yesOrNo('Install Qt Breeze Theme?')) return;
@@ -244,11 +216,9 @@ Future<void> _installQtBreezeTheme() async {
   await Dnf.install(['plasma-breeze', 'breeze-icon-theme', 'qt5ct', 'qt6ct']);
 }
 
-Future<void> _installVlc() => _installApp(name: 'VLC', dnf: 'vlc', brew: 'vlc');
+Future<void> _installVlc() => _installApp(name: 'VLC', dnf: 'vlc');
 
 Future<void> _installUpscaledVlc() async {
-  if (!Platform.isLinux) return;
-
   if (Which.installed('upscaled_vlc.sh')) return;
 
   const gitRepo = 'https://github.com/adil192/upscaled_vlc';
@@ -273,15 +243,7 @@ Future<void> _installUpscaledVlc() async {
   await run('rm', [installScriptPath]);
 }
 
-Future<void> _installApplite() =>
-    _installApp(name: 'Applite (homebrew frontend)', brew: 'applite');
-
 Future<void> _installChromium() async {
-  if (Platform.isMacOS) {
-    _installBrewApp('google-chrome', 'Chrome');
-    return;
-  }
-
   final installed = await _installFlatpakApp(
     'org.chromium.Chromium',
     'Chromium',
@@ -300,7 +262,6 @@ Future<void> _installChromium() async {
 }
 
 Future<void> _installWine() async {
-  if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
   if (Dnf.installed('wine') ||
       Dnf.installed('winehq-stable') ||
@@ -319,9 +280,6 @@ Future<void> _installGearLever() => _installFlatpakApp(
 );
 
 Future<bool> _installLMStudio() async {
-  if (Platform.isMacOS) return _installBrewApp('lm-studio', 'LM Studio');
-  if (!Platform.isLinux) return false;
-
   final home = Platform.environment['HOME'] ?? '~';
   final applicationsDir = Directory('$home/Applications')..createSync();
   final expectedAppimage = File('${applicationsDir.path}/lmstudio.appimage');
@@ -346,21 +304,17 @@ Future<bool> _installApp({
   required String name,
   String? dnf,
   String? flatpak,
-  String? brew,
   List<String>? alternativeFlatpaks,
   List<String>? alternativeBins,
 }) async {
   if (alternativeBins?.any(Which.installed) ?? false) return true;
-  if (Platform.isLinux && dnf != null) {
+  if (dnf != null) {
     if (await _installDnfApp(dnf, name)) return true;
   }
-  if (Platform.isLinux && flatpak != null) {
+  if (flatpak != null) {
     if (await _installFlatpakApp(flatpak, name, alternativeFlatpaks)) {
       return true;
     }
-  }
-  if (Platform.isMacOS && brew != null) {
-    if (await _installBrewApp(brew, name)) return true;
   }
   return false;
 }
@@ -386,16 +340,6 @@ Future<bool> _installDnfApp(String package, String name) async {
   if (!yesOrNo('Install $name?')) return false;
   print('Installing $name...');
   await Dnf.install([package]);
-  print('');
-  return true;
-}
-
-Future<bool> _installBrewApp(String package, String name) async {
-  if (!Brew.hasBrew) return false;
-  if (Brew.installed(package)) return true;
-  if (!yesOrNo('Install $name?')) return false;
-  print('Installing $name...');
-  await Brew.install(package);
   print('');
   return true;
 }

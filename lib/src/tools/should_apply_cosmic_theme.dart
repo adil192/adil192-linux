@@ -4,7 +4,6 @@ import 'dart:io';
 /// and the COSMIC 'apply_theme_global' setting is true.
 final shouldApplyCosmicTheme = _getShouldApplyCosmicTheme();
 bool _getShouldApplyCosmicTheme() {
-  if (!Platform.isLinux) return false;
   if (Platform.environment['XDG_SESSION_DESKTOP']?.toUpperCase() != 'COSMIC') {
     return false;
   }

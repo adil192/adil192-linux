@@ -1,5 +1,7 @@
 #!/usr/bin/env dart
 
+import 'dart:io';
+
 import 'package:adil192_linux/src/tools/run.dart';
 import 'package:adil192_linux/src/tools/should_apply_cosmic_theme.dart';
 import 'package:adil192_linux/src/tools/which.dart';
@@ -14,6 +16,8 @@ import 'package:adil192_linux/src/install_drivers.dart';
 import 'package:adil192_linux/src/thunderbird.dart';
 
 Future<void> main(List<String> args) async {
+  assert(Platform.isLinux);
+
   final parsedArgs = argParser.parse(args);
   if (parsedArgs.flag('help')) {
     print(argParser.usage);

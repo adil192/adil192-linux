@@ -15,8 +15,6 @@ final _desktopDst = File(
 );
 
 Future<void> installFirefoxCacher() async {
-  if (!Platform.isLinux) return;
-
   await _installVmtouch();
 
   if (!_scriptDst.parent.existsSync()) {
@@ -37,8 +35,6 @@ Future<void> installFirefoxCacher() async {
 }
 
 Future<void> uninstallFirefoxCacher() async {
-  if (!Platform.isLinux) return;
-
   if (_scriptDst.existsSync()) {
     _scriptDst.deleteSync();
     print('Deleted ${_scriptDst.path}');

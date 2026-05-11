@@ -7,8 +7,6 @@ import 'package:adil192_linux/src/tools/yes_or_no.dart';
 
 /// Follows https://rpmfusion.org/Howto/Multimedia
 Future<void> installDrivers() async {
-  if (!Platform.isLinux) return;
-
   if (!Dnf.hasDnf) {
     print('DNF is not available, skipping drivers installation.');
     return;
@@ -58,7 +56,6 @@ Future<void> _installAdditionalCodecs() async {
 }
 
 Future<void> _installMesaCopr() async {
-  if (!Platform.isLinux) return;
   if (!Dnf.hasDnf) return;
   final repoFile = File(
     '/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:mesa-rc.repo',

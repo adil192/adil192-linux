@@ -1,8 +1,6 @@
 import 'dart:io';
 
 void installThunderbirdCss() {
-  if (!Platform.isLinux) return;
-
   final profileDir = _findThunderbirdProfileDir();
   final pwd = Platform.environment['PWD'] ?? '.';
 
@@ -19,8 +17,6 @@ void installThunderbirdCss() {
 }
 
 void uninstallThunderbirdCss() {
-  if (!Platform.isLinux) return;
-
   final profileDir = _findThunderbirdProfileDir();
   for (final cssFileName in ['userChrome.css', 'userContent.css']) {
     final dest = _findChromeCssFile(cssFileName, profileDir);

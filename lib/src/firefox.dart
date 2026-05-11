@@ -12,8 +12,6 @@ const _customSettings = {
 };
 
 void installFirefoxCss() {
-  if (!Platform.isLinux) return;
-
   final profileDir = _findFirefoxProfileDir();
   final pwd = Platform.environment['PWD'] ?? '.';
 
@@ -31,8 +29,6 @@ void installFirefoxCss() {
 }
 
 void uninstallFirefoxCss() {
-  if (!Platform.isLinux) return;
-
   final profileDir = _findFirefoxProfileDir();
   for (final cssFileName in ['userChrome.css', 'userContent.css']) {
     final dest = _findChromeCssFile(cssFileName, profileDir);
