@@ -1,10 +1,13 @@
+mod apps;
 mod args;
+mod tools;
 
 use clap::Parser;
 
-use crate::args::Args;
-
 fn main() {
-  let args = Args::parse();
-  println!("{args:?}");
+  let args = args::Args::parse();
+
+  if args.install_apps {
+    apps::install();
+  }
 }
