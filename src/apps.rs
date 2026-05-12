@@ -1,9 +1,12 @@
-use crate::tools::*;
+use crate::tools::{ask, dnf::Dnf, flatpak::Flatpak, is_exe_in_path, run_interactively};
 use std::path::Path;
 
 pub fn install() -> anyhow::Result<()> {
   install_cosmic_copr()?;
   install_firefox()?;
+  install_steam()?;
+  install_discord()?;
+  install_vscode()?;
   Ok(())
 }
 
@@ -23,11 +26,27 @@ fn install_cosmic_copr() -> anyhow::Result<()> {
 }
 
 fn install_firefox() -> anyhow::Result<bool> {
-  install_package(&Package {
-    name: "Firefox",
-    dnf_id: Some("firefox"),
-    ..Package::default()
-  })
+  install_package(&Package::new("Firefox").dnf_id("firefox"))
+}
+
+fn install_steam() -> anyhow::Result<bool> {
+  install_package(&Package::new("Steam").dnf_id("steam"))
+}
+
+fn install_discord() -> anyhow::Result<bool> {
+  install_package(
+    &Package::new("Equibop (Discord client)")
+      .flatpak_id("org.equicord.equibop")
+      .alternative_flatpaks(&["dev.vencord.Vesktop", "com.discordapp.Discord"]),
+  )
+}
+
+fn install_vscode() -> anyhow::Result<bool> {
+  install_package(
+    &Package::new("Visual Studio Code")
+      .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
+      .alternative_exes(&["code"]),
+  )
 }
 
 /// Installs a package if it's not already installed.
@@ -39,19 +58,19 @@ fn install_package(package: &Package) -> anyhow::Result<bool> {
     return Ok(true);
   }
   if let Some(ids) = package.alternative_flatpaks
-    && *flatpak::EXISTS
-    && ids.iter().any(|id| flatpak::installed(id))
+    && Flatpak::exists()
+    && ids.iter().any(|id| Flatpak::is_installed(id))
   {
     return Ok(true);
   }
   if package.dnf_id.is_some() {
-    let result = install_with_dnf(package)?;
+    let result = install_package_with_dnf(package)?;
     if result {
       return Ok(true);
     }
   }
   if package.flatpak_id.is_some() {
-    let result = install_with_flatpak(package)?;
+    let result = install_package_with_flatpak(package)?;
     if result {
       return Ok(true);
     }
@@ -59,42 +78,42 @@ fn install_package(package: &Package) -> anyhow::Result<bool> {
   return Ok(false);
 }
 
-fn install_with_dnf(package: &Package) -> anyhow::Result<bool> {
-  if !*dnf::EXISTS {
+fn install_package_with_dnf(package: &Package) -> anyhow::Result<bool> {
+  if !Dnf::exists() {
     return Ok(false);
   }
   let Some(id) = package.dnf_id else {
     panic!("No DNF package available for {}", package.name);
   };
-  if dnf::installed(id) {
+  if Dnf::is_installed(id) {
     return Ok(true);
   }
   if !ask(&format!("Install {} with dnf?", package.name), true) {
     return Ok(false);
   }
   println!("Installing {} with dnf...", package.name);
-  let result = dnf::install(&[id])?;
+  Dnf::install(&[id])?;
   println!();
-  Ok(result)
+  Ok(true)
 }
 
-fn install_with_flatpak(package: &Package) -> anyhow::Result<bool> {
-  if !*flatpak::EXISTS {
+fn install_package_with_flatpak(package: &Package) -> anyhow::Result<bool> {
+  if !Flatpak::exists() {
     return Ok(false);
   }
   let Some(id) = package.flatpak_id else {
     panic!("No flatpak available for {}", package.name);
   };
-  if flatpak::installed(id) {
+  if Flatpak::is_installed(id) {
     return Ok(true);
   }
   if !ask(&format!("Install {} with flatpak?", package.name), true) {
     return Ok(false);
   }
   println!("Installing {} with flatpak...", package.name);
-  let result = flatpak::install(&[id])?;
+  Flatpak::install(id)?;
   println!();
-  Ok(result)
+  Ok(true)
 }
 
 #[derive(Default)]
@@ -109,4 +128,33 @@ struct Package {
   alternative_exes: Option<&'static [&'static str]>,
   /// If any of these flatpaks are installed, skip installation
   alternative_flatpaks: Option<&'static [&'static str]>,
+}
+
+impl Package {
+  pub fn new(name: &'static str) -> Self {
+    Self {
+      name,
+      ..Package::default()
+    }
+  }
+
+  fn dnf_id(mut self, id: &'static str) -> Self {
+    self.dnf_id = Some(id);
+    self
+  }
+
+  fn flatpak_id(mut self, id: &'static str) -> Self {
+    self.flatpak_id = Some(id);
+    self
+  }
+
+  fn alternative_exes(mut self, exes: &'static [&'static str]) -> Self {
+    self.alternative_exes = Some(exes);
+    self
+  }
+
+  fn alternative_flatpaks(mut self, flatpaks: &'static [&'static str]) -> Self {
+    self.alternative_flatpaks = Some(flatpaks);
+    self
+  }
 }

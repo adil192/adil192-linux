@@ -1,13 +1,45 @@
-use std::sync::LazyLock;
+use std::{
+  collections::HashSet,
+  sync::{Mutex, OnceLock},
+};
 
-use crate::tools::is_exe_in_path;
+use crate::tools::{is_exe_in_path, run_interactively, run_output};
 
-pub static EXISTS: LazyLock<bool> = LazyLock::new(|| is_exe_in_path("dnf"));
+static EXISTS: OnceLock<bool> = OnceLock::new();
 
-pub fn installed(id: &str) -> bool {
-  todo!();
+static INSTALLED_PACKAGES: OnceLock<Mutex<HashSet<String>>> = OnceLock::new();
+fn get_installed_packages() -> &'static Mutex<HashSet<String>> {
+  INSTALLED_PACKAGES.get_or_init(|| {
+    let output = run_output("dnf", &["list", "--installed"]).unwrap();
+
+    let set = output.lines().map(str::to_owned).collect();
+
+    Mutex::new(set)
+  })
 }
 
-pub fn install(ids: &[&str]) -> anyhow::Result<bool> {
-  todo!();
+pub struct Dnf;
+impl Dnf {
+  pub fn exists() -> bool {
+    EXISTS.get_or_init(|| is_exe_in_path("dnf")).to_owned()
+  }
+
+  pub fn is_installed(id: &str) -> bool {
+    let packages = get_installed_packages().lock().unwrap();
+    packages
+      .iter()
+      // could be package.x86_64, package.noarch, etc.
+      .any(|package| package.starts_with(&format!("{id}.")))
+  }
+
+  pub fn install(ids: &[&str]) -> anyhow::Result<()> {
+    let mut args = vec!["dnf", "install"];
+    args.extend(ids);
+    run_interactively("sudo", &args)?;
+
+    let mut packages = get_installed_packages().lock().unwrap();
+    packages.extend(ids.iter().map(|id| format!("{id}.noarch")));
+
+    Ok(())
+  }
 }
