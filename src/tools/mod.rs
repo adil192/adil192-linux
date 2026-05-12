@@ -4,6 +4,7 @@ use std::{
 };
 
 pub mod dnf;
+pub mod dnf_repos;
 pub mod flatpak;
 
 pub fn is_exe_in_path(exe: &str) -> bool {

@@ -1,5 +1,6 @@
 use crate::tools::{
-  ask, dnf::Dnf, flatpak::Flatpak, is_exe_in_path, run_interactively, run_output,
+  ask, dnf::Dnf, dnf_repos::DnfRepos, flatpak::Flatpak, is_exe_in_path, run_interactively,
+  run_output,
 };
 use anyhow::{Ok, Result};
 use regex::Regex;
@@ -7,7 +8,9 @@ use std::{env::var, fs, io::Write, path::Path, process::Command};
 
 pub fn install() -> Result<()> {
   install_package(&Package::new("Firefox").dnf_id("firefox"))?;
-  install_package(&Package::new("Steam").dnf_id("steam"))?;
+  if DnfRepos::add_rpmfusion_repos()? {
+    install_package(&Package::new("Steam").dnf_id("steam"))?;
+  }
   install_package(
     &Package::new("Equibop (Discord client)")
       .flatpak_id("org.equicord.equibop")

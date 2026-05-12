@@ -42,4 +42,12 @@ impl Dnf {
 
     Ok(())
   }
+
+  pub fn update(ids: &[&str]) -> anyhow::Result<()> {
+    let mut args = vec!["dnf", "update"];
+    args.extend(ids);
+    run_interactively("sudo", &args)?;
+
+    Ok(())
+  }
 }
