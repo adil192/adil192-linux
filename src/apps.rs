@@ -1,16 +1,22 @@
-use crate::tools::{ask, dnf::Dnf, flatpak::Flatpak, is_exe_in_path, run_interactively};
-use std::path::Path;
+use crate::tools::{
+  ask, dnf::Dnf, flatpak::Flatpak, is_exe_in_path, run_interactively, run_output,
+};
+use anyhow::{Ok, Result};
+use std::{env::var, fs, path::Path, process::Command};
 
-pub fn install() -> anyhow::Result<()> {
+pub fn install() -> Result<()> {
   install_cosmic_copr()?;
   install_firefox()?;
   install_steam()?;
   install_discord()?;
   install_vscode()?;
+  install_jetbrains_toolbox()?;
+  install_android_emulator_integration()?;
+  install_zed()?;
   Ok(())
 }
 
-fn install_cosmic_copr() -> anyhow::Result<()> {
+fn install_cosmic_copr() -> Result<()> {
   let repo_file =
     Path::new("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:cosmic-epoch.repo");
   if repo_file.exists() {
@@ -26,15 +32,15 @@ fn install_cosmic_copr() -> anyhow::Result<()> {
   Ok(())
 }
 
-fn install_firefox() -> anyhow::Result<bool> {
+fn install_firefox() -> Result<bool> {
   install_package(&Package::new("Firefox").dnf_id("firefox"))
 }
 
-fn install_steam() -> anyhow::Result<bool> {
+fn install_steam() -> Result<bool> {
   install_package(&Package::new("Steam").dnf_id("steam"))
 }
 
-fn install_discord() -> anyhow::Result<bool> {
+fn install_discord() -> Result<bool> {
   install_package(
     &Package::new("Equibop (Discord client)")
       .flatpak_id("org.equicord.equibop")
@@ -42,7 +48,7 @@ fn install_discord() -> anyhow::Result<bool> {
   )
 }
 
-fn install_vscode() -> anyhow::Result<bool> {
+fn install_vscode() -> Result<bool> {
   install_package(
     &Package::new("Visual Studio Code")
       .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
@@ -50,9 +56,101 @@ fn install_vscode() -> anyhow::Result<bool> {
   )
 }
 
+fn install_jetbrains_toolbox() -> Result<bool> {
+  let home = var("HOME").unwrap();
+  let install_dir = Path::new(&home).join(".local/share/JetBrains/Toolbox");
+  let exe = install_dir.join("bin/jetbrains-toolbox");
+
+  if exe.exists() {
+    println!("Skipping 'Jetbrains Toolbox': already installed");
+    return Ok(true);
+  }
+  if !ask("Install Jetbrains Toolbox?", true) {
+    return Ok(false);
+  }
+  println!("Installing Jetbrains Toolbox...");
+
+  let tar_file = Path::new("/tmp/jetbrains-toolbox.tar.gz");
+  let download_url = "https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.4.3.81140.tar.gz";
+  run_interactively("wget", &[download_url, "-O", &tar_file.to_string_lossy()])?;
+  fs::create_dir_all(&install_dir)?;
+  run_interactively(
+    "tar",
+    &[
+      "-xf",
+      &tar_file.to_string_lossy(),
+      "-C",
+      &install_dir.to_string_lossy(),
+      "--strip-components=1",
+    ],
+  )?;
+  fs::remove_file(tar_file)?;
+  run_output("chmod", &["+x", &exe.to_string_lossy()])?;
+
+  // TODO(adil192): Check this continues running after adil192-linux exits
+  Command::new(exe).spawn()?;
+
+  Ok(true)
+}
+
+fn install_android_emulator_integration() -> Result<bool> {
+  let home = var("HOME").unwrap();
+  let desktop_file =
+    Path::new(&home).join(".local/share/applications/com.adilhanney.pixel8.desktop");
+  let icon_file =
+    Path::new(&home).join(".local/share/icons/hicolor/256x256/apps/com.adilhanney.pixel8.png");
+
+  if desktop_file.exists() && icon_file.exists() {
+    println!("Skipping 'Android Emulator integration': already installed");
+    return Ok(true);
+  }
+  if !ask(&format!("Install Android Emulator integration?"), true) {
+    return Ok(false);
+  }
+  println!("Installing Android Emulator integration...");
+
+  fs::create_dir_all(desktop_file.parent().unwrap())?;
+  fs::copy(
+    Path::new("assets/emulator_integration/com.adilhanney.pixel8.desktop"),
+    &desktop_file,
+  )?;
+
+  fs::create_dir_all(icon_file.parent().unwrap())?;
+  fs::copy(
+    "assets/emulator_integration/com.adilhanney.pixel8.png",
+    &icon_file,
+  )?;
+
+  if home != "/home/ahann" {
+    println!("Patching .desktop file to use {home} instead of /home/ahann");
+    let mut content = fs::read_to_string(&desktop_file)?;
+    content = content.replace("/home/ahann", &home);
+    fs::write(&desktop_file, content)?;
+  }
+
+  Ok(true)
+}
+
+fn install_zed() -> Result<bool> {
+  if is_exe_in_path("zed") {
+    println!("Skipping Zed: already on PATH");
+    return Ok(true);
+  }
+  if !ask("Install Zed?", true) {
+    return Ok(false);
+  }
+  println!("Installing Zed...");
+  run_interactively(
+    "wget",
+    &["https://zed.dev/install.sh", "-O", "/tmp/install-zed.sh"],
+  )?;
+  run_interactively("bash", &["/tmp/install-zed.sh"])?;
+  Ok(true)
+}
+
 /// Installs a package if it's not already installed.
 /// Returns true if the package is (newly/already) installed, false if not installed.
-fn install_package(package: &Package) -> anyhow::Result<bool> {
+fn install_package(package: &Package) -> Result<bool> {
   if let Some(exes) = package.alternative_exes
     && exes.iter().any(|exe| is_exe_in_path(exe))
   {
@@ -84,7 +182,7 @@ fn install_package(package: &Package) -> anyhow::Result<bool> {
   return Ok(false);
 }
 
-fn install_package_with_dnf(package: &Package) -> anyhow::Result<bool> {
+fn install_package_with_dnf(package: &Package) -> Result<bool> {
   if !Dnf::exists() {
     return Ok(false);
   }
@@ -107,7 +205,7 @@ fn install_package_with_dnf(package: &Package) -> anyhow::Result<bool> {
   Ok(true)
 }
 
-fn install_package_with_flatpak(package: &Package) -> anyhow::Result<bool> {
+fn install_package_with_flatpak(package: &Package) -> Result<bool> {
   if !Flatpak::exists() {
     return Ok(false);
   }
