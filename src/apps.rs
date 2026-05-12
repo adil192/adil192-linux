@@ -14,6 +14,7 @@ fn install_cosmic_copr() -> anyhow::Result<()> {
   let repo_file =
     Path::new("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:cosmic-epoch.repo");
   if repo_file.exists() {
+    println!("Skipping 'adil192/cosmic-epoch' copr: already enabled");
     return Ok(());
   }
   if !ask("Install my repo for faster COSMIC updates?", true) {
@@ -55,12 +56,17 @@ fn install_package(package: &Package) -> anyhow::Result<bool> {
   if let Some(exes) = package.alternative_exes
     && exes.iter().any(|exe| is_exe_in_path(exe))
   {
+    println!("Skipping '{}' since {exes:?} on PATH", package.name);
     return Ok(true);
   }
   if let Some(ids) = package.alternative_flatpaks
     && Flatpak::exists()
     && ids.iter().any(|id| Flatpak::is_installed(id))
   {
+    println!(
+      "Skipping '{}' since {ids:?} flatpak already installed",
+      package.name
+    );
     return Ok(true);
   }
   if package.dnf_id.is_some() {
@@ -86,6 +92,10 @@ fn install_package_with_dnf(package: &Package) -> anyhow::Result<bool> {
     panic!("No DNF package available for {}", package.name);
   };
   if Dnf::is_installed(id) {
+    println!(
+      "Skipping '{}' since it's already installed with dnf",
+      package.name
+    );
     return Ok(true);
   }
   if !ask(&format!("Install {} with dnf?", package.name), true) {
@@ -105,6 +115,10 @@ fn install_package_with_flatpak(package: &Package) -> anyhow::Result<bool> {
     panic!("No flatpak available for {}", package.name);
   };
   if Flatpak::is_installed(id) {
+    println!(
+      "Skipping '{}' since it's already installed with flatpak",
+      package.name
+    );
     return Ok(true);
   }
   if !ask(&format!("Install {} with flatpak?", package.name), true) {
