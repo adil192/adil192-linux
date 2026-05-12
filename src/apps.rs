@@ -2,17 +2,52 @@ use crate::tools::{
   ask, dnf::Dnf, flatpak::Flatpak, is_exe_in_path, run_interactively, run_output,
 };
 use anyhow::{Ok, Result};
-use std::{env::var, fs, path::Path, process::Command};
+use regex::Regex;
+use std::{env::var, fs, io::Write, path::Path, process::Command};
 
 pub fn install() -> Result<()> {
+  install_package(&Package::new("Firefox").dnf_id("firefox"))?;
+  install_package(&Package::new("Steam").dnf_id("steam"))?;
+  install_package(
+    &Package::new("Equibop (Discord client)")
+      .flatpak_id("org.equicord.equibop")
+      .alternative_flatpaks(&["dev.vencord.Vesktop", "com.discordapp.Discord"]),
+  )?;
+  install_package(
+    &Package::new("Visual Studio Code")
+      .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
+      .alternative_exes(&["code"]),
+  )?;
+  install_package(
+    &Package::new("Spotify")
+      .flatpak_id("com.spotify.Client")
+      .alternative_exes(&["spotify"]),
+  )?;
+  install_package(&Package::new("Ricochlime").flatpak_id("com.adilhanney.ricochlime"))?;
+  install_package(&Package::new("Saber").flatpak_id("com.adilhanney.saber"))?;
+  install_package(&Package::new("Prism Launcher").flatpak_id("org.prismlauncher.PrismLauncher"))?;
+  install_package(
+    &Package::new("Wine")
+      .dnf_id("wine")
+      .alternative_exes(&["wine"]),
+  )?;
+  install_package(
+    &Package::new("Gear Lever (AppImage integration").flatpak_id("it.mijorus.gearlever"),
+  )?;
+
   install_cosmic_copr()?;
-  install_firefox()?;
-  install_steam()?;
-  install_discord()?;
-  install_vscode()?;
   install_jetbrains_toolbox()?;
   install_android_emulator_integration()?;
   install_zed()?;
+  install_git_credential_manager()?;
+  install_github_desktop_plus()?;
+  install_qt_breeze_theme()?;
+  if install_package(&Package::new("VLC").dnf_id("vlc"))? {
+    install_upscaled_vlc()?;
+  }
+  install_chromium()?;
+  install_lm_studio()?;
+
   Ok(())
 }
 
@@ -32,37 +67,13 @@ fn install_cosmic_copr() -> Result<()> {
   Ok(())
 }
 
-fn install_firefox() -> Result<bool> {
-  install_package(&Package::new("Firefox").dnf_id("firefox"))
-}
-
-fn install_steam() -> Result<bool> {
-  install_package(&Package::new("Steam").dnf_id("steam"))
-}
-
-fn install_discord() -> Result<bool> {
-  install_package(
-    &Package::new("Equibop (Discord client)")
-      .flatpak_id("org.equicord.equibop")
-      .alternative_flatpaks(&["dev.vencord.Vesktop", "com.discordapp.Discord"]),
-  )
-}
-
-fn install_vscode() -> Result<bool> {
-  install_package(
-    &Package::new("Visual Studio Code")
-      .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
-      .alternative_exes(&["code"]),
-  )
-}
-
 fn install_jetbrains_toolbox() -> Result<bool> {
-  let home = var("HOME").unwrap();
+  let home = var("HOME")?;
   let install_dir = Path::new(&home).join(".local/share/JetBrains/Toolbox");
   let exe = install_dir.join("bin/jetbrains-toolbox");
 
   if exe.exists() {
-    println!("Skipping 'Jetbrains Toolbox': already installed");
+    println!("Skipping Jetbrains Toolbox: already installed");
     return Ok(true);
   }
   if !ask("Install Jetbrains Toolbox?", true) {
@@ -94,14 +105,14 @@ fn install_jetbrains_toolbox() -> Result<bool> {
 }
 
 fn install_android_emulator_integration() -> Result<bool> {
-  let home = var("HOME").unwrap();
+  let home = var("HOME")?;
   let desktop_file =
     Path::new(&home).join(".local/share/applications/com.adilhanney.pixel8.desktop");
   let icon_file =
     Path::new(&home).join(".local/share/icons/hicolor/256x256/apps/com.adilhanney.pixel8.png");
 
   if desktop_file.exists() && icon_file.exists() {
-    println!("Skipping 'Android Emulator integration': already installed");
+    println!("Skipping Android Emulator integration: already installed");
     return Ok(true);
   }
   if !ask(&format!("Install Android Emulator integration?"), true) {
@@ -148,23 +159,188 @@ fn install_zed() -> Result<bool> {
   Ok(true)
 }
 
+fn install_git_credential_manager() -> Result<bool> {
+  if is_exe_in_path("git-credential-manager") {
+    println!("Skipping Git Credential Manager: already on PATH");
+    return Ok(true);
+  }
+  if !ask("Install Git Credential Manager?", true) {
+    return Ok(false);
+  }
+  println!("Installing Git Credential Manager...");
+
+  let releases: serde_json::Value = reqwest::blocking::get(
+    "https://api.github.com/repos/git-ecosystem/git-credential-manager/releases/latest",
+  )?
+  .json()?;
+
+  let asset_name_regex = Regex::new(r"^gcm-linux-x64-[0-9.]+\.tar\.gz$")?;
+  let download_url = releases["assets"]
+    .as_array()
+    .unwrap()
+    .iter()
+    .find_map(|asset| {
+      let name = asset["name"].as_str().unwrap();
+      if asset_name_regex.is_match(name) {
+        Some(asset["browser_download_url"].as_str().unwrap())
+      } else {
+        None
+      }
+    })
+    .unwrap();
+
+  let tmp_file = "/tmp/gcm-linux-x64.tar.gz";
+  run_interactively("wget", &[download_url, "-O", tmp_file])?;
+  run_interactively("sudo", &["tar", "-xvf", tmp_file, "-C", "/usr/local/bin"])?;
+  fs::remove_file(tmp_file)?;
+  run_interactively("/usr/local/bin/git-credential-manager", &["configure"])?;
+  Ok(true)
+}
+
+fn install_github_desktop_plus() -> Result<bool> {
+  if is_exe_in_path("github-desktop-plus") || is_exe_in_path("github-desktop") {
+    println!("Skipping GitHub Desktop Plus: already installed");
+    return Ok(true);
+  }
+  if !Dnf::exists() {
+    println!("Skipping GitHub Desktop Plus: no dnf found!");
+    return Ok(false);
+  }
+  if !ask("Install GitHub Desktop Plus?", true) {
+    return Ok(false);
+  }
+  println!("Installing GitHub Desktop Plus...");
+
+  run_interactively(
+    "sudo",
+    &["rpm", "--import", "https://gpg.polrivero.com/public.key"],
+  )?;
+  run_interactively(
+    "bash",
+    &[
+      "-c",
+      "echo -e '[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key' | sudo tee /etc/yum.repos.d/github-desktop-plus.repo",
+    ],
+  )?;
+  Dnf::install(&["github-desktop-plus"])?;
+  println!();
+  Ok(true)
+}
+
+fn install_qt_breeze_theme() -> Result<bool> {
+  if !Dnf::exists() {
+    println!("Skipping Qt Breeze theme: no dnf found!");
+    return Ok(false);
+  }
+  if Dnf::is_installed("plasma-breeze") {
+    println!("Skipping Qt Breeze theme: already installed");
+    return Ok(true);
+  }
+  if !ask("Install Qt Breeze theme?", true) {
+    return Ok(false);
+  }
+  println!("Installing Qt Breeze theme...");
+  Dnf::install(&["plasma-breeze", "breeze-icon-theme", "qt5ct", "qt6ct"])?;
+  println!();
+  Ok(true)
+}
+
+fn install_upscaled_vlc() -> Result<bool> {
+  if is_exe_in_path("upscaled_vlc.sh") {
+    println!("Skipping Upscaled VLC: already installed");
+    return Ok(true);
+  }
+  let repo = "https://github.com/adil192/upscaled_vlc";
+  if !ask(&format!("Install Upscaled VLC ({repo})?"), true) {
+    return Ok(false);
+  }
+  println!("Installing Upscaled VLC...");
+
+  let url = "https://raw.githubusercontent.com/adil192/upscaled_vlc/main/install.sh";
+  let tmp_file = "/tmp/install_upscaled_vlc.sh";
+  run_interactively("wget", &[url, "-O", tmp_file])?;
+  run_interactively("bash", &[tmp_file])?;
+  fs::remove_file(tmp_file)?;
+  Ok(true)
+}
+
+fn install_chromium() -> Result<bool> {
+  let installed = install_package(
+    &Package::new("Chromium")
+      .flatpak_id("org.chromium.Chromium")
+      .alternative_flatpaks(&["com.google.Chrome"])
+      .alternative_exes(&["chromium", "google-chrome", "chrome"]),
+  )?;
+  if !installed {
+    return Ok(installed);
+  }
+
+  // Set CHROME_EXECUTABLE so Flutter can find the flatpak
+  let chrome_executable = var("CHROME_EXECUTABLE").unwrap_or_default();
+  if !chrome_executable.is_empty() {
+    return Ok(true);
+  }
+  let home = var("HOME")?;
+  let mut bashrc = fs::OpenOptions::new()
+    .append(true)
+    .open(format!("{home}/.bashrc"))
+    .unwrap();
+  writeln!(
+    bashrc,
+    "export CHROME_EXECUTABLE=\"{home}/.local/share/flatpak/app/org.chromium.Chromium/x86_64/stable/active/export/bin/org.chromium.Chromium\""
+  )?;
+  Ok(true)
+}
+
+fn install_lm_studio() -> Result<bool> {
+  let home = var("HOME")?;
+  let applications_dir = Path::new(&home).join("Applications");
+  fs::create_dir_all(&applications_dir)?;
+
+  let target = applications_dir.join("lmstudio.appimage");
+  if target.exists() {
+    println!("Skipping LM Studio: already installed");
+    return Ok(true);
+  }
+  let name_regex = Regex::new(r"[Ll][Mm]-?[Ss]tudio.*\.[Aa]pp[Ii]mage")?;
+  if fs::read_dir(&applications_dir)?
+    .any(|entry| entry.is_ok_and(|entry| name_regex.is_match(&entry.file_name().to_string_lossy())))
+  {
+    println!("Skipping LM Studio: already installed");
+    return Ok(true);
+  }
+
+  if !ask("Install LM Studio?", true) {
+    return Ok(false);
+  }
+  println!("Installing LM Studio...");
+
+  run_interactively(
+    "wget",
+    &[
+      "-O",
+      &target.to_string_lossy(),
+      "https://lmstudio.ai/download/latest/linux/x64",
+    ],
+  )?;
+  Ok(true)
+}
+
 /// Installs a package if it's not already installed.
 /// Returns true if the package is (newly/already) installed, false if not installed.
 fn install_package(package: &Package) -> Result<bool> {
+  let name = package.name;
   if let Some(exes) = package.alternative_exes
     && exes.iter().any(|exe| is_exe_in_path(exe))
   {
-    println!("Skipping '{}' since {exes:?} on PATH", package.name);
+    println!("Skipping {name}: {exes:?} on PATH");
     return Ok(true);
   }
   if let Some(ids) = package.alternative_flatpaks
     && Flatpak::exists()
     && ids.iter().any(|id| Flatpak::is_installed(id))
   {
-    println!(
-      "Skipping '{}' since {ids:?} flatpak already installed",
-      package.name
-    );
+    println!("Skipping {name}: {ids:?} flatpak already installed");
     return Ok(true);
   }
   if package.dnf_id.is_some() {
@@ -186,20 +362,18 @@ fn install_package_with_dnf(package: &Package) -> Result<bool> {
   if !Dnf::exists() {
     return Ok(false);
   }
+  let name = package.name;
   let Some(id) = package.dnf_id else {
-    panic!("No DNF package available for {}", package.name);
+    panic!("No DNF package available for {name}");
   };
   if Dnf::is_installed(id) {
-    println!(
-      "Skipping '{}' since it's already installed with dnf",
-      package.name
-    );
+    println!("Skipping {name}: already installed with dnf");
     return Ok(true);
   }
-  if !ask(&format!("Install {} with dnf?", package.name), true) {
+  if !ask(&format!("Install {name} with dnf?"), true) {
     return Ok(false);
   }
-  println!("Installing {} with dnf...", package.name);
+  println!("Installing {name} with dnf...");
   Dnf::install(&[id])?;
   println!();
   Ok(true)
@@ -209,20 +383,18 @@ fn install_package_with_flatpak(package: &Package) -> Result<bool> {
   if !Flatpak::exists() {
     return Ok(false);
   }
+  let name = package.name;
   let Some(id) = package.flatpak_id else {
-    panic!("No flatpak available for {}", package.name);
+    panic!("No flatpak available for {name}");
   };
   if Flatpak::is_installed(id) {
-    println!(
-      "Skipping '{}' since it's already installed with flatpak",
-      package.name
-    );
+    println!("Skipping {name}: already installed with flatpak");
     return Ok(true);
   }
-  if !ask(&format!("Install {} with flatpak?", package.name), true) {
+  if !ask(&format!("Install {name} with flatpak?"), true) {
     return Ok(false);
   }
-  println!("Installing {} with flatpak...", package.name);
+  println!("Installing {name} with flatpak...");
   Flatpak::install(id)?;
   println!();
   Ok(true)
