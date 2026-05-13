@@ -1,8 +1,10 @@
-use std::{env::var, fs};
+use std::env::var;
+use std::fs;
 
 use anyhow::Result;
 
-use crate::tools::{ask, dnf::Dnf, run_interactively};
+use crate::tools::dnf::Dnf;
+use crate::tools::{ask, run_interactively};
 
 pub struct FirefoxCacher;
 impl FirefoxCacher {

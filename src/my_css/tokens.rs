@@ -1,13 +1,10 @@
-use std::{env::var, fs};
+use std::env::var;
+use std::fs;
 
 use anyhow::Result;
-use cosmic::{
-  cosmic_config::{Config, CosmicConfigEntry},
-  cosmic_theme::{
-    Theme,
-    palette::{self, rgb::Rgba},
-  },
-};
+use cosmic::cosmic_config::{Config, CosmicConfigEntry};
+use cosmic::cosmic_theme::palette::rgb::Rgba;
+use cosmic::cosmic_theme::{Theme, palette};
 use regex::Regex;
 
 use crate::my_css::MyCss;
@@ -81,7 +78,7 @@ fn get_theme(config: Config) -> Theme {
 }
 fn get_theme_css_vars(theme: Theme) -> [(String, Rgba); 6] {
   let background = theme.background(false);
-  return [
+  [
     // TODO(adil192): Can we use blurred background with Firefox?
     ("--cosmic-background-base".to_owned(), background.base),
     ("--cosmic-background-on".to_owned(), background.on),
@@ -92,11 +89,11 @@ fn get_theme_css_vars(theme: Theme) -> [(String, Rgba); 6] {
     ("--cosmic-component-on".to_owned(), background.component.on),
     ("--cosmic-button-base".to_owned(), theme.button.base),
     ("--cosmic-button-on".to_owned(), theme.button.on),
-  ];
+  ]
 }
 fn to_css_hex(c: &Rgba) -> String {
   let c_u8: Rgba<palette::encoding::Srgb, u8> = c.into_format();
-  if c_u8.alpha >= 255 {
+  if c_u8.alpha == u8::MAX {
     format!("#{:02x}{:02x}{:02x}", c_u8.red, c_u8.green, c_u8.blue)
   } else {
     format!(

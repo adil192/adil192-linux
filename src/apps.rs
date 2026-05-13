@@ -1,10 +1,14 @@
-use crate::tools::{
-  ask, dnf::Dnf, dnf_repos::DnfRepos, flatpak::Flatpak, is_exe_in_path, run_interactively,
-  run_output,
-};
+use crate::tools::dnf::Dnf;
+use crate::tools::dnf_repos::DnfRepos;
+use crate::tools::flatpak::Flatpak;
+use crate::tools::{ask, is_exe_in_path, run_interactively, run_output};
 use anyhow::{Ok, Result};
 use regex::Regex;
-use std::{env::var, fs, io::Write, path::Path, process::Command};
+use std::env::var;
+use std::fs;
+use std::io::Write;
+use std::path::Path;
+use std::process::Command;
 
 pub struct MyApps;
 impl MyApps {
@@ -121,7 +125,7 @@ fn install_android_emulator_integration() -> Result<bool> {
     println!("Skipping Android Emulator integration: already installed");
     return Ok(true);
   }
-  if !ask(&format!("Install Android Emulator integration?"), true) {
+  if !ask("Install Android Emulator integration?", true) {
     return Ok(false);
   }
   println!("Installing Android Emulator integration...");
@@ -361,7 +365,7 @@ fn install_package(package: &Package) -> Result<bool> {
       return Ok(true);
     }
   }
-  return Ok(false);
+  Ok(false)
 }
 
 fn install_package_with_dnf(package: &Package) -> Result<bool> {

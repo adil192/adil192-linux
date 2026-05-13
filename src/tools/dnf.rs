@@ -1,7 +1,5 @@
-use std::{
-  collections::HashSet,
-  sync::{Mutex, OnceLock},
-};
+use std::collections::HashSet;
+use std::sync::{Mutex, OnceLock};
 
 use crate::tools::{is_exe_in_path, run_interactively, run_output};
 

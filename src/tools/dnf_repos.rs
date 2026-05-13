@@ -1,9 +1,8 @@
-use std::{
-  collections::HashSet,
-  sync::{Mutex, OnceLock},
-};
+use std::collections::HashSet;
+use std::sync::{Mutex, OnceLock};
 
-use crate::tools::{ask, dnf::Dnf, run_output};
+use crate::tools::dnf::Dnf;
+use crate::tools::{ask, run_output};
 
 static REPOS: OnceLock<Mutex<HashSet<String>>> = OnceLock::new();
 fn get_repos() -> &'static Mutex<HashSet<String>> {

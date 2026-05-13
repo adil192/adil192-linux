@@ -4,7 +4,10 @@ mod firefox_cacher;
 mod my_css;
 mod tools;
 
-use crate::{apps::MyApps, drivers::MyDrivers, firefox_cacher::FirefoxCacher, my_css::MyCss};
+use crate::apps::MyApps;
+use crate::drivers::MyDrivers;
+use crate::firefox_cacher::FirefoxCacher;
+use crate::my_css::MyCss;
 
 fn main() -> anyhow::Result<()> {
   MyDrivers::install()?;

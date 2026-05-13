@@ -1,10 +1,13 @@
-use std::{collections::HashSet, env::var, path::Path};
+use std::collections::HashSet;
+use std::env::var;
+use std::path::Path;
 
 use anyhow::Result;
 
-use crate::tools::{
-  ask, device::Device, dnf::Dnf, dnf_repos::DnfRepos, run_interactively, run_output,
-};
+use crate::tools::device::Device;
+use crate::tools::dnf::Dnf;
+use crate::tools::dnf_repos::DnfRepos;
+use crate::tools::{ask, run_interactively, run_output};
 
 pub struct MyDrivers;
 impl MyDrivers {
@@ -224,6 +227,6 @@ fn install_broadcom_fingerprint_drivers() -> Result<bool> {
     &["dnf", "copr", "enable", "grahamwhiteuk/libfprint-tod"],
   )?;
   Dnf::swap(&["libfprint", "libfprint-tod"])?;
-  Dnf::install(&[&driver])?;
+  Dnf::install(&[driver])?;
   Ok(true)
 }

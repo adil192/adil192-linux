@@ -1,7 +1,5 @@
-use std::{
-  io::{Write, stdin, stdout},
-  process::Command,
-};
+use std::io::{Write, stdin, stdout};
+use std::process::Command;
 
 pub mod device;
 pub mod dnf;

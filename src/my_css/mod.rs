@@ -6,7 +6,8 @@ use std::env::var;
 
 use anyhow::Result;
 use cached::proc_macro::once;
-use cosmic::{config::CosmicTk, cosmic_config::CosmicConfigEntry};
+use cosmic::config::CosmicTk;
+use cosmic::cosmic_config::CosmicConfigEntry;
 
 pub struct MyCss;
 impl MyCss {
