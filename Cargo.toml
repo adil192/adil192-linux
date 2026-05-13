@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.102"
 cached = { version = "0.59.0", features = ["proc_macro"] }
+libcosmic = { git = "https://github.com/pop-os/libcosmic", branch = "theme-v2", default-features = false }
 regex = "1.12.3"
 reqwest = { version = "0.13.3", features = ["blocking", "json"] }
 serde_json = "1.0.149"
