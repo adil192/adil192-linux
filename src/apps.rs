@@ -6,52 +6,55 @@ use anyhow::{Ok, Result};
 use regex::Regex;
 use std::{env::var, fs, io::Write, path::Path, process::Command};
 
-pub fn install() -> Result<()> {
-  install_package(&Package::new("Firefox").dnf_id("firefox"))?;
-  if DnfRepos::add_rpmfusion_repos()? {
-    install_package(&Package::new("Steam").dnf_id("steam"))?;
-  }
-  install_package(
-    &Package::new("Equibop (Discord client)")
-      .flatpak_id("org.equicord.equibop")
-      .alternative_flatpaks(&["dev.vencord.Vesktop", "com.discordapp.Discord"]),
-  )?;
-  install_package(
-    &Package::new("Visual Studio Code")
-      .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
-      .alternative_exes(&["code"]),
-  )?;
-  install_package(
-    &Package::new("Spotify")
-      .flatpak_id("com.spotify.Client")
-      .alternative_exes(&["spotify"]),
-  )?;
-  install_package(&Package::new("Ricochlime").flatpak_id("com.adilhanney.ricochlime"))?;
-  install_package(&Package::new("Saber").flatpak_id("com.adilhanney.saber"))?;
-  install_package(&Package::new("Prism Launcher").flatpak_id("org.prismlauncher.PrismLauncher"))?;
-  install_package(
-    &Package::new("Wine")
-      .dnf_id("wine")
-      .alternative_exes(&["wine"]),
-  )?;
-  install_package(
-    &Package::new("Gear Lever (AppImage integration").flatpak_id("it.mijorus.gearlever"),
-  )?;
+pub struct MyApps;
+impl MyApps {
+  pub fn install() -> Result<()> {
+    install_package(&Package::new("Firefox").dnf_id("firefox"))?;
+    if DnfRepos::add_rpmfusion_repos()? {
+      install_package(&Package::new("Steam").dnf_id("steam"))?;
+    }
+    install_package(
+      &Package::new("Equibop (Discord client)")
+        .flatpak_id("org.equicord.equibop")
+        .alternative_flatpaks(&["dev.vencord.Vesktop", "com.discordapp.Discord"]),
+    )?;
+    install_package(
+      &Package::new("Visual Studio Code")
+        .dnf_id("https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64")
+        .alternative_exes(&["code"]),
+    )?;
+    install_package(
+      &Package::new("Spotify")
+        .flatpak_id("com.spotify.Client")
+        .alternative_exes(&["spotify"]),
+    )?;
+    install_package(&Package::new("Ricochlime").flatpak_id("com.adilhanney.ricochlime"))?;
+    install_package(&Package::new("Saber").flatpak_id("com.adilhanney.saber"))?;
+    install_package(&Package::new("Prism Launcher").flatpak_id("org.prismlauncher.PrismLauncher"))?;
+    install_package(
+      &Package::new("Wine")
+        .dnf_id("wine")
+        .alternative_exes(&["wine"]),
+    )?;
+    install_package(
+      &Package::new("Gear Lever (AppImage integration").flatpak_id("it.mijorus.gearlever"),
+    )?;
 
-  add_cosmic_copr()?;
-  install_jetbrains_toolbox()?;
-  install_android_emulator_integration()?;
-  install_zed()?;
-  install_git_credential_manager()?;
-  install_github_desktop_plus()?;
-  install_qt_breeze_theme()?;
-  if install_package(&Package::new("VLC").dnf_id("vlc"))? {
-    install_upscaled_vlc()?;
-  }
-  install_chromium()?;
-  install_lm_studio()?;
+    add_cosmic_copr()?;
+    install_jetbrains_toolbox()?;
+    install_android_emulator_integration()?;
+    install_zed()?;
+    install_git_credential_manager()?;
+    install_github_desktop_plus()?;
+    install_qt_breeze_theme()?;
+    if install_package(&Package::new("VLC").dnf_id("vlc"))? {
+      install_upscaled_vlc()?;
+    }
+    install_chromium()?;
+    install_lm_studio()?;
 
-  Ok(())
+    Ok(())
+  }
 }
 
 fn add_cosmic_copr() -> Result<()> {

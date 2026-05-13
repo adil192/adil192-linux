@@ -5,14 +5,16 @@ mod tools;
 
 use clap::Parser;
 
+use crate::{apps::MyApps, drivers::MyDrivers};
+
 fn main() -> anyhow::Result<()> {
   let args = args::Args::parse();
 
   if args.install_drivers {
-    drivers::install()?;
+    MyDrivers::install()?;
   }
   if args.install_apps {
-    apps::install()?;
+    MyApps::install()?;
   }
 
   Ok(())

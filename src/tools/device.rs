@@ -22,6 +22,7 @@ fn get_cpu_info() -> String {
 
 pub struct Device;
 impl Device {
+  #[allow(unused)]
   pub fn has_amd_cpu() -> bool {
     get_cpu_info().contains("amd")
   }

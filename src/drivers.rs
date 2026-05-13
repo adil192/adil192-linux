@@ -6,40 +6,43 @@ use crate::tools::{
   ask, device::Device, dnf::Dnf, dnf_repos::DnfRepos, run_interactively, run_output,
 };
 
-/// Loosely based on https://rpmfusion.org/Howto/Multimedia
-pub fn install() -> Result<()> {
-  if !Dnf::exists() {
-    println!("DNF is not available, skipping drivers installation.");
-    return Ok(());
+pub struct MyDrivers;
+impl MyDrivers {
+  /// Loosely based on https://rpmfusion.org/Howto/Multimedia
+  pub fn install() -> Result<()> {
+    if !Dnf::exists() {
+      println!("DNF is not available, skipping drivers installation.");
+      return Ok(());
+    }
+
+    DnfRepos::add_rpmfusion_repos()?;
+    DnfRepos::add_terra_repos()?;
+    DnfRepos::add_ultramarine_repos()?;
+
+    install_full_ffmpeg()?;
+    install_gstreamer_plugins()?;
+    add_mesa_copr()?;
+
+    if Device::has_intel_gpu() {
+      install_intel_gpu_drivers()?;
+    }
+    if Device::has_intel_cpu() {
+      install_intel_webcam_drivers()?;
+      install_intel_battery_optimizer()?;
+    }
+
+    if Device::has_amd_gpu() {
+      install_rocm()?;
+    }
+
+    if Device::has_nvidia_gpu() {
+      install_nvidia_gpu_drivers()?;
+    }
+
+    install_broadcom_fingerprint_drivers()?;
+
+    Ok(())
   }
-
-  DnfRepos::add_rpmfusion_repos()?;
-  DnfRepos::add_terra_repos()?;
-  DnfRepos::add_ultramarine_repos()?;
-
-  install_full_ffmpeg()?;
-  install_gstreamer_plugins()?;
-  add_mesa_copr()?;
-
-  if Device::has_intel_gpu() {
-    install_intel_gpu_drivers()?;
-  }
-  if Device::has_intel_cpu() {
-    install_intel_webcam_drivers()?;
-    install_intel_battery_optimizer()?;
-  }
-
-  if Device::has_amd_gpu() {
-    install_rocm()?;
-  }
-
-  if Device::has_nvidia_gpu() {
-    install_nvidia_gpu_drivers()?;
-  }
-
-  install_broadcom_fingerprint_drivers()?;
-
-  Ok(())
 }
 
 fn install_full_ffmpeg() -> Result<bool> {
