@@ -17,8 +17,8 @@ impl MyCss {
     let pwd = var("PWD")?;
     let generated_regex =
       Regex::new(r"/\* START OF GENERATED CODE [\S\s]* END OF GENERATED CODE \*/")?;
-    for css_file_name in ["userChrome.css", "userContent.css"] {
-      let dst = format!("{pwd}/assets/firefox-css/{css_file_name}");
+    for subpath in ["chrome/userChrome.css", "chrome/userContent.css"] {
+      let dst = format!("{pwd}/assets/firefox-css/{subpath}");
       let old_content = fs::read_to_string(&dst)?;
       let new_content = generated_regex
         .replace_all(
