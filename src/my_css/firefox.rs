@@ -6,7 +6,6 @@ use std::path::{Path, PathBuf};
 use anyhow::{Ok, Result, anyhow, bail};
 
 use crate::my_css::MyCss;
-use crate::tools::ask;
 
 impl MyCss {
   pub fn theme_firefox() -> Result<()> {
@@ -38,8 +37,8 @@ impl Firefox {
   fn default_profile_dir() -> Result<PathBuf> {
     let home = var("HOME")?;
 
-    // Firefox 147 uses the XDG base directories spec,
-    // but existing installs stay in `~/.mozilla/firefox`.
+    // Firefox 147 (Jan 26) uses the XDG base directories spec,
+    // but grandfathered installs stay in `~/.mozilla/firefox`.
     let legacy_profiles_dir = Path::new(&home).join(".mozilla/firefox");
     let xdg_profiles_dir = Path::new(&home).join(".var/app/org.mozilla.firefox/.mozilla/firefox");
     let profiles_dir = if legacy_profiles_dir.exists() {
