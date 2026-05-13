@@ -38,7 +38,7 @@ pub fn install() -> Result<()> {
     &Package::new("Gear Lever (AppImage integration").flatpak_id("it.mijorus.gearlever"),
   )?;
 
-  install_cosmic_copr()?;
+  add_cosmic_copr()?;
   install_jetbrains_toolbox()?;
   install_android_emulator_integration()?;
   install_zed()?;
@@ -54,17 +54,17 @@ pub fn install() -> Result<()> {
   Ok(())
 }
 
-fn install_cosmic_copr() -> Result<()> {
+fn add_cosmic_copr() -> Result<()> {
   let repo_file =
     Path::new("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:cosmic-epoch.repo");
   if repo_file.exists() {
-    println!("Skipping 'adil192/cosmic-epoch' copr: already enabled");
+    println!("Skipping 'adil192/cosmic-epoch' copr: already added");
     return Ok(());
   }
-  if !ask("Install my repo for faster COSMIC updates?", true) {
+  if !ask("Add my repo for faster COSMIC updates?", true) {
     return Ok(());
   }
-  println!("Installing my repo for faster COSMIC updates...");
+  println!("Adding my repo for faster COSMIC updates...");
   run_interactively("sudo", &["dnf", "copr", "enable", "adil192/cosmic-epoch"])?;
   println!("My builds will be installed the next time you run `sudo dnf update`.");
   Ok(())

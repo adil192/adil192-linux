@@ -3,6 +3,7 @@ use std::{
   process::Command,
 };
 
+pub mod device;
 pub mod dnf;
 pub mod dnf_repos;
 pub mod flatpak;

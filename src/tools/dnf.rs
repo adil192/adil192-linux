@@ -50,4 +50,16 @@ impl Dnf {
 
     Ok(())
   }
+
+  pub fn swap(ids: &[&str]) -> anyhow::Result<()> {
+    let mut args = vec!["dnf", "swap"];
+    args.extend(ids);
+    run_interactively("sudo", &args)?;
+
+    let mut packages = get_installed_packages().lock().unwrap();
+    packages.remove(ids[0]);
+    packages.insert(ids[1].to_owned());
+
+    Ok(())
+  }
 }
