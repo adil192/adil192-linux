@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{Result, anyhow, bail};
 
 use crate::my_css::MyCss;
+use crate::tools::ask;
 
 impl MyCss {
   pub fn theme_thunderbird() -> Result<()> {
@@ -30,6 +31,21 @@ impl MyCss {
     }
 
     Ok(())
+  }
+
+  pub fn untheme_thunderbird() -> Result<bool> {
+    if !ask("Uninstall Thunderbird theme?", true) {
+      return Ok(false);
+    }
+    println!("Uninstalling Thunderbird theme...");
+    let profile_dir = Thunderbird::default_profile_dir()?;
+    for subpath in ["chrome/userChrome.css", "chrome/userContent.css"] {
+      let dst = profile_dir.join(subpath);
+      if dst.exists() || dst.is_symlink() {
+        fs::remove_file(&dst)?;
+      }
+    }
+    Ok(true)
   }
 }
 

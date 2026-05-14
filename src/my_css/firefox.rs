@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{Ok, Result, anyhow, bail};
 
 use crate::my_css::MyCss;
+use crate::tools::ask;
 
 impl MyCss {
   pub fn theme_firefox() -> Result<()> {
@@ -29,6 +30,21 @@ impl MyCss {
     }
 
     Ok(())
+  }
+
+  pub fn untheme_firefox() -> Result<bool> {
+    if !ask("Uninstall Firefox theme?", true) {
+      return Ok(false);
+    }
+    println!("Uninstalling Firefox theme...");
+    let profile_dir = Firefox::default_profile_dir()?;
+    for subpath in ["chrome/userChrome.css", "chrome/userContent.css"] {
+      let dst = profile_dir.join(subpath);
+      if dst.exists() || dst.is_symlink() {
+        fs::remove_file(&dst)?;
+      }
+    }
+    Ok(true)
   }
 }
 

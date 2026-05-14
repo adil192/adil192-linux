@@ -26,6 +26,7 @@ impl FirefoxCacher {
     if !ask("Precache Firefox data on boot?", true) {
       return Ok(false);
     }
+    println!("Installing Firefox precacher...");
 
     run_interactively("install", &["-Dm644", &script_src, &script_dst])?;
     run_interactively("install", &["-Dm755", &desktop_src, &desktop_dst])?;
@@ -36,6 +37,23 @@ impl FirefoxCacher {
 
     install_vmtouch()?;
 
+    Ok(true)
+  }
+
+  pub fn uninstall() -> Result<bool> {
+    if !ask("Remove Firefox precacher?", true) {
+      return Ok(false);
+    }
+    println!("Removing Firefox precacher...");
+    let home = var("HOME").unwrap();
+    let script_dst = format!("{home}/.local/bin/cache_firefox.sh");
+    let desktop_dst = format!("{home}/.config/autostart/com.adilhanney.cache_firefox.desktop");
+    if fs::exists(&script_dst)? {
+      fs::remove_file(&script_dst)?;
+    }
+    if fs::exists(&desktop_dst)? {
+      fs::remove_file(&desktop_dst)?;
+    }
     Ok(true)
   }
 }
