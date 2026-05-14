@@ -90,4 +90,4 @@ echo
 echo "All done! Changes will take effect after a reboot/relogin."
 echo
 echo "If you wish to revert back to the stable versions, reinstall the official packages like this:"
-echo "    sudo apt install --reinstall cosmic-app-library cosmic-applets cosmic-comp cosmic-edit cosmic-files cosmic-greeter cosmic-launcher cosmic-osd cosmic-panel cosmic-settings cosmic-store cosmic-term cosmic-workspaces xdg-desktop-portal-cosmic"
+echo "    sudo apt install --reinstall cosmic-app-library cosmic-applets cosmic-comp cosmic-edit cosmic-files cosmic-greeter cosmic-launcher cosmic-osd cosmic-panel cosmic-settings cosmic-settings-daemon cosmic-store cosmic-term cosmic-workspaces xdg-desktop-portal-cosmic"
