@@ -4,6 +4,7 @@ use std::os::unix::fs::symlink;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Ok, Result, anyhow, bail};
+use serde_json::{Value, json};
 
 use crate::my_css::MyCss;
 use crate::tools::ask;
@@ -91,33 +92,38 @@ impl Firefox {
       .map(str::to_owned)
       .collect();
 
-    let mut insert_setting = |key, encoded_value| -> Result<()> {
+    let mut insert_setting = |key: &str, value: &Value| -> Result<()> {
+      let encoded_value = serde_json::to_string(&value)?;
       let new_line = format!("user_pref(\"{key}\", {encoded_value});");
       let prefix = format!("user_pref(\"{key}\",");
       for line in &mut lines {
         if line.starts_with(&prefix) {
           if line != &new_line {
             changes += 1;
+            println!("  {new_line}");
             *line = new_line;
           }
           return Ok(());
         }
       }
       changes += 1;
+      println!("  {new_line}");
       lines.push(new_line);
       Ok(())
     };
+    let settings = json!({
+      // Replace the Fedora start page with a blank page
+      "browser.startup.homepage": "about:newtab",
+      // Enable our userChrome.css
+      "toolkit.legacyUserProfileCustomizations.stylesheets": true,
+    })
+    .as_object()
+    .unwrap()
+    .to_owned();
 
-    // Replace the Fedora start page with a blank page
-    insert_setting(
-      "browser.startup.homepage",
-      serde_json::to_string("about:newtab")?,
-    )?;
-    // Enable our userChrome.css
-    insert_setting(
-      "toolkit.legacyUserProfileCustomizations.stylesheets",
-      serde_json::to_string(&true)?,
-    )?;
+    for (key, value) in settings {
+      insert_setting(&key, &value)?;
+    }
 
     if changes > 0 {
       fs::write(&user_js, lines.join("\n"))?;
