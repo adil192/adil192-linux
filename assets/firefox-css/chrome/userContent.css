@@ -35,110 +35,128 @@
 /* END OF GENERATED CODE */
 
 @-moz-document url-prefix("about:") {
-    :root {
-        /* background of new tab page */
-        --newtab-background-color: var(--cosmic-background-base) !important;
-        /* background of search bar inside new tab page */
-        --newtab-background-color-secondary: var(--cosmic-component-base) !important;
-        --text-color: var(--cosmic-component-on) !important;
-        /* toolbar contains search bar in about:preferences */
-        --toolbar-bgcolor: var(--cosmic-component-base) !important;
-        --background-color-box: var(--cosmic-component-base) !important;
-        --background-color-canvas: var(--cosmic-background-base) !important;
-        --promo-background-color: var(--cosmic-component-base) !important;
-        --table-row-background-color-alternate: var(--cosmic-component-base) !important;
-    }
-    html, body {
-        /* set default (non-important) background if unspecified */
-        background-color: var(--cosmic-background-base);
-        color: var(--cosmic-background-on);
-    }
+  :root {
+    /* background of new tab page */
+    --newtab-background-color: var(--cosmic-background-base) !important;
+    /* background of search bar inside new tab page */
+    --newtab-background-color-secondary: var(
+      --cosmic-component-base
+    ) !important;
+    --text-color: var(--cosmic-component-on) !important;
+    /* toolbar contains search bar in about:preferences */
+    --toolbar-bgcolor: var(--cosmic-component-base) !important;
+    --background-color-box: var(--cosmic-component-base) !important;
+    --background-color-canvas: var(--cosmic-background-base) !important;
+    --promo-background-color: var(--cosmic-component-base) !important;
+    --table-row-background-color-alternate: var(
+      --cosmic-component-base
+    ) !important;
+  }
+  html,
+  body {
+    /* set default (non-important) background if unspecified */
+    background-color: var(--cosmic-background-base);
+    color: var(--cosmic-background-on);
+  }
 }
 
 @-moz-document url-prefix("about:") {
-    :root {
-        --color-white: hsl(90 100% 99.6%) !important;
-        --color-gray-05: hsl(90 14% 97.8%) !important;
-        --color-gray-10: hsl(90 14% 95.9%) !important;
-        --color-gray-20: hsl(90 14% 89.6%) !important;
-        --color-gray-30: hsl(90 14% 83.1%) !important;
-        --color-gray-40: hsl(90 14% 64.9%) !important;
-        --color-gray-50: hsl(90 14% 46.1%) !important;
-        --color-gray-60: hsl(90 14% 33.9%) !important;
-        --color-gray-70: hsl(90 14% 19%) !important;
-        --color-gray-80: hsl(90 14% 9%) !important;
-        --color-gray-90: hsl(90 14% 4.5%) !important;
-        --color-black: hsl(90 100% 0.4%) !important;
-    }
+  :root {
+    --color-white: hsl(90 100% 99.6%) !important;
+    --color-gray-05: hsl(90 14% 97.8%) !important;
+    --color-gray-10: hsl(90 14% 95.9%) !important;
+    --color-gray-20: hsl(90 14% 89.6%) !important;
+    --color-gray-30: hsl(90 14% 83.1%) !important;
+    --color-gray-40: hsl(90 14% 64.9%) !important;
+    --color-gray-50: hsl(90 14% 46.1%) !important;
+    --color-gray-60: hsl(90 14% 33.9%) !important;
+    --color-gray-70: hsl(90 14% 19%) !important;
+    --color-gray-80: hsl(90 14% 9%) !important;
+    --color-gray-90: hsl(90 14% 4.5%) !important;
+    --color-black: hsl(90 100% 0.4%) !important;
+  }
 }
 @-moz-document domain("thunderbird.net") {
+  :root {
+    --gray-05: hsl(90 14% 97.8%) !important;
+    --gray-10: hsl(90 14% 95.9%) !important;
+    --gray-20: hsl(90 14% 89.6%) !important;
+    --gray-30: hsl(90 14% 83.1%) !important;
+    --gray-40: hsl(90 14% 64.9%) !important;
+    --gray-50: hsl(90 14% 46.1%) !important;
+    --gray-60: hsl(90 14% 33.9%) !important;
+    --gray-70: hsl(90 14% 19%) !important;
+    --gray-80: hsl(90 14% 9%) !important;
+    --gray-90: hsl(90 14% 4.5%) !important;
+    --ink-10: hsl(110 47.4% 96.3%) !important;
+    --ink-20: hsl(110 36.6% 92%) !important;
+    --ink-30: hsl(110 31.6% 85.1%) !important;
+    --ink-40: hsl(110 24.2% 68.4%) !important;
+    --ink-50: hsl(110 18.4% 52%) !important;
+    --ink-60: hsl(110 21.6% 40%) !important;
+    --ink-70: hsl(110 26.4% 32%) !important;
+    --ink-80: hsl(110 30.4% 22.5%) !important;
+    --ink-90: hsl(110 40% 15.7%) !important;
+  }
+  [data-channel] {
+    --bg-gradient-hsl-values: 90 97.5% 52%;
+    --bg-gradient2-hsl-values: 130 97.5% 52%;
+    --bg-gradient:
+      linear-gradient(
+        to top right,
+        hsl(var(--bg-gradient-hsl-values) / 0.1) 0%,
+        hsl(var(--bg-gradient-hsl-values) / 0) 33%,
+        hsl(var(--bg-gradient-hsl-values) / 0) 67%,
+        hsl(var(--bg-gradient-hsl-values) / 0.1) 100%
+      ),
+      linear-gradient(
+        to right,
+        hsl(var(--bg-gradient2-hsl-values) / 0.05) 0%,
+        hsl(var(--bg-gradient2-hsl-values) / 0) 30%,
+        hsl(var(--bg-gradient2-hsl-values) / 0.05) 100%
+      ) !important;
+    --text-gradient: linear-gradient(
+      90deg,
+      hsl(90 83.9% 46.3%) 0%,
+      hsl(130 81.3% 55.9%) 100%
+    ) !important;
+    --button-bg: radial-gradient(
+      ellipse at center,
+      hsl(90 97.2% 80% / 0.25) 0%,
+      transparent 70%
+    ) !important;
+  }
+  @media (prefers-color-scheme: dark) {
     :root {
-        --gray-05: hsl(90 14% 97.8%) !important;
-        --gray-10: hsl(90 14% 95.9%) !important;
-        --gray-20: hsl(90 14% 89.6%) !important;
-        --gray-30: hsl(90 14% 83.1%) !important;
-        --gray-40: hsl(90 14% 64.9%) !important;
-        --gray-50: hsl(90 14% 46.1%) !important;
-        --gray-60: hsl(90 14% 33.9%) !important;
-        --gray-70: hsl(90 14% 19%) !important;
-        --gray-80: hsl(90 14% 9%) !important;
-        --gray-90: hsl(90 14% 4.5%) !important;
-        --ink-10: hsl(110 47.4% 96.3%) !important;
-        --ink-20: hsl(110 36.6% 92%) !important;
-        --ink-30: hsl(110 31.6% 85.1%) !important;
-        --ink-40: hsl(110 24.2% 68.4%) !important;
-        --ink-50: hsl(110 18.4% 52%) !important;
-        --ink-60: hsl(110 21.6% 40%) !important;
-        --ink-70: hsl(110 26.4% 32%) !important;
-        --ink-80: hsl(110 30.4% 22.5%) !important;
-        --ink-90: hsl(110 40% 15.7%) !important;
+      --bg: var(--gray-90) !important;
     }
     [data-channel] {
-        --bg-gradient-hsl-values: 90 97.5% 52%;
-        --bg-gradient2-hsl-values: 130 97.5% 52%;
-        --bg-gradient:
-            linear-gradient(
-                to top right,
-                hsl(var(--bg-gradient-hsl-values) / 0.1) 0%,
-                hsl(var(--bg-gradient-hsl-values) / 0) 33%,
-                hsl(var(--bg-gradient-hsl-values) / 0) 67%,
-                hsl(var(--bg-gradient-hsl-values) / 0.1) 100%
-            ),
-            linear-gradient(
-                to right,
-                hsl(var(--bg-gradient2-hsl-values) / 0.05) 0%,
-                hsl(var(--bg-gradient2-hsl-values) / 0) 30%,
-                hsl(var(--bg-gradient2-hsl-values) / 0.05) 100%
-            ) !important;
-        --text-gradient: linear-gradient(90deg, hsl(90 83.9% 46.3%) 0%, hsl(130 81.3% 55.9%) 100%) !important;
-        --button-bg: radial-gradient(ellipse at center, hsl(90 97.2% 80% / 0.25) 0%, transparent 70%) !important;
+      --bg-gradient-hsl-values: 90 97.5% 15.7%;
+      --bg-gradient2-hsl-values: 130 97.5% 15.7%;
+      --button-bg: radial-gradient(
+        ellipse at center,
+        hsl(90 97.2% 15.7% / 0.25) 0%,
+        transparent 70%
+      ) !important;
     }
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --bg: var(--gray-90) !important;
-        }
-        [data-channel] {
-            --bg-gradient-hsl-values: 90 97.5% 15.7%;
-            --bg-gradient2-hsl-values: 130 97.5% 15.7%;
-            --button-bg: radial-gradient(ellipse at center, hsl(90 97.2% 15.7% / 0.25) 0%, transparent 70%) !important;
-        }
-    }
+  }
 }
 @-moz-document domain("developer.mozilla.org") {
-    :root {
-        --color-gray-90: hsl(90 10% 95.9%) !important;
-        --color-gray-80: hsl(90 10% 89.6%) !important;
-        --color-gray-60: hsl(90 10% 64.9%) !important;
-        --color-gray-40: hsl(90 10% 33.9%) !important;
-        --color-gray-20: hsl(90 10% 19%) !important;
-        --color-gray-10: hsl(90 10% 9%) !important;
-        --color-gray-05: hsl(90 10% 4.5%) !important;
-    }
+  :root {
+    --color-gray-90: hsl(90 10% 95.9%) !important;
+    --color-gray-80: hsl(90 10% 89.6%) !important;
+    --color-gray-60: hsl(90 10% 64.9%) !important;
+    --color-gray-40: hsl(90 10% 33.9%) !important;
+    --color-gray-20: hsl(90 10% 19%) !important;
+    --color-gray-10: hsl(90 10% 9%) !important;
+    --color-gray-05: hsl(90 10% 4.5%) !important;
+  }
 }
 
 @-moz-document domain("youtube.com") {
   /* Use youtube's own light/dark mode */
-  html[color-version="v2_0"], [color-version="v2_0"] [light] {
+  html[color-version="v2_0"],
+  [color-version="v2_0"] [light] {
     --cosmic-background-base: var(--cosmic-background-base-light);
     --cosmic-background-on: var(--cosmic-background-on-light);
     --cosmic-component-base: var(--cosmic-component-base-light);
@@ -146,7 +164,8 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
-  html[color-version="v2_0"][dark], [color-version="v2_0"] [dark] {
+  html[color-version="v2_0"][dark],
+  [color-version="v2_0"] [dark] {
     --cosmic-background-base: var(--cosmic-background-base-dark);
     --cosmic-background-on: var(--cosmic-background-on-dark);
     --cosmic-component-base: var(--cosmic-component-base-dark);
@@ -155,19 +174,32 @@
     --cosmic-button-on: var(--cosmic-button-on-dark);
   }
 
-  html, html[color-version="v2_0"] {
-    --yt-spec-frosted-glass-desktop: color(from var(--cosmic-background-base) srgb r g b / 0.8) !important;
+  html,
+  html[color-version="v2_0"] {
+    --yt-spec-frosted-glass-desktop: color(
+      from var(--cosmic-background-base) srgb r g b / 0.8
+    ) !important;
     --yt-spec-base-background: var(--cosmic-background-base) !important;
     --yt-spec-outline: var(--cosmic-component-base) !important;
     --yt-spec-text-primary: var(--cosmic-component-on) !important;
 
-    --yt-sys-color-baseline--base-background: var(--yt-spec-base-background) !important;
-    --yt-sys-color-baseline--text-primary: var(--yt-spec-text-primary) !important;
-    --yt-sys-color-baseline--frosted-glass-desktop: var(--yt-spec-frosted-glass-desktop) !important;
-    --yt-sys-color-baseline--frosted-glass-mobile: var(--yt-spec-frosted-glass-desktop) !important;
+    --yt-sys-color-baseline--base-background: var(
+      --yt-spec-base-background
+    ) !important;
+    --yt-sys-color-baseline--text-primary: var(
+      --yt-spec-text-primary
+    ) !important;
+    --yt-sys-color-baseline--frosted-glass-desktop: var(
+      --yt-spec-frosted-glass-desktop
+    ) !important;
+    --yt-sys-color-baseline--frosted-glass-mobile: var(
+      --yt-spec-frosted-glass-desktop
+    ) !important;
   }
-  html, html[color-version="v2_0"],
-  html[dark], html[light],
+  html,
+  html[color-version="v2_0"],
+  html[dark],
+  html[light],
   body,
   ytd-app,
   #home-container-skeleton,
@@ -235,9 +267,10 @@
     margin: auto;
   }
   ytd-rich-item-renderer[rendered-from-rich-grid] {
-      width: 100% !important;
+    width: 100% !important;
   }
-  ytd-item-section-renderer[lockup-container-type="2"][is-grid-view-enabled] #contents.ytd-item-section-renderer {
+  ytd-item-section-renderer[lockup-container-type="2"][is-grid-view-enabled]
+    #contents.ytd-item-section-renderer {
     /* List view in suggestions instead of grid */
     grid-template-columns: 1fr !important;
   }
@@ -259,15 +292,15 @@
         padding-bottom: 0 !important;
 
         .ytThumbnailViewModelAspectRatio16By9 {
-            padding: 0 !important;
-            aspect-ratio: 16 / 9 !important;
-            width: min(40vw, 40vh) !important;
-            height: auto !important;
+          padding: 0 !important;
+          aspect-ratio: 16 / 9 !important;
+          width: min(40vw, 40vh) !important;
+          height: auto !important;
 
-            .ytThumbnailViewModelImage {
-                position: static !important;
-                transform: none !important;
-            }
+          .ytThumbnailViewModelImage {
+            position: static !important;
+            transform: none !important;
+          }
         }
       }
       .ytLockupViewModelMetadata {
@@ -298,7 +331,8 @@
       .ytLockupMetadataViewModelHost {
         height: 100%;
       }
-      .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
+      .ytLockupMetadataViewModelTextContainer
+        .ytLockupMetadataViewModelHeadingReset {
         flex-grow: 1;
       }
     }
@@ -313,10 +347,18 @@
     --bgColor-disabled: var(--cosmic-component-base) !important;
     --fgColor-default: var(--cosmic-component-on) !important;
     --fgColor-muted: var(--cosmic-inactive-on) !important;
-    --borderColor-default: color(from var(--cosmic-component-on) srgb r g b / 0.3) !important;
+    --borderColor-default: color(
+      from var(--cosmic-component-on) srgb r g b / 0.3
+    ) !important;
     --control-bgColor-rest: var(--cosmic-button-base) !important;
-    --control-bgColor-hover: color-mix(in srgb, var(--cosmic-button-base) 90%, var(--cosmic-button-on)) !important;
-    --buttonCounter-default-bgColor-rest: color(from var(--cosmic-button-on) srgb r g b / 0.1) !important;
+    --control-bgColor-hover: color-mix(
+      in srgb,
+      var(--cosmic-button-base) 90%,
+      var(--cosmic-button-on)
+    ) !important;
+    --buttonCounter-default-bgColor-rest: color(
+      from var(--cosmic-button-on) srgb r g b / 0.1
+    ) !important;
   }
 }
 
@@ -341,12 +383,33 @@
   :root {
     --theme-col-bg-header: var(--cosmic-component-base) !important;
     --theme-col-bg-page: var(--cosmic-background-base) !important;
-    --theme-assist-bg-chat-system: color-mix(in srgb, var(--cosmic-component-base) 80%, #af8) !important;
-    --theme-col-bg-expandcollapse: color-mix(in srgb, var(--cosmic-component-base) 90%, var(--cosmic-component-on)) !important;
+    --theme-assist-bg-chat-system: color-mix(
+      in srgb,
+      var(--cosmic-component-base) 80%,
+      #af8
+    ) !important;
+    --theme-col-bg-expandcollapse: color-mix(
+      in srgb,
+      var(--cosmic-component-base) 90%,
+      var(--cosmic-component-on)
+    ) !important;
     --theme-col-bg-button-secondary: var(--cosmic-button-base) !important;
     --theme-col-txt-button-secondary: var(--cosmic-button-on) !important;
   }
-  html, body, .body--home, .site-wrapper, .region__body, .badge-link, .module--carousel__image-wrapper, .result__image, .vertical--map__sidebar, .vertical--map__sidebar__header, .page-chrome_newtab, .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded, .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded .metabar:not(.is-stuck) {
+  html,
+  body,
+  .body--home,
+  .site-wrapper,
+  .region__body,
+  .badge-link,
+  .module--carousel__image-wrapper,
+  .result__image,
+  .vertical--map__sidebar,
+  .vertical--map__sidebar__header,
+  .page-chrome_newtab,
+  .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded,
+  .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded
+    .metabar:not(.is-stuck) {
     background: var(--cosmic-background-base) !important;
     color: var(--cosmic-component-on) !important;
   }
@@ -367,13 +430,17 @@
 }
 
 @-moz-document domain("pub.dev") {
-  :root, .light-theme, .dark-theme {
+  :root,
+  .light-theme,
+  .dark-theme {
     --pub-color-darkBlack: var(--cosmic-background-base-dark) !important;
     --pub-neutral-bgColor: var(--cosmic-background-base) !important;
     --pub-neutral-textColor: var(--cosmic-component-on) !important;
     --dash-surface-fgColor: var(--cosmic-component-on) !important;
     --pub-inset-bgColor: var(--cosmic-component-base) !important;
-    --pub-site_header_banner-background-color: var(--cosmic-component-base) !important;
+    --pub-site_header_banner-background-color: var(
+      --cosmic-component-base
+    ) !important;
     --pub-site_header_banner-text-color: var(--cosmic-component-on) !important;
     --pub-footer-background-color: var(--cosmic-component-base) !important;
     --pub-footer-text-color: var(--cosmic-component-on) !important;
@@ -409,82 +476,81 @@
 }
 
 @-moz-document domain("aliexpress.com") {
-    :root:not([data-darkreader-scheme="dark"]) {
-      /* Only light mode supported (unless using darkreader) */
-      --cosmic-background-base: var(--cosmic-background-base-light);
-      --cosmic-background-on: var(--cosmic-background-on-light);
-      --cosmic-component-base: var(--cosmic-component-base-light);
-      --cosmic-component-on: var(--cosmic-component-on-light);
-      --cosmic-button-base: var(--cosmic-button-base-light);
-      --cosmic-button-on: var(--cosmic-button-on-light);
-    }
-    body {
-        background-color: var(--cosmic-background-base) !important;
-        color: var(--cosmic-background-on) !important;
-    }
-    #root,
-    #root > div,
-    #root > div > div,
-    main,
-    #main,
-    nav,
-    .common-floor > *
-    {
-        background-color: transparent !important;
-        color: var(--cosmic-background-on) !important;
-    }
-    #_global_header_23_,
-    #_full_container_header_23_,
-    .header-dir-ltr,
-    .header-dir-rtl,
-    .site-footer,
-    .search-card-item,
-    .group-header-container,
-    .cart-header-content,
-    .cart-header-checkbox,
-    .group-top-notice-wrap,
-    .group-title-ctn,
-    .group-container,
-    .cart-summary,
-    .cart-service-wrap > section,
-    .card-out-wrapper > a,
-    [data-spm="superdeal"],
-    [data-spm="3fornn"]
-    {
-        background-color: var(--cosmic-component-base) !important;
-        background-image: none !important;
-        color: var(--cosmic-component-on) !important;
-    }
+  :root:not([data-darkreader-scheme="dark"]) {
+    /* Only light mode supported (unless using darkreader) */
+    --cosmic-background-base: var(--cosmic-background-base-light);
+    --cosmic-background-on: var(--cosmic-background-on-light);
+    --cosmic-component-base: var(--cosmic-component-base-light);
+    --cosmic-component-on: var(--cosmic-component-on-light);
+    --cosmic-button-base: var(--cosmic-button-base-light);
+    --cosmic-button-on: var(--cosmic-button-on-light);
+  }
+  body {
+    background-color: var(--cosmic-background-base) !important;
+    color: var(--cosmic-background-on) !important;
+  }
+  #root,
+  #root > div,
+  #root > div > div,
+  main,
+  #main,
+  nav,
+  .common-floor > * {
+    background-color: transparent !important;
+    color: var(--cosmic-background-on) !important;
+  }
+  #_global_header_23_,
+  #_full_container_header_23_,
+  .header-dir-ltr,
+  .header-dir-rtl,
+  .site-footer,
+  .search-card-item,
+  .group-header-container,
+  .cart-header-content,
+  .cart-header-checkbox,
+  .group-top-notice-wrap,
+  .group-title-ctn,
+  .group-container,
+  .cart-summary,
+  .cart-service-wrap > section,
+  .card-out-wrapper > a,
+  [data-spm="superdeal"],
+  [data-spm="3fornn"] {
+    background-color: var(--cosmic-component-base) !important;
+    background-image: none !important;
+    color: var(--cosmic-component-on) !important;
+  }
 }
 
-@-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476") {
-    html.theme_light {
-      --cosmic-background-base: var(--cosmic-background-base-light);
-      --cosmic-background-on: var(--cosmic-background-on-light);
-      --cosmic-component-base: var(--cosmic-component-base-light);
-      --cosmic-component-on: var(--cosmic-component-on-light);
-      --cosmic-button-base: var(--cosmic-button-base-light);
-      --cosmic-button-on: var(--cosmic-button-on-light);
-    }
-    html.theme_dark {
-      --cosmic-background-base: var(--cosmic-background-base-dark);
-      --cosmic-background-on: var(--cosmic-background-on-dark);
-      --cosmic-component-base: var(--cosmic-component-base-dark);
-      --cosmic-component-on: var(--cosmic-component-on-dark);
-      --cosmic-button-base: var(--cosmic-button-base-dark);
-      --cosmic-button-on: var(--cosmic-button-on-dark);
-    }
-    .tw-bg-background {
-        background-color: var(--cosmic-component-base) !important;
-        color: var(--cosmic-component-on) !important;
-    }
-    .tw-bg-background-alt {
-        background-color: var(--cosmic-background-base) !important;
-        color: var(--cosmic-component-on) !important;
-    }
-    html body,
-    html app-root {
-        background-color: var(--cosmic-background-base) !important;
-        color: var(--cosmic-component-on) !important;
-    }
+@-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476")
+{
+  html.theme_light {
+    --cosmic-background-base: var(--cosmic-background-base-light);
+    --cosmic-background-on: var(--cosmic-background-on-light);
+    --cosmic-component-base: var(--cosmic-component-base-light);
+    --cosmic-component-on: var(--cosmic-component-on-light);
+    --cosmic-button-base: var(--cosmic-button-base-light);
+    --cosmic-button-on: var(--cosmic-button-on-light);
+  }
+  html.theme_dark {
+    --cosmic-background-base: var(--cosmic-background-base-dark);
+    --cosmic-background-on: var(--cosmic-background-on-dark);
+    --cosmic-component-base: var(--cosmic-component-base-dark);
+    --cosmic-component-on: var(--cosmic-component-on-dark);
+    --cosmic-button-base: var(--cosmic-button-base-dark);
+    --cosmic-button-on: var(--cosmic-button-on-dark);
+  }
+  .tw-bg-background {
+    background-color: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
+  .tw-bg-background-alt {
+    background-color: var(--cosmic-background-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
+  html body,
+  html app-root {
+    background-color: var(--cosmic-background-base) !important;
+    color: var(--cosmic-component-on) !important;
+  }
 }
