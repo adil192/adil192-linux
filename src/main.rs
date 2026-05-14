@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 mod apps;
 mod drivers;
 mod firefox_cacher;

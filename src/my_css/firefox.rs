@@ -111,14 +111,70 @@ impl Firefox {
       lines.push(new_line);
       Ok(())
     };
+    // Some of these were chosen with help from
+    // - Arkenfox user.js: https://arkenfox.github.io/gui/
+    // - Make Firefox fast again: https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
     let settings = json!({
-      // Replace the Fedora start page with a blank page
-      "browser.startup.homepage": "about:newtab",
       // Enable our userChrome.css
       "toolkit.legacyUserProfileCustomizations.stylesheets": true,
       // Enable transparency effects
       "browser.tabs.allow_transparent_browser": true,
       "widget.transparent-windows": true,
+      // Disable middle click paste
+      "middlemouse.paste": true,
+      // Replace the Fedora start page with the normal newtab page
+      "browser.startup.homepage": "about:newtab",
+      // Debloat the newtab page
+      "browser.newtabpage.activity-stream.showSponsored": false,
+      "browser.newtabpage.activity-stream.showSponsoredCheckboxes": false,
+      "browser.newtabpage.activity-stream.showSponsoredTopSites": false,
+      "browser.newtabpage.activity-stream.showWeather": false,
+      "browser.newtabpage.activity-stream.system.showSponsored": false,
+      "browser.newtabpage.activity-stream.default.sites": "",
+      // Remove more sponsored content
+      "browser.urlbar.sponsoredTopSites": false,
+      "browser.urlbar.suggest.quicksuggest.sponsored": false,
+      // Telemetry
+      "browser.newtabpage.activity-stream.feeds.telemetry": false,
+      "browser.newtabpage.activity-stream.telemetry": false,
+      "toolkit.telemetry.enabled": false,
+      "toolkit.telemetry.unified": false,
+      "toolkit.telemetry.server": "data:,",
+      "toolkit.telemetry.archive.enabled": false,
+      "toolkit.telemetry.bhrPing.enabled": false,
+      "toolkit.telemetry.newProfilePing.enabled": false,
+      "toolkit.telemetry.shutdownPingSender.enabled": false,
+      "toolkit.telemetry.updatePing.enabled": false,
+      "toolkit.telemetry.bhrPing.enabled": false,
+      "toolkit.telemetry.firstShutdownPing.enabled": false,
+      "toolkit.telemetry.coverage.opt-out": true,
+      // Studies
+      "app.shield.optoutstudies.enabled": false,
+      "app.normandy.enabled": false,
+      "app.normandy.api_url": "",
+      // Crash reports
+      "browser.tabs.crashReporting.sendReport": false,
+      "browser.crashReports.unsubmittedCheck.enabled": false,
+      "browser.crashReports.unsubmittedCheck.autoSubmit2": false,
+      "breakpad.reportURL": "",
+      // Increase cache size for faster page loads
+      "browser.cache.disk.capacity": 8 * 1024 * 1024, // increase disk cache to 8GB from 256MB
+      "browser.cache.frecency_half_life_hours": 12, // reduce cache decay, from 6h
+      "browser.cache.memory.capacity": 2 * 1024 * 1024, // allocate 2GB ram instead of 32MB
+      "browser.cache.memory.max_entry_size": 256 * 1024, // each entry can be 256KB instead of 5KB
+      "browser.cache.disk.metadata_memory_limit": 16 * 1024, // increase metadata to 16KB from 1KB
+      // Increase prefetching
+      "network.dns.disablePrefetch": false,
+      "network.dns.disablePrefetchFromHTTPS": false,
+      "network.prefetch-next": true,
+      "network.dnsCacheEntries": 16 * 1024, // from 1600
+      "network.dnsCacheExpiration": 60 * 60, // cache for 1h instead of 60s
+      "dom.prefetch_dns_for_anchor_http_document": true,
+      "dom.prefetch_dns_for_anchor_https_document": true,
+      "network.early-hints.preconnect.max_connections": 32, // from 10
+      "network.ssl_tokens_cache_capacity": 32 * 1024, // up from 2048
+      "privacy.partition.network_state": false, // share cache between websites
+      "network.http.rcwn.enabled": true, // race cache/network, use whichever is faster
     })
     .as_object()
     .unwrap()
