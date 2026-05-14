@@ -13,24 +13,22 @@ no guarantees of any kind are made.
 
 ```bash
 # Cd into a directory where you want to clone the repository
-mkdir -p ~/Documents/GitHub/
-cd ~/Documents/GitHub/
+mkdir -p ~/Documents/GitHub/ && cd ~/Documents/GitHub/
 
 # Clone the repository
 git clone https://github.com/adil192/adil192-linux.git
 cd adil192-linux
 
-# Install Flutter if you don't have it yet
-./bootstrap/install_flutter.sh
+# Install Rust if you haven't yet
+./bootstrap/install_rust.sh
 
-# Run the scripts
-dart pub get
-./lib/install.dart
+# Run the scripts and follow the yes/no prompts (press Enter to accept defaults)
+cargo run
 ```
-
-You can view available options by running `./lib/install.dart --help`.
 
 ## Uninstallation
 
-Run `./lib/uninstall.dart` in the root directory of the repository
-and follow the yes/no prompts.
+Run `cargo run -- --uninstall` and follow the yes/no prompts.
+
+Note that most changes are not uninstallable,
+so you may have to manually reverse them.
