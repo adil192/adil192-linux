@@ -35,8 +35,10 @@ clone cosmic-edit theme-v2
 clone cosmic-files theme-v2
 clone cosmic-greeter theme-v2
 clone cosmic-launcher theme-v2
+clone cosmic-notifications theme-v2
 clone cosmic-osd theme-v2
 clone cosmic-panel theme-v2
+clone cosmic-player theme-v2
 clone cosmic-settings theme-v2
 clone cosmic-store theme-v2
 clone cosmic-term theme-v2
@@ -77,8 +79,10 @@ install cosmic-edit
 install cosmic-files
 install cosmic-greeter
 install cosmic-launcher
+install cosmic-notifications
 install cosmic-osd
 install cosmic-panel
+install cosmic-player
 install cosmic-settings
 install cosmic-settings-daemon
 install cosmic-store
@@ -90,4 +94,4 @@ echo
 echo "All done! Changes will take effect after a reboot/relogin."
 echo
 echo "If you wish to revert back to the stable versions, reinstall the official packages like this:"
-echo "    sudo apt install --reinstall cosmic-app-library cosmic-applets cosmic-comp cosmic-edit cosmic-files cosmic-greeter cosmic-launcher cosmic-osd cosmic-panel cosmic-settings cosmic-settings-daemon cosmic-store cosmic-term cosmic-workspaces xdg-desktop-portal-cosmic"
+echo "    sudo apt install --reinstall cosmic-app-library cosmic-applets cosmic-comp cosmic-edit cosmic-files cosmic-greeter cosmic-launcher cosmic-notifications cosmic-osd cosmic-panel cosmic-player cosmic-settings cosmic-settings-daemon cosmic-store cosmic-term cosmic-workspaces xdg-desktop-portal-cosmic"
