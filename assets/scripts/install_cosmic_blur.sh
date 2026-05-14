@@ -44,11 +44,19 @@ clone cosmic-workspaces-epoch theme-v2
 clone libcosmic theme-v2
 clone xdg-desktop-portal-cosmic theme-v2
 
+# There isn't an official theme-v2 branch of cosmic-settings-daemon yet so use mine.
+# Without this, gtk/qt apps will be stuck on whatever theme you had before installing theme-v2.
+[[ -d "cosmic-settings-daemon" ]] || git clone "https://github.com/pop-os/cosmic-settings-daemon.git" --recurse-submodules
+git -C "cosmic-settings-daemon" remote add adil192 "https://github.com/adil192/cosmic-settings-daemon.git" || true
+git -C "cosmic-settings-daemon" fetch adil192
+git -C "cosmic-settings-daemon" switch theme-v2-unofficial
+git -C "cosmic-settings-daemon" pull
+
 echo
 echo "Starting the builds. This will take a while..."
 echo "If the builds fail, ensure you have the necessary dependencies: https://github.com/pop-os/cosmic-epoch#setup-on-distributions-without-packaging-of-cosmic-components"
 echo
-sleep 1
+sleep 3
 
 # Suppress warnings since they flood the logs
 export RUSTFLAGS=-Awarnings
@@ -72,6 +80,7 @@ install cosmic-launcher
 install cosmic-osd
 install cosmic-panel
 install cosmic-settings
+install cosmic-settings-daemon
 install cosmic-store
 install cosmic-term
 install cosmic-workspaces-epoch
