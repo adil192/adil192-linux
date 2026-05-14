@@ -44,7 +44,7 @@ pub fn run_output(command: &str, args: &[&str]) -> anyhow::Result<String> {
       status = output.status
     )
   }
-  Ok(String::from_utf8_lossy(&output.stdout).to_string())
+  Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
 /// Asks the user a yes/no question.
