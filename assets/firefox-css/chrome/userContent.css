@@ -57,7 +57,7 @@
   html,
   body {
     /* set default (non-important) background if unspecified */
-    background-color: var(--cosmic-background-base);
+    background-color: transparent;
     color: var(--cosmic-background-on);
   }
 }

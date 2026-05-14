@@ -88,6 +88,13 @@
       }
     }
   }
+
+  body {
+    background-color: transparent !important;
+  }
+  #browser {
+    background-color: transparent !important;
+  }
 }
 @media not (prefers-contrast) {
   :root {
