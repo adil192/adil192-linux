@@ -63,7 +63,7 @@ fn generate_tokens_css_content() -> Result<String> {
   output.push_str("  }\n");
   output.push('\n');
   output.push_str(
-    "  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);\n",
+    "  --cosmic-inactive-on: color(\n    from var(--cosmic-background-on) srgb r g b / 0.5\n  );\n",
   );
   output.push('}');
 
@@ -77,9 +77,8 @@ fn get_theme(config: Config) -> Theme {
   }
 }
 fn get_theme_css_vars(theme: Theme) -> [(String, Rgba); 6] {
-  let background = theme.background(false);
+  let background = theme.background(true);
   [
-    // TODO(adil192): Can we use blurred background with Firefox?
     ("--cosmic-background-base".to_owned(), background.base),
     ("--cosmic-background-on".to_owned(), background.on),
     (

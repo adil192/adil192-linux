@@ -116,6 +116,9 @@ impl Firefox {
       "browser.startup.homepage": "about:newtab",
       // Enable our userChrome.css
       "toolkit.legacyUserProfileCustomizations.stylesheets": true,
+      // Enable transparency effects
+      "browser.tabs.allow_transparent_browser": true,
+      "widget.transparent-windows": true,
     })
     .as_object()
     .unwrap()

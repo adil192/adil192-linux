@@ -1,16 +1,16 @@
 /* START OF GENERATED CODE */
 /* DO NOT EDIT. Changes will be overwritten. */
 :root {
-  --cosmic-background-base-light: #d0e3e2;
+  --cosmic-background-base-light: #d0e3e299;
   --cosmic-background-on-light: #000000;
-  --cosmic-component-base-light: #f1fffe;
+  --cosmic-component-base-light: #f1fffe99;
   --cosmic-component-on-light: #020202;
   --cosmic-button-base-light: #2e2e2e40;
   --cosmic-button-on-light: #020202;
 
-  --cosmic-background-base-dark: #060e11;
+  --cosmic-background-base-dark: #060e1199;
   --cosmic-background-on-dark: #ffffff;
-  --cosmic-component-base-dark: #182125;
+  --cosmic-component-base-dark: #18212599;
   --cosmic-component-on-dark: #ffffff;
   --cosmic-button-base-dark: #9e9e9e40;
   --cosmic-button-on-dark: #ffffff;
@@ -30,7 +30,9 @@
     --cosmic-button-on: var(--cosmic-button-on-dark);
   }
 
-  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);
+  --cosmic-inactive-on: color(
+    from var(--cosmic-background-on) srgb r g b / 0.5
+  );
 }
 /* END OF GENERATED CODE */
 
