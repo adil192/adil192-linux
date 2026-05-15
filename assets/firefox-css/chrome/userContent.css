@@ -425,6 +425,7 @@
   body,
   .body--home,
   .site-wrapper,
+  .header-wrap,
   .region__body,
   .badge-link,
   .module--carousel__image-wrapper,
@@ -438,7 +439,7 @@
     background: var(--theme-col-bg-page) !important;
     color: var(--cosmic-component-on) !important;
   }
-  .header-wrap,
+  .header-wrap > .header,
   article,
   [data-testid="about"],
   .related-searches__item,
@@ -446,6 +447,14 @@
   .footer {
     background: var(--cosmic-component-base) !important;
     color: var(--cosmic-component-on) !important;
+  }
+  .header-wrap {
+    padding-top: 0 !important;
+    box-shadow: none !important;
+    > .header {
+      padding-top: 0.5rem;
+      backdrop-filter: blur(0.35rem);
+    }
   }
   article {
     border-radius: var(--default-border-radius);
