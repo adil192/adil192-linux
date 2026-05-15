@@ -364,6 +364,24 @@
       from var(--cosmic-button-on) srgb r g b / 0.1
     ) !important;
   }
+  html,
+  body {
+    background-color: transparent !important;
+  }
+  div:has(> article.markdown-body),
+  table {
+    background-color: var(--bgColor-default);
+  }
+  .markdown-body {
+    .snippet-clipboard-content,
+    .highlight {
+      border-radius: 0.4rem;
+      > pre {
+        /* parent already has background, overlap is ugly with transparency */
+        background: transparent !important;
+      }
+    }
+  }
 }
 
 @-moz-document domain("duckduckgo.com") {
