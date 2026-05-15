@@ -369,8 +369,13 @@
     background-color: transparent !important;
   }
   div:has(> article.markdown-body),
-  table {
+  table,
+  div[class^="IssueBody-module__commentBorder__"],
+  [data-testid="sticky-sidebar"] {
     background-color: var(--bgColor-default);
+  }
+  div[class^="HeaderMetadata-module__stickyContainer__"] {
+    backdrop-filter: blur(0.4rem);
   }
   .markdown-body {
     .snippet-clipboard-content,
@@ -380,6 +385,35 @@
         /* parent already has background, overlap is ugly with transparency */
         background: transparent !important;
       }
+    }
+  }
+  div[class^="IssueViewer-module__contentArea__"] {
+    background-color: transparent !important;
+  }
+  section[aria-label="Events"] {
+    > * {
+      margin-bottom: 0.9px; /* 1.0px gets antialiased to 2px sometimes and looks inconsistent */
+      div[class^="TimelineRowBorder-module__shared__"] {
+        border-radius: var(--borderRadius-small) !important;
+      }
+    }
+    > :nth-child(1) {
+      div[class^="TimelineRowBorder-module__shared__"] {
+        border-top-left-radius: var(--borderRadius-medium) !important;
+        border-top-right-radius: var(--borderRadius-medium) !important;
+      }
+    }
+    > :nth-last-child(1) {
+      div[class^="TimelineRowBorder-module__shared__"] {
+        border-bottom-left-radius: var(--borderRadius-medium) !important;
+        border-bottom-right-radius: var(--borderRadius-medium) !important;
+      }
+    }
+  }
+  [data-testid="sticky-sidebar"] {
+    border-radius: var(--borderRadius-medium);
+    > div[class^="IssueSidebar-module__sidebarContent__"] {
+      padding: var(--base-size-16);
     }
   }
 }
@@ -453,7 +487,7 @@
     box-shadow: none !important;
     > .header {
       padding-top: 0.5rem;
-      backdrop-filter: blur(0.35rem);
+      backdrop-filter: blur(0.4rem);
     }
   }
   article {
