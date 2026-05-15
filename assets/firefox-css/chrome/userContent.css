@@ -33,6 +33,7 @@
   --cosmic-inactive-on: color(
     from var(--cosmic-background-on) srgb r g b / 0.5
   );
+  --cosmic-hue: 186;
 }
 /* END OF GENERATED CODE */
 
@@ -64,45 +65,46 @@
 
 @-moz-document url-prefix("about:") {
   :root {
-    --color-white: hsl(90 100% 99.6%) !important;
-    --color-gray-05: hsl(90 14% 97.8%) !important;
-    --color-gray-10: hsl(90 14% 95.9%) !important;
-    --color-gray-20: hsl(90 14% 89.6%) !important;
-    --color-gray-30: hsl(90 14% 83.1%) !important;
-    --color-gray-40: hsl(90 14% 64.9%) !important;
-    --color-gray-50: hsl(90 14% 46.1%) !important;
-    --color-gray-60: hsl(90 14% 33.9%) !important;
-    --color-gray-70: hsl(90 14% 19%) !important;
-    --color-gray-80: hsl(90 14% 9%) !important;
-    --color-gray-90: hsl(90 14% 4.5%) !important;
-    --color-black: hsl(90 100% 0.4%) !important;
+    --color-white: hsl(var(--cosmic-hue) 100% 99.6%) !important;
+    --color-gray-05: hsl(var(--cosmic-hue) 14% 97.8%) !important;
+    --color-gray-10: hsl(var(--cosmic-hue) 14% 95.9%) !important;
+    --color-gray-20: hsl(var(--cosmic-hue) 14% 89.6%) !important;
+    --color-gray-30: hsl(var(--cosmic-hue) 14% 83.1%) !important;
+    --color-gray-40: hsl(var(--cosmic-hue) 14% 64.9%) !important;
+    --color-gray-50: hsl(var(--cosmic-hue) 14% 46.1%) !important;
+    --color-gray-60: hsl(var(--cosmic-hue) 14% 33.9%) !important;
+    --color-gray-70: hsl(var(--cosmic-hue) 14% 19%) !important;
+    --color-gray-80: hsl(var(--cosmic-hue) 14% 9%) !important;
+    --color-gray-90: hsl(var(--cosmic-hue) 14% 4.5%) !important;
+    --color-black: hsl(var(--cosmic-hue) 100% 0.4%) !important;
   }
 }
 @-moz-document domain("thunderbird.net") {
   :root {
-    --gray-05: hsl(90 14% 97.8%) !important;
-    --gray-10: hsl(90 14% 95.9%) !important;
-    --gray-20: hsl(90 14% 89.6%) !important;
-    --gray-30: hsl(90 14% 83.1%) !important;
-    --gray-40: hsl(90 14% 64.9%) !important;
-    --gray-50: hsl(90 14% 46.1%) !important;
-    --gray-60: hsl(90 14% 33.9%) !important;
-    --gray-70: hsl(90 14% 19%) !important;
-    --gray-80: hsl(90 14% 9%) !important;
-    --gray-90: hsl(90 14% 4.5%) !important;
-    --ink-10: hsl(110 47.4% 96.3%) !important;
-    --ink-20: hsl(110 36.6% 92%) !important;
-    --ink-30: hsl(110 31.6% 85.1%) !important;
-    --ink-40: hsl(110 24.2% 68.4%) !important;
-    --ink-50: hsl(110 18.4% 52%) !important;
-    --ink-60: hsl(110 21.6% 40%) !important;
-    --ink-70: hsl(110 26.4% 32%) !important;
-    --ink-80: hsl(110 30.4% 22.5%) !important;
-    --ink-90: hsl(110 40% 15.7%) !important;
+    --gray-05: hsl(var(--cosmic-hue) 14% 97.8%) !important;
+    --gray-10: hsl(var(--cosmic-hue) 14% 95.9%) !important;
+    --gray-20: hsl(var(--cosmic-hue) 14% 89.6%) !important;
+    --gray-30: hsl(var(--cosmic-hue) 14% 83.1%) !important;
+    --gray-40: hsl(var(--cosmic-hue) 14% 64.9%) !important;
+    --gray-50: hsl(var(--cosmic-hue) 14% 46.1%) !important;
+    --gray-60: hsl(var(--cosmic-hue) 14% 33.9%) !important;
+    --gray-70: hsl(var(--cosmic-hue) 14% 19%) !important;
+    --gray-80: hsl(var(--cosmic-hue) 14% 9%) !important;
+    --gray-90: hsl(var(--cosmic-hue) 14% 4.5%) !important;
+    --ink-10: hsl(var(--cosmic-hue) 47.4% 96.3%) !important;
+    --ink-20: hsl(var(--cosmic-hue) 36.6% 92%) !important;
+    --ink-30: hsl(var(--cosmic-hue) 31.6% 85.1%) !important;
+    --ink-40: hsl(var(--cosmic-hue) 24.2% 68.4%) !important;
+    --ink-50: hsl(var(--cosmic-hue) 18.4% 52%) !important;
+    --ink-60: hsl(var(--cosmic-hue) 21.6% 40%) !important;
+    --ink-70: hsl(var(--cosmic-hue) 26.4% 32%) !important;
+    --ink-80: hsl(var(--cosmic-hue) 30.4% 22.5%) !important;
+    --ink-90: hsl(var(--cosmic-hue) 40% 15.7%) !important;
   }
   [data-channel] {
-    --bg-gradient-hsl-values: 90 97.5% 52%;
-    --bg-gradient2-hsl-values: 130 97.5% 52%;
+    --alt-hue: calc(var(--cosmic-hue) + 40);
+    --bg-gradient-hsl-values: var(--cosmic-hue) 97.5% 52%;
+    --bg-gradient2-hsl-values: var(--alt-hue) 97.5% 52%;
     --bg-gradient:
       linear-gradient(
         to top right,
@@ -119,12 +121,12 @@
       ) !important;
     --text-gradient: linear-gradient(
       90deg,
-      hsl(90 83.9% 46.3%) 0%,
-      hsl(130 81.3% 55.9%) 100%
+      hsl(var(--cosmic-hue) 83.9% 46.3%) 0%,
+      hsl(var(--alt-hue) 81.3% 55.9%) 100%
     ) !important;
     --button-bg: radial-gradient(
       ellipse at center,
-      hsl(90 97.2% 80% / 0.25) 0%,
+      hsl(var(--cosmic-hue) 97.2% 80% / 0.25) 0%,
       transparent 70%
     ) !important;
   }
@@ -133,11 +135,11 @@
       --bg: var(--gray-90) !important;
     }
     [data-channel] {
-      --bg-gradient-hsl-values: 90 97.5% 15.7%;
-      --bg-gradient2-hsl-values: 130 97.5% 15.7%;
+      --bg-gradient-hsl-values: var(--cosmic-hue) 97.5% 15.7%;
+      --bg-gradient2-hsl-values: var(--alt-hue) 97.5% 15.7%;
       --button-bg: radial-gradient(
         ellipse at center,
-        hsl(90 97.2% 15.7% / 0.25) 0%,
+        hsl(var(--cosmic-hue) 97.2% 15.7% / 0.25) 0%,
         transparent 70%
       ) !important;
     }
@@ -145,13 +147,13 @@
 }
 @-moz-document domain("developer.mozilla.org") {
   :root {
-    --color-gray-90: hsl(90 10% 95.9%) !important;
-    --color-gray-80: hsl(90 10% 89.6%) !important;
-    --color-gray-60: hsl(90 10% 64.9%) !important;
-    --color-gray-40: hsl(90 10% 33.9%) !important;
-    --color-gray-20: hsl(90 10% 19%) !important;
-    --color-gray-10: hsl(90 10% 9%) !important;
-    --color-gray-05: hsl(90 10% 4.5%) !important;
+    --color-gray-90: hsl(var(--cosmic-hue) 10% 95.9%) !important;
+    --color-gray-80: hsl(var(--cosmic-hue) 10% 89.6%) !important;
+    --color-gray-60: hsl(var(--cosmic-hue) 10% 64.9%) !important;
+    --color-gray-40: hsl(var(--cosmic-hue) 10% 33.9%) !important;
+    --color-gray-20: hsl(var(--cosmic-hue) 10% 19%) !important;
+    --color-gray-10: hsl(var(--cosmic-hue) 10% 9%) !important;
+    --color-gray-05: hsl(var(--cosmic-hue) 10% 4.5%) !important;
   }
 }
 

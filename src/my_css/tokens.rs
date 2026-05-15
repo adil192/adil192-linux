@@ -3,8 +3,8 @@ use std::fs;
 
 use anyhow::Result;
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
-use cosmic::cosmic_theme::palette::WithAlpha;
 use cosmic::cosmic_theme::palette::rgb::Rgba;
+use cosmic::cosmic_theme::palette::{GetHue, WithAlpha};
 use cosmic::cosmic_theme::{Theme, palette};
 use regex::Regex;
 
@@ -38,8 +38,8 @@ impl MyCss {
 fn generate_tokens_css_content() -> Result<String> {
   let light = get_theme(Theme::light_config()?);
   let dark = get_theme(Theme::dark_config()?);
-  let light_vars = get_theme_css_vars(light);
-  let dark_vars = get_theme_css_vars(dark);
+  let light_vars = get_theme_css_vars(&light);
+  let dark_vars = get_theme_css_vars(&dark);
 
   let mut output = String::with_capacity(2048);
   output.push_str("/* DO NOT EDIT. Changes will be overwritten. */\n");
@@ -66,6 +66,8 @@ fn generate_tokens_css_content() -> Result<String> {
   output.push_str(
     "  --cosmic-inactive-on: color(\n    from var(--cosmic-background-on) srgb r g b / 0.5\n  );\n",
   );
+  let hue = dark.accent.base.get_hue().into_positive_degrees().round();
+  output.push_str(&format!("  --cosmic-hue: {hue};\n"));
   output.push('}');
 
   Ok(output)
@@ -77,7 +79,7 @@ fn get_theme(config: Config) -> Theme {
     Err((_errs, theme)) => theme,
   }
 }
-fn get_theme_css_vars(theme: Theme) -> [(String, Rgba); 6] {
+fn get_theme_css_vars(theme: &Theme) -> [(String, Rgba); 6] {
   let background = theme.background(true);
   let component = &background.component;
   let button = &theme.button;
