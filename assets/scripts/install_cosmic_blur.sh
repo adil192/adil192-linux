@@ -26,7 +26,7 @@ clone() {
   [[ -d "${PROJECT}" ]] || git clone "https://github.com/pop-os/${PROJECT}.git" -b "${BRANCH}" --recurse-submodules
   git -C "${PROJECT}" fetch
   git -C "${PROJECT}" switch "${BRANCH}"
-  git -C "${PROJECT}" pull
+  git -C "${PROJECT}" pull || git -C "${PROJECT}" reset --hard "origin/${BRANCH}"
 }
 clone cosmic-app-library theme-v2
 clone cosmic-applets theme-v2
@@ -52,7 +52,7 @@ clone xdg-desktop-portal-cosmic theme-v2
 git -C "cosmic-settings-daemon" remote add adil192 "https://github.com/adil192/cosmic-settings-daemon.git" || true
 git -C "cosmic-settings-daemon" fetch adil192
 git -C "cosmic-settings-daemon" switch theme-v2-unofficial
-git -C "cosmic-settings-daemon" pull
+git -C "cosmic-settings-daemon" pull || git -C "cosmic-settings-daemon" reset --hard adil192/theme-v2-unofficial
 
 echo
 echo "Starting the builds. This will take a while..."
