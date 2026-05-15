@@ -35,6 +35,7 @@ fn install() -> anyhow::Result<()> {
     MyCss::generate_tokens()?;
     MyCss::theme_firefox()?;
     MyCss::theme_thunderbird()?;
+    MyCss::theme_github_desktop()?;
   } else {
     println!("Skipping theme generation: not running COSMIC");
   }
@@ -46,5 +47,6 @@ fn uninstall() -> anyhow::Result<()> {
   FirefoxCacher::uninstall()?;
   MyCss::untheme_firefox()?;
   MyCss::untheme_thunderbird()?;
+  MyCss::untheme_github_desktop()?;
   Ok(())
 }

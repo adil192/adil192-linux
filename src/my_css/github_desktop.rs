@@ -1,0 +1,120 @@
+use std::collections::HashSet;
+use std::fs;
+use std::path::{Path, PathBuf};
+
+use anyhow::{Result, anyhow};
+use cosmic::cosmic_config::CosmicConfigEntry;
+use cosmic::cosmic_theme::Theme;
+use cosmic::cosmic_theme::palette::{Hsl, IntoColor};
+use regex::Regex;
+
+use crate::my_css::MyCss;
+use crate::tools::{ask, run_interactively, run_output};
+
+impl MyCss {
+  pub fn theme_github_desktop() -> Result<()> {
+    assert!(Self::enabled()?);
+    println!("Tinting GitHub Desktop");
+
+    let app = find_app()?;
+
+    let target_hue = get_target_hue()?;
+
+    let colors_regex = Regex::new(r"#[0-9a-fA-F]{3,6}")?;
+
+    let css_files_raw = run_output(
+      "find",
+      &[&app.to_string_lossy(), "-type", "f", "-name", "*.css"],
+    )?;
+    let css_files = css_files_raw.lines();
+    for css_file in css_files {
+      println!("Patching {css_file}...");
+
+      let untinted_file = Path::new(css_file).with_added_extension("untinted");
+      let mut css_content = if untinted_file.exists() {
+        println!("- Reading from {untinted_file:?}");
+        fs::read_to_string(&untinted_file)?
+      } else {
+        println!("- Backing up {css_file} to {untinted_file:?}");
+        run_interactively("sudo", &["cp", css_file, &untinted_file.to_string_lossy()])?;
+        fs::read_to_string(css_file)?
+      };
+
+      if run_interactively("test", &["-w", css_file]).is_err() {
+        println!("- Making {css_file} writeable");
+        run_interactively("sudo", &["chmod", "a+rw", css_file])?;
+      }
+
+      let original_colors: HashSet<String> = colors_regex
+        .find_iter(&css_content)
+        .map(|m| m.as_str().to_owned())
+        .collect();
+      for original_css in original_colors {
+        let original_parsed = csscolorparser::parse(&original_css)?;
+        let [mut h, s, mut l, a] = original_parsed.to_hsla();
+        if (h - HUE_DEFAULT).abs() > 5.0 {
+          continue;
+        }
+        h = target_hue;
+        l = (l * l + l) / 2.0; // make darks darker
+        let tinted_parsed = csscolorparser::Color::from_hsla(h, s, l, a);
+        let tinted_css = tinted_parsed.to_css_hex();
+        println!("- Tinting {original_css} to {tinted_css}");
+        let regex = Regex::new(&format!("(?<prefix>[^#]){original_css}(?<suffix>[^0-9])"))?;
+        let replacer = format!("$prefix{tinted_css}$suffix");
+        css_content = regex.replace_all(&css_content, &replacer).to_string();
+      }
+
+      fs::write(css_file, &css_content)?;
+    }
+
+    Ok(())
+  }
+
+  pub fn untheme_github_desktop() -> Result<bool> {
+    if !ask("Untheme GitHub Desktop?", true) {
+      return Ok(false);
+    }
+    println!("Resetting GitHub Desktop css...");
+    let app = find_app()?;
+    let css_files_raw = run_output(
+      "find",
+      &[&app.to_string_lossy(), "-type", "f", "-name", "*.css"],
+    )?;
+    let css_files = css_files_raw.lines();
+    for css_file in css_files {
+      let untinted_file = Path::new(css_file).with_added_extension("untinted");
+      if !untinted_file.exists() {
+        continue;
+      }
+      println!("Restoring {css_file}...");
+      run_interactively("sudo", &["mv", &untinted_file.to_string_lossy(), css_file])?;
+    }
+    Ok(true)
+  }
+}
+
+/// GitHub Desktop uses a hue of 210deg for neutral elements.
+/// Tint them to use the hue of the system theme.
+const HUE_DEFAULT: f32 = 210.0;
+
+fn find_app() -> Result<PathBuf> {
+  let bin = run_output("which", &["github-desktop-plus"])?;
+  let real_bin = run_output("realpath", &[&bin])?;
+  Path::new(&real_bin)
+    .parent()
+    .map(Path::to_owned)
+    .ok_or_else(|| anyhow!("Could not find parent dir of github desktop binary"))
+}
+
+fn get_target_hue() -> Result<f32> {
+  let config = Theme::dark_config()?;
+  let theme = match Theme::get_entry(&config) {
+    Ok(theme) => theme,
+    Err((_errs, theme)) => theme,
+  };
+  let rgb = theme.bg_component_color();
+  let hsl: Hsl = rgb.into_color();
+  let hue = hsl.hue.into_positive_degrees();
+  Ok(hue)
+}
