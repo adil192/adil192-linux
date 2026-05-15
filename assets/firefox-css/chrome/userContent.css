@@ -40,7 +40,7 @@
 @-moz-document url-prefix("about:") {
   :root {
     /* background of new tab page */
-    --newtab-background-color: var(--cosmic-background-base) !important;
+    --newtab-background-color: transparent !important;
     /* background of search bar inside new tab page */
     --newtab-background-color-secondary: var(
       --cosmic-component-base
