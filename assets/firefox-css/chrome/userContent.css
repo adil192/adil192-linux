@@ -384,7 +384,10 @@
 
   :root {
     --theme-col-bg-header: var(--cosmic-component-base) !important;
-    --theme-col-bg-page: var(--cosmic-background-base) !important;
+    --theme-col-bg-header-transparent: color(
+      from var(--theme-col-bg-header) srgb r g b / 0
+    );
+    --theme-col-bg-page: transparent !important;
     --theme-assist-bg-chat-system: color-mix(
       in srgb,
       var(--cosmic-component-base) 80%,
@@ -412,7 +415,7 @@
   .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded,
   .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded
     .metabar:not(.is-stuck) {
-    background: var(--cosmic-background-base) !important;
+    background: var(--theme-col-bg-page) !important;
     color: var(--cosmic-component-on) !important;
   }
   .header-wrap,
@@ -428,6 +431,13 @@
     border-radius: var(--default-border-radius);
     padding: calc(var(--default-border-radius) * 2) !important;
     margin: calc(var(--default-border-radius) * -1) !important;
+  }
+  /* Remove the overflow gradients since they don't look good with transparency */
+  nav::before,
+  nav::after,
+  nav > ul::before,
+  nav > ul::after {
+    background-image: none !important;
   }
 }
 

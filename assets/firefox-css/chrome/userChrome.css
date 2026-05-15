@@ -76,7 +76,7 @@
 
 @media (-moz-gtk-csd-transparency-available) {
   :root[customtitlebar] {
-    background: var(--cosmic-blurred-bg) center center / 1920px
+    background: var(--cosmic-blurred-bg) center center / 100vw 100vh
       var(--cosmic-background-base) no-repeat !important;
 
     &:not([lwtheme]) #navigation-toolbox {
