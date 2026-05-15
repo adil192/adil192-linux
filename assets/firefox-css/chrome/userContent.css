@@ -211,7 +211,7 @@
   ytd-masthead.shell,
   #background.ytd-masthead,
   #home-chips {
-    background-color: var(--cosmic-background-base) !important;
+    background-color: transparent !important;
   }
   ytd-app {
     --app-drawer-content-container-background-color: transparent !important;
@@ -226,16 +226,29 @@
   #guide-content.ytd-app {
     /* sidebar */
     background-color: var(--cosmic-component-base) !important;
-    margin: 0 0 1rem 1rem !important;
+    margin: 1rem 0 1rem 1rem !important;
     border-radius: 1rem;
   }
   ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy {
     /* black bars around video */
     background-color: rgba(0, 0, 0, 0.9) !important;
   }
-  #frosted-glass.with-chipbar.ytd-app {
-    background-color: var(--yt-spec-frosted-glass-desktop) !important;
+  #frosted-glass {
+    display: none !important; /* replaced by ytd-masthead */
+  }
+  ytd-masthead,
+  #chips-wrapper {
     backdrop-filter: blur(16px) !important;
+  }
+  ytd-masthead {
+    background: linear-gradient(
+      var(--cosmic-background-base),
+      transparent
+    ) !important;
+  }
+  #chips-wrapper {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
   }
   ytd-post-renderer,
   .ytThumbnailViewModelImage {
