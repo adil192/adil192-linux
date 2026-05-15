@@ -1,10 +1,11 @@
+use anyhow::{Result, anyhow, bail};
+use cosmic_bg_config::{Config, Source};
+use image::imageops;
+use serde_json::{Value, json};
 use std::env::var;
 use std::fs;
 use std::os::unix::fs::symlink;
 use std::path::{Path, PathBuf};
-
-use anyhow::{Ok, Result, anyhow, bail};
-use serde_json::{Value, json};
 
 use crate::my_css::MyCss;
 use crate::tools::ask;
@@ -16,6 +17,7 @@ impl MyCss {
 
     let profile_dir = Firefox::default_profile_dir()?;
     Firefox::alter_user_js(&profile_dir)?;
+    Firefox::produce_blurred_bg()?;
 
     let local_dir = Path::new(&var("PWD")?).join("assets/firefox-css/");
     for subpath in ["chrome/userChrome.css", "chrome/userContent.css"] {
@@ -189,6 +191,33 @@ impl Firefox {
     }
 
     println!("Altered {changes} settings in user.js");
+    Ok(())
+  }
+
+  fn produce_blurred_bg() -> Result<()> {
+    let context = cosmic_bg_config::context()?;
+    let config = Config::load(&context)?;
+    let source = config.default_background.source;
+    let path = match source {
+      Source::Path(ref path) => path.to_string_lossy().to_string(),
+      _ => bail!("Expected bg image, got {source:?}"),
+    };
+
+    let blurred_image = Path::new("assets/bg/bg.webp");
+    let blurred_image_src = blurred_image.with_added_extension("src");
+
+    if let Ok(previous_path) = fs::read_to_string(&blurred_image_src)
+      && previous_path == path
+    {
+      return Ok(());
+    }
+
+    println!("Generating a blurred version of your wallpaper for a fake blur effect...");
+    let orig_data = &image::open(&path)?.into_rgba8();
+    let blurred_data = imageops::fast_blur(orig_data, 32.0);
+    blurred_data.save(&blurred_image)?;
+    fs::write(&blurred_image_src, &path)?;
+
     Ok(())
   }
 }

@@ -3,6 +3,7 @@ use std::fs;
 
 use anyhow::Result;
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
+use cosmic::cosmic_theme::palette::WithAlpha;
 use cosmic::cosmic_theme::palette::rgb::Rgba;
 use cosmic::cosmic_theme::{Theme, palette};
 use regex::Regex;
@@ -78,16 +79,18 @@ fn get_theme(config: Config) -> Theme {
 }
 fn get_theme_css_vars(theme: Theme) -> [(String, Rgba); 6] {
   let background = theme.background(true);
+  let component = &background.component;
+  let button = &theme.button;
   [
     ("--cosmic-background-base".to_owned(), background.base),
     ("--cosmic-background-on".to_owned(), background.on),
     (
       "--cosmic-component-base".to_owned(),
-      background.component.base,
+      component.base.with_alpha(0.8),
     ),
-    ("--cosmic-component-on".to_owned(), background.component.on),
-    ("--cosmic-button-base".to_owned(), theme.button.base),
-    ("--cosmic-button-on".to_owned(), theme.button.on),
+    ("--cosmic-component-on".to_owned(), component.on),
+    ("--cosmic-button-base".to_owned(), button.base),
+    ("--cosmic-button-on".to_owned(), button.on),
   ]
 }
 fn to_css_hex(c: &Rgba) -> String {
