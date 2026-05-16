@@ -360,7 +360,10 @@
   :root {
     --bgColor-default: var(--cosmic-background-base) !important;
     --bgColor-inset: var(--cosmic-component-base) !important;
-    --bgColor-muted: var(--cosmic-component-base) !important;
+    --bgColor-muted: color(
+      from var(--cosmic-component-base) srgb r g b / 0.5
+    ) !important;
+    --bgColor-neutral-muted: var(--bgColor-muted) !important;
     --bgColor-disabled: var(--cosmic-component-base) !important;
     --fgColor-default: var(--cosmic-component-on) !important;
     --fgColor-muted: var(--cosmic-inactive-on) !important;
@@ -394,9 +397,12 @@
     .snippet-clipboard-content,
     .highlight {
       border-radius: 0.4rem;
-      > pre {
-        /* parent already has background, overlap is ugly with transparency */
+      &:has(> pre) {
+        /* remove duplicate background, overlap is ugly with transparency */
         background: transparent !important;
+      }
+      > pre {
+        background: var(--bgColor-muted) !important;
       }
     }
   }
