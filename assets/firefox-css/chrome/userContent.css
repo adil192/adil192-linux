@@ -354,6 +354,33 @@
       }
     }
   }
+  ytd-comment-thread-renderer {
+    /* add background behind comments for readability */
+    background: var(--cosmic-background-base) !important;
+    --comment-border-radius: 1rem;
+    border-radius: var(--comment-border-radius) !important;
+    padding: 1rem !important;
+
+    #author-thumbnail.ytd-comment-view-model
+      yt-img-shadow.ytd-comment-view-model {
+      /* match pfp corner radius to container */
+      border-top-left-radius: var(--comment-border-radius) !important;
+    }
+    ytd-comment-view-model[optimal-reading-width-comments]
+      #action-menu.ytd-comment-view-model {
+      /* realign so it's not outside our background */
+      top: 0 !important;
+      right: 0 !important;
+      /* set same size as pfp */
+      --yt-icon-width: 36px;
+      --yt-icon-height: 36px;
+
+      yt-interaction.circular .fill.yt-interaction,
+      yt-interaction.circular .stroke.yt-interaction {
+        border-top-right-radius: var(--comment-border-radius) !important;
+      }
+    }
+  }
 }
 
 @-moz-document domain("github.com") {
