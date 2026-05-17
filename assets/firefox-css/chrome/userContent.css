@@ -414,7 +414,7 @@
     background-color: transparent !important;
     .ytp-tooltip-bg {
       /* bigger preview when scrubbing */
-      transform: scale(2);
+      transform: scale(3);
       transform-origin: bottom;
       /* optimize for text upscaling */
       image-rendering: crisp-edges;
