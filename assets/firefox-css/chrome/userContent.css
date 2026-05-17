@@ -410,6 +410,14 @@
       color: inherit !important;
     }
   }
+  .ytp-preview {
+    background-color: transparent !important;
+    .ytp-tooltip-bg {
+      /* bigger preview when scrubbing */
+      transform: scale(2);
+      transform-origin: bottom;
+    }
+  }
   /* Reduce transparency when light/dark mode mismatched to preserve legibility. */
   @media (prefers-color-scheme: dark) {
     html:not([dark]) ytd-app > #content {
