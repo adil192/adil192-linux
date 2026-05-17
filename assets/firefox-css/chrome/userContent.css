@@ -416,6 +416,8 @@
       /* bigger preview when scrubbing */
       transform: scale(2);
       transform-origin: bottom;
+      /* optimize for text upscaling */
+      image-rendering: crisp-edges;
     }
   }
   /* Reduce transparency when light/dark mode mismatched to preserve legibility. */
