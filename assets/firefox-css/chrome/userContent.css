@@ -159,7 +159,7 @@
 
 @-moz-document domain("youtube.com") {
   /* Use youtube's own light/dark mode */
-  html[color-version="v2_0"],
+  html[color-version="v2_0"]:not([dark]),
   [color-version="v2_0"] [light] {
     --cosmic-background-base: var(--cosmic-background-base-light);
     --cosmic-background-on: var(--cosmic-background-on-light);
@@ -408,6 +408,17 @@
     .ytp-caption-segment {
       background: none !important;
       color: inherit !important;
+    }
+  }
+  /* Reduce transparency when light/dark mode mismatched to preserve legibility. */
+  @media (prefers-color-scheme: dark) {
+    html:not([dark]) ytd-app > #content {
+      background-color: var(--cosmic-component-base-light) !important;
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html[dark] ytd-app > #content {
+      background-color: var(--cosmic-component-base-dark) !important;
     }
   }
 }
