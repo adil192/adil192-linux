@@ -389,6 +389,19 @@
       }
     }
   }
+  .caption-window {
+    background-color: var(--cosmic-component-base) !important;
+    color: var(--cosmic-component-on) !important;
+    backdrop-filter: blur(1rem);
+    border-radius: 0.5rem;
+    line-height: 1.2;
+    padding: 0.5rem !important;
+
+    .ytp-caption-segment {
+      background: none !important;
+      color: inherit !important;
+    }
+  }
 }
 
 @-moz-document domain("github.com") {
