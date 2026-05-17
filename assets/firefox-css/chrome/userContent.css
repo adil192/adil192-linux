@@ -199,6 +199,14 @@
     --yt-sys-color-baseline--frosted-glass-mobile: var(
       --yt-spec-frosted-glass-desktop
     ) !important;
+
+    /* Replace the outdated Roboto font with local fonts. Roboto doesn't support hinting and other modern font features, making it harder to read. */
+    --font-family:
+      "Noto Sans", "Adwaita Sans", "Inter", "Roboto", "YouTube Sans", sans-serif !important;
+    --font-family-narrow: var(--font-family) !important;
+  }
+  * {
+    font-family: var(--font-family) !important;
   }
   html,
   html[color-version="v2_0"],
