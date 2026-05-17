@@ -390,12 +390,20 @@
     }
   }
   .caption-window {
-    background-color: var(--cosmic-component-base) !important;
-    color: var(--cosmic-component-on) !important;
+    color: var(--cosmic-component-on-dark) !important;
     backdrop-filter: blur(1rem);
     border-radius: 0.5rem;
     line-height: 1.2;
-    padding: 0.5rem !important;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -0.5rem;
+      z-index: -1;
+      background-color: var(--cosmic-component-base-dark) !important;
+      backdrop-filter: blur(1rem);
+      border-radius: 0.5rem;
+    }
 
     .ytp-caption-segment {
       background: none !important;
