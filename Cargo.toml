@@ -8,7 +8,6 @@ anyhow = "1.0.102"
 cached = { version = "0.59.0", features = ["proc_macro"] }
 cosmic-bg-config = { git = "https://github.com/pop-os/cosmic-bg" }
 csscolorparser = "0.8.3"
-image = "0.25.10"
 libcosmic = { git = "https://github.com/pop-os/libcosmic", branch = "theme-v2" }
 regex = "1.12.3"
 reqwest = { version = "0.13.3", features = ["blocking", "json"] }

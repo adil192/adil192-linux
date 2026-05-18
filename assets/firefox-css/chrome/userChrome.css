@@ -38,7 +38,7 @@
 /* END OF GENERATED CODE */
 
 :root {
-  --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg.webp");
+  --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg.png");
 
   --color-white: hsl(var(--cosmic-hue) 100% 99.6%) !important;
   --color-gray-05: hsl(var(--cosmic-hue) 9.1% 97.8%) !important;

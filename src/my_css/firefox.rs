@@ -1,6 +1,5 @@
 use anyhow::{Result, anyhow, bail};
 use cosmic_bg_config::{Config, Source};
-use image::imageops;
 use serde_json::{Value, json};
 use std::env::var;
 use std::fs;
@@ -8,7 +7,7 @@ use std::os::unix::fs::symlink;
 use std::path::{Path, PathBuf};
 
 use crate::my_css::MyCss;
-use crate::tools::ask;
+use crate::tools::{ask, run_interactively};
 
 impl MyCss {
   pub fn theme_firefox() -> Result<()> {
@@ -203,7 +202,7 @@ impl Firefox {
       _ => bail!("Expected bg image, got {source:?}"),
     };
 
-    let blurred_image = Path::new("assets/bg/bg.webp");
+    let blurred_image = Path::new("assets/bg/bg.png");
     let blurred_image_src = blurred_image.with_added_extension("src");
 
     if let Ok(previous_path) = fs::read_to_string(&blurred_image_src)
@@ -213,9 +212,19 @@ impl Firefox {
     }
 
     println!("Generating a blurred version of your wallpaper for a fake blur effect...");
-    let orig_data = &image::open(&path)?.into_rgba8();
-    let blurred_data = imageops::fast_blur(orig_data, 32.0);
-    blurred_data.save(&blurred_image)?;
+    run_interactively(
+      "magick",
+      &[
+        &path,
+        "-adaptive-resize",
+        "540x540^",
+        "-blur",
+        "0x32",
+        "+noise",
+        "Uniform",
+        &blurred_image.to_string_lossy(),
+      ],
+    )?;
     fs::write(&blurred_image_src, &path)?;
 
     Ok(())
