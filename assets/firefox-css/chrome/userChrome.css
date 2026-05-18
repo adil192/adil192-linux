@@ -73,13 +73,18 @@
   --toolbar-bgcolor: var(--cosmic-component-base) !important;
   --toolbar-color: var(--cosmic-component-on) !important;
   /* background of blank page like about:blank or while a page is loading */
-  --tabpanel-background-color: var(--cosmic-background-base) !important;
+  --tabpanel-background-color: transparent !important;
 }
 
 @media (-moz-gtk-csd-transparency-available) {
   :root[customtitlebar] {
-    background: var(--cosmic-blurred-bg) center center / 100vw 100vh
-      var(--cosmic-background-base) no-repeat !important;
+    background:
+      linear-gradient(
+        var(--cosmic-background-base),
+        var(--cosmic-background-base)
+      ),
+      var(--cosmic-blurred-bg) center center / 100vw 100vh
+        var(--cosmic-background-base) no-repeat !important;
 
     &:not([lwtheme]) #navigation-toolbox {
       background-color: var(--cosmic-background-base) !important;
