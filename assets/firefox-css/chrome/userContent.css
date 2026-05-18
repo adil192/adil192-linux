@@ -250,8 +250,8 @@
   }
   ytd-masthead {
     background: linear-gradient(
-      var(--cosmic-background-base),
-      transparent
+      var(--cosmic-component-base),
+      var(--cosmic-background-base)
     ) !important;
   }
   #chips-wrapper {
