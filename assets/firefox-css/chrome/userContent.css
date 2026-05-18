@@ -252,10 +252,7 @@
     backdrop-filter: blur(16px) !important;
   }
   ytd-masthead {
-    background: linear-gradient(
-      var(--cosmic-component-base),
-      var(--cosmic-background-base)
-    ) !important;
+    background: var(--cosmic-component-base) !important;
   }
   #chips-wrapper {
     border-bottom-left-radius: 1rem;
