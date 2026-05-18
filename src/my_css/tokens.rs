@@ -4,7 +4,7 @@ use std::fs;
 use anyhow::Result;
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
 use cosmic::cosmic_theme::palette::rgb::Rgba;
-use cosmic::cosmic_theme::palette::{GetHue, WithAlpha};
+use cosmic::cosmic_theme::palette::{GetHue, Hsla, IntoColor, WithAlpha};
 use cosmic::cosmic_theme::{Theme, palette};
 use regex::Regex;
 
@@ -44,13 +44,11 @@ fn generate_tokens_css_content() -> Result<String> {
   let mut output = String::with_capacity(2048);
   output.push_str("/* DO NOT EDIT. Changes will be overwritten. */\n");
   output.push_str(":root {\n");
-  for (name, color) in &light_vars {
-    let value = to_css_hex(color);
+  for (name, value) in &light_vars {
     output.push_str(&format!("  {name}-light: {value};\n"));
   }
   output.push('\n');
-  for (name, color) in &dark_vars {
-    let value = to_css_hex(color);
+  for (name, value) in &dark_vars {
     output.push_str(&format!("  {name}-dark: {value};\n"));
   }
   output.push('\n');
@@ -66,8 +64,6 @@ fn generate_tokens_css_content() -> Result<String> {
   output.push_str(
     "  --cosmic-inactive-on: color(\n    from var(--cosmic-background-on) srgb r g b / 0.5\n  );\n",
   );
-  let hue = dark.accent.base.get_hue().into_positive_degrees().round();
-  output.push_str(&format!("  --cosmic-hue: {hue};\n"));
   output.push('}');
 
   Ok(output)
@@ -79,22 +75,49 @@ fn get_theme(config: Config) -> Theme {
     Err((_errs, theme)) => theme,
   }
 }
-fn get_theme_css_vars(theme: &Theme) -> [(String, Rgba); 6] {
+fn get_theme_css_vars(theme: &Theme) -> [(String, String); 7] {
   let background = theme.background(true);
-  let component = &background.component;
-  let button = &theme.button;
+  let background_base = background.base;
+  let background_on = background.on;
+  let mut component_base = background.component.base;
+  let component_on = background.component.on;
+  let hue = theme.accent.base.get_hue();
+  let hue_degrees = hue.into_positive_degrees().round();
+
+  // Increase opacity of component
+  component_base = component_base.with_alpha(0.8);
+
+  // COSMIC buttons have poor contrast, redefine them
+  let button_base = if theme.is_dark {
+    Hsla::new_srgb_const(hue, 1.0, 0.15, 0.8).into_color()
+  } else {
+    Hsla::new_srgb_const(hue, 0.6, 0.85, 0.8).into_color()
+  };
+  let button_on = theme.button.on;
+
   [
-    ("--cosmic-background-base".to_owned(), background.base),
-    ("--cosmic-background-on".to_owned(), background.on),
+    (
+      "--cosmic-background-base".to_owned(),
+      to_css_hex(&background_base),
+    ),
+    (
+      "--cosmic-background-on".to_owned(),
+      to_css_hex(&background_on),
+    ),
     (
       "--cosmic-component-base".to_owned(),
-      component.base.with_alpha(0.8),
+      to_css_hex(&component_base),
     ),
-    ("--cosmic-component-on".to_owned(), component.on),
-    ("--cosmic-button-base".to_owned(), button.base),
-    ("--cosmic-button-on".to_owned(), button.on),
+    (
+      "--cosmic-component-on".to_owned(),
+      to_css_hex(&component_on),
+    ),
+    ("--cosmic-button-base".to_owned(), to_css_hex(&button_base)),
+    ("--cosmic-button-on".to_owned(), to_css_hex(&button_on)),
+    ("--cosmic-hue".to_owned(), hue_degrees.to_string()),
   ]
 }
+
 fn to_css_hex(c: &Rgba) -> String {
   let c_u8: Rgba<palette::encoding::Srgb, u8> = c.into_format();
   if c_u8.alpha == u8::MAX {

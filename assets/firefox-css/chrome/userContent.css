@@ -5,15 +5,17 @@
   --cosmic-background-on-light: #000000;
   --cosmic-component-base-light: #f1fffecc;
   --cosmic-component-on-light: #020202;
-  --cosmic-button-base-light: #2e2e2e40;
+  --cosmic-button-base-light: #c2ecf0cc;
   --cosmic-button-on-light: #020202;
+  --cosmic-hue-light: 185;
 
   --cosmic-background-base-dark: #060e11a5;
   --cosmic-background-on-dark: #ffffff;
   --cosmic-component-base-dark: #182125cc;
   --cosmic-component-on-dark: #ffffff;
-  --cosmic-button-base-dark: #9e9e9e40;
+  --cosmic-button-base-dark: #00444ccc;
   --cosmic-button-on-dark: #ffffff;
+  --cosmic-hue-dark: 186;
 
   --cosmic-background-base: var(--cosmic-background-base-light);
   --cosmic-background-on: var(--cosmic-background-on-light);
@@ -21,6 +23,7 @@
   --cosmic-component-on: var(--cosmic-component-on-light);
   --cosmic-button-base: var(--cosmic-button-base-light);
   --cosmic-button-on: var(--cosmic-button-on-light);
+  --cosmic-hue: var(--cosmic-hue-light);
   @media (-moz-content-prefers-color-scheme: dark) {
     --cosmic-background-base: var(--cosmic-background-base-dark);
     --cosmic-background-on: var(--cosmic-background-on-dark);
@@ -28,12 +31,12 @@
     --cosmic-component-on: var(--cosmic-component-on-dark);
     --cosmic-button-base: var(--cosmic-button-base-dark);
     --cosmic-button-on: var(--cosmic-button-on-dark);
+    --cosmic-hue: var(--cosmic-hue-dark);
   }
 
   --cosmic-inactive-on: color(
     from var(--cosmic-background-on) srgb r g b / 0.5
   );
-  --cosmic-hue: 186;
 }
 /* END OF GENERATED CODE */
 
