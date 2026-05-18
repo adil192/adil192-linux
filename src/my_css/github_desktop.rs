@@ -59,7 +59,6 @@ impl MyCss {
         l = (l * l + l) / 2.0; // make darks darker
         let tinted_parsed = csscolorparser::Color::from_hsla(h, s, l, a);
         let tinted_css = tinted_parsed.to_css_hex();
-        println!("- Tinting {original_css} to {tinted_css}");
         let regex = Regex::new(&format!("(?<prefix>[^#]){original_css}(?<suffix>[^0-9])"))?;
         let replacer = format!("$prefix{tinted_css}$suffix");
         css_content = regex.replace_all(&css_content, &replacer).to_string();
