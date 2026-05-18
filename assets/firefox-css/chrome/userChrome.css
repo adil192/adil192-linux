@@ -8,7 +8,7 @@
   --cosmic-button-base-light: #2e2e2e40;
   --cosmic-button-on-light: #020202;
 
-  --cosmic-background-base-dark: #060e1199;
+  --cosmic-background-base-dark: #060e11a5;
   --cosmic-background-on-dark: #ffffff;
   --cosmic-component-base-dark: #182125cc;
   --cosmic-component-on-dark: #ffffff;
@@ -84,9 +84,7 @@
     &:not([lwtheme]) #navigation-toolbox {
       background-color: var(--cosmic-background-base) !important;
       color: var(--cosmic-background-on) !important;
-      @media -moz-pref("browser.tabs.allow_transparent_browser") {
-        backdrop-filter: blur(1rem);
-      }
+      backdrop-filter: blur(1rem);
 
       &:-moz-window-inactive {
         background-color: var(--cosmic-background-base) !important;
