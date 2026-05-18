@@ -420,6 +420,19 @@
       image-rendering: crisp-edges;
     }
   }
+  ytd-watch-metadata {
+    background: var(--cosmic-background-base);
+    border-radius: 1rem;
+    padding: 1rem;
+    #description.ytd-watch-metadata {
+      background: var(--cosmic-background-base) !important;
+    }
+  }
+  .ytSpecButtonShapeNextMono.ytSpecButtonShapeNextTonal,
+  .ytChipShapeInactive {
+    background: var(--cosmic-button-base) !important;
+    color: var(--cosmic-button-on) !important;
+  }
   /* Reduce transparency when light/dark mode mismatched to preserve legibility. */
   @media (prefers-color-scheme: dark) {
     html:not([dark]) ytd-app > #content {
