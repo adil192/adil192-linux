@@ -79,6 +79,10 @@
   --tabpanel-background-color: transparent !important;
 }
 
+.urlbar-input-box {
+  font-family: monospace;
+}
+
 @media (-moz-gtk-csd-transparency-available) {
   :root[customtitlebar] {
     background:
