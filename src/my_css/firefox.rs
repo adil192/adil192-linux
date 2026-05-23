@@ -176,6 +176,10 @@ impl Firefox {
       "network.ssl_tokens_cache_capacity": 32 * 1024, // up from 2048
       "privacy.partition.network_state": false, // share cache between websites
       "network.http.rcwn.enabled": true, // race cache/network, use whichever is faster
+      // Don't create a new process for each tab. This makes pages load so much faster.
+      "dom.ipc.processCount": 1,
+      "dom.ipc.processCount.webIsolated": 1,
+      "dom.ipc.processPrelaunch.fission.number": 1,
     })
     .as_object()
     .unwrap()
