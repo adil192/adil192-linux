@@ -121,6 +121,8 @@ impl Firefox {
       // Enable transparency effects
       "browser.tabs.allow_transparent_browser": true,
       "widget.transparent-windows": true,
+      // Enable rounded corners
+      "widget.gtk.rounded-bottom-corners.enabled": true,
       // Disable middle click paste
       "middlemouse.paste": true,
       // Replace the Fedora start page with the normal newtab page
