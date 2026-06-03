@@ -825,3 +825,39 @@
     }
   }
 }
+
+@-moz-document domain("reddit.com") {
+  :root .theme-beta,
+  :root .theme-rpl,
+  :root.theme-beta,
+  :root.theme-rpl {
+    --color-neutral-background: var(--cosmic-background-base) !important;
+    --color-neutral-content: var(--cosmic-background-on) !important;
+    --color-neutral-background-weak: color(
+      from var(--cosmic-background-base) srgb r g b / 0.4
+    ) !important;
+    --color-neutral-background-hover: rgb(
+      var(--cosmic-background-base-rgb) /* opaque on hover */
+    ) !important;
+  }
+  html,
+  body {
+    background: transparent !important;
+  }
+  hr {
+    opacity: 0 !important;
+    height: 0.3rem !important;
+  }
+  shreddit-ad-post {
+    display: none !important;
+  }
+  .hover\:bg-neutral-background-hover {
+    transition: background-color 0.5s ease-out !important;
+  }
+  shreddit-post {
+    > .mt-\[-4px\] {
+      /* Title overflows because of that margin-top */
+      margin-top: 0 !important;
+    }
+  }
+}
