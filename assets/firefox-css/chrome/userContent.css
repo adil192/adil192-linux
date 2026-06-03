@@ -841,7 +841,8 @@
     ) !important;
   }
   html,
-  body {
+  body,
+  .grid-container {
     background: transparent !important;
   }
   hr {
