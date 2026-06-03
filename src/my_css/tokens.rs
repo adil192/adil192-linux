@@ -135,7 +135,7 @@ fn get_theme_css_vars(theme: &Theme) -> [(String, String); 13] {
     ),
     ("--cosmic-button-on".to_owned(), to_css_hex(&button_on)),
     ("--cosmic-button-on-rgb".to_owned(), to_css_rgb(&button_on)),
-    ("--cosmic-hue".to_owned(), hue_degrees.to_string()),
+    ("--cosmic-hue".to_owned(), format!("{hue_degrees}deg")),
   ]
 }
 
