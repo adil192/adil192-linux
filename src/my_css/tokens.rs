@@ -41,7 +41,7 @@ fn generate_tokens_css_content() -> Result<String> {
   let light_vars = get_theme_css_vars(&light);
   let dark_vars = get_theme_css_vars(&dark);
 
-  let mut output = String::with_capacity(2048);
+  let mut output = String::with_capacity(4096);
   output.push_str("/* DO NOT EDIT. Changes will be overwritten. */\n");
   output.push_str(":root {\n");
   for (name, value) in &light_vars {
@@ -75,7 +75,7 @@ fn get_theme(config: Config) -> Theme {
     Err((_errs, theme)) => theme,
   }
 }
-fn get_theme_css_vars(theme: &Theme) -> [(String, String); 7] {
+fn get_theme_css_vars(theme: &Theme) -> [(String, String); 13] {
   let background = theme.background(true);
   let background_base = background.base;
   let background_on = background.on;
@@ -101,19 +101,40 @@ fn get_theme_css_vars(theme: &Theme) -> [(String, String); 7] {
       to_css_hex(&background_base),
     ),
     (
+      "--cosmic-background-base-rgb".to_owned(),
+      to_css_rgb(&background_base),
+    ),
+    (
       "--cosmic-background-on".to_owned(),
       to_css_hex(&background_on),
+    ),
+    (
+      "--cosmic-background-on-rgb".to_owned(),
+      to_css_rgb(&background_on),
     ),
     (
       "--cosmic-component-base".to_owned(),
       to_css_hex(&component_base),
     ),
     (
+      "--cosmic-component-base-rgb".to_owned(),
+      to_css_rgb(&component_base),
+    ),
+    (
       "--cosmic-component-on".to_owned(),
       to_css_hex(&component_on),
     ),
+    (
+      "--cosmic-component-on-rgb".to_owned(),
+      to_css_rgb(&component_on),
+    ),
     ("--cosmic-button-base".to_owned(), to_css_hex(&button_base)),
+    (
+      "--cosmic-button-base-rgb".to_owned(),
+      to_css_rgb(&button_base),
+    ),
     ("--cosmic-button-on".to_owned(), to_css_hex(&button_on)),
+    ("--cosmic-button-on-rgb".to_owned(), to_css_rgb(&button_on)),
     ("--cosmic-hue".to_owned(), hue_degrees.to_string()),
   ]
 }
@@ -128,4 +149,9 @@ fn to_css_hex(c: &Rgba) -> String {
       c_u8.red, c_u8.green, c_u8.blue, c_u8.alpha
     )
   }
+}
+
+fn to_css_rgb(c: &Rgba) -> String {
+  let c_u8: Rgba<palette::encoding::Srgb, u8> = c.into_format();
+  format!("{} {} {}", c_u8.red, c_u8.green, c_u8.blue)
 }

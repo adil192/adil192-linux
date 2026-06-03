@@ -2,35 +2,59 @@
 /* DO NOT EDIT. Changes will be overwritten. */
 :root {
   --cosmic-background-base-light: #d0e3e299;
+  --cosmic-background-base-rgb-light: 208 227 226;
   --cosmic-background-on-light: #000000;
+  --cosmic-background-on-rgb-light: 0 0 0;
   --cosmic-component-base-light: #f1fffecc;
+  --cosmic-component-base-rgb-light: 241 255 254;
   --cosmic-component-on-light: #020202;
+  --cosmic-component-on-rgb-light: 2 2 2;
   --cosmic-button-base-light: #c2ecf0cc;
+  --cosmic-button-base-rgb-light: 194 236 240;
   --cosmic-button-on-light: #020202;
+  --cosmic-button-on-rgb-light: 2 2 2;
   --cosmic-hue-light: 185;
 
   --cosmic-background-base-dark: #060e11a5;
+  --cosmic-background-base-rgb-dark: 6 14 17;
   --cosmic-background-on-dark: #ffffff;
+  --cosmic-background-on-rgb-dark: 255 255 255;
   --cosmic-component-base-dark: #182125cc;
+  --cosmic-component-base-rgb-dark: 24 33 37;
   --cosmic-component-on-dark: #ffffff;
+  --cosmic-component-on-rgb-dark: 255 255 255;
   --cosmic-button-base-dark: #00444ccc;
+  --cosmic-button-base-rgb-dark: 0 68 76;
   --cosmic-button-on-dark: #ffffff;
+  --cosmic-button-on-rgb-dark: 255 255 255;
   --cosmic-hue-dark: 186;
 
   --cosmic-background-base: var(--cosmic-background-base-light);
+  --cosmic-background-base-rgb: var(--cosmic-background-base-rgb-light);
   --cosmic-background-on: var(--cosmic-background-on-light);
+  --cosmic-background-on-rgb: var(--cosmic-background-on-rgb-light);
   --cosmic-component-base: var(--cosmic-component-base-light);
+  --cosmic-component-base-rgb: var(--cosmic-component-base-rgb-light);
   --cosmic-component-on: var(--cosmic-component-on-light);
+  --cosmic-component-on-rgb: var(--cosmic-component-on-rgb-light);
   --cosmic-button-base: var(--cosmic-button-base-light);
+  --cosmic-button-base-rgb: var(--cosmic-button-base-rgb-light);
   --cosmic-button-on: var(--cosmic-button-on-light);
+  --cosmic-button-on-rgb: var(--cosmic-button-on-rgb-light);
   --cosmic-hue: var(--cosmic-hue-light);
   @media (-moz-content-prefers-color-scheme: dark) {
     --cosmic-background-base: var(--cosmic-background-base-dark);
+    --cosmic-background-base-rgb: var(--cosmic-background-base-rgb-dark);
     --cosmic-background-on: var(--cosmic-background-on-dark);
+    --cosmic-background-on-rgb: var(--cosmic-background-on-rgb-dark);
     --cosmic-component-base: var(--cosmic-component-base-dark);
+    --cosmic-component-base-rgb: var(--cosmic-component-base-rgb-dark);
     --cosmic-component-on: var(--cosmic-component-on-dark);
+    --cosmic-component-on-rgb: var(--cosmic-component-on-rgb-dark);
     --cosmic-button-base: var(--cosmic-button-base-dark);
+    --cosmic-button-base-rgb: var(--cosmic-button-base-rgb-dark);
     --cosmic-button-on: var(--cosmic-button-on-dark);
+    --cosmic-button-on-rgb: var(--cosmic-button-on-rgb-dark);
     --cosmic-hue: var(--cosmic-hue-dark);
   }
 
@@ -706,6 +730,7 @@
   }
 }
 
+/* Bitwarden */
 @-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476")
 {
   html.theme_light {
@@ -736,5 +761,61 @@
   html app-root {
     background-color: var(--cosmic-background-base) !important;
     color: var(--cosmic-component-on) !important;
+  }
+}
+
+@-moz-document domain("instagram.com") {
+  :root {
+    --ig-primary-background: 0 0 0 / 0 !important;
+    --ig-primary-text: var(--cosmic-component-on-rgb) !important;
+    --ig-bubble-background: var(--cosmic-component-base-rgb) !important;
+    --igd-thread-background-color: var(--cosmic-background-base) !important;
+    --ig-highlight-background: var(--cosmic-component-base-rgb) !important;
+    --ig-secondary-background: var(--cosmic-component-base-rgb) !important;
+    --ig-secondary-text: 50 60 70 !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ig-secondary-text: 220 220 220 !important;
+    }
+  }
+  html,
+  body {
+    background: transparent !important;
+  }
+  [data-pagelet="IGDInboxThreadListScrollableAreaPagelet"]
+    .html-div
+    .html-div
+    [role="button"]:not([aria-haspopup="dialog"]) {
+    background: rgb(var(--ig-highlight-background) / 0.6) !important;
+    margin: 0.2rem 0.8rem !important;
+    transition: background-color 0.03s ease-out;
+
+    &:hover {
+      background: rgb(var(--ig-highlight-background) / 0.9) !important;
+    }
+    &[aria-pressed="true"] {
+      background: rgb(var(--ig-highlight-background)) !important;
+    }
+  }
+  .html-div[style="--x-height: 100%;"]
+    > .html-div
+    > div
+    > div[tabindex="-1"]
+    > div
+    > div[style~="width:"][style~="background-color:"][style~="transition:"] {
+    /* This is the sidebar */
+    background-color: transparent !important;
+    backdrop-filter: blur(0px);
+    transition:
+      background-color 0.5s ease-out,
+      backdrop-filter 0.5s ease-out,
+      width 0.01s ease-out !important;
+
+    &:has([style^="display: flex;"]) {
+      /* Expanded sidebar */
+      background-color: var(--cosmic-component-base) !important;
+      backdrop-filter: blur(3px);
+    }
   }
 }
