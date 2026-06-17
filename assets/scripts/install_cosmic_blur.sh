@@ -40,19 +40,12 @@ clone cosmic-osd theme-v2
 clone cosmic-panel theme-v2
 clone cosmic-player theme-v2
 clone cosmic-settings theme-v2
+clone cosmic-settings-daemon theme-v2
 clone cosmic-store theme-v2
 clone cosmic-term theme-v2
 clone cosmic-workspaces-epoch theme-v2
 clone libcosmic theme-v2
 clone xdg-desktop-portal-cosmic theme-v2
-
-# There isn't an official theme-v2 branch of cosmic-settings-daemon yet so use mine.
-# Without this, gtk/qt apps will be stuck on whatever theme you had before installing theme-v2.
-[[ -d "cosmic-settings-daemon" ]] || git clone "https://github.com/pop-os/cosmic-settings-daemon.git" --recurse-submodules
-git -C "cosmic-settings-daemon" remote add adil192 "https://github.com/adil192/cosmic-settings-daemon.git" || true
-git -C "cosmic-settings-daemon" fetch adil192
-git -C "cosmic-settings-daemon" switch theme-v2-unofficial
-git -C "cosmic-settings-daemon" pull || git -C "cosmic-settings-daemon" reset --hard adil192/theme-v2-unofficial
 
 echo
 echo "Starting the builds. This will take a while..."
