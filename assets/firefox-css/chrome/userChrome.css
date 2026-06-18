@@ -91,16 +91,25 @@
 }
 
 :root {
-  /* background behind tabs, where the minimize/maximize/close buttons are located */
-  --toolbox-bgcolor: var(--cosmic-background-base) !important;
-  --toolbox-textcolor: var(--cosmic-background-on) !important;
-  --toolbox-bgcolor-inactive: var(--cosmic-background-base) !important;
-  --toolbox-textcolor-inactive: var(--cosmic-inactive-on) !important;
   /* background of toolbar, i.e. where the url bar is located */
-  --toolbar-bgcolor: var(--cosmic-component-base) !important;
-  --toolbar-color: var(--cosmic-component-on) !important;
+  --toolbar-background-color: var(--cosmic-component-base) !important;
+  --toolbar-text-color: var(--cosmic-component-on) !important;
+  /* url bar suggestions background */
+  --toolbar-field-background-color-focus: color(
+    from var(--cosmic-component-base) srgb r g b / 0.99
+  ) !important;
+
   /* background of blank page like about:blank or while a page is loading */
   --tabpanel-background-color: transparent !important;
+
+  --chrome-content-separator-color: color(
+    from var(--cosmic-background-on) srgb r g b / 0.05
+  ) !important;
+  --panel-border-color: var(--chrome-content-separator-color) !important;
+}
+
+#nav-bar {
+  border-top: none !important;
 }
 
 .urlbar-input-box {
