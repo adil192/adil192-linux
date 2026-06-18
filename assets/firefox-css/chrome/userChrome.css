@@ -94,9 +94,14 @@
   /* background of toolbar, i.e. where the url bar is located */
   --toolbar-background-color: var(--cosmic-component-base) !important;
   --toolbar-text-color: var(--cosmic-component-on) !important;
-  /* url bar suggestions background */
-  --toolbar-field-background-color-focus: color(
+  /* popups and panels background */
+  --panel-background-color: color(
     from var(--cosmic-component-base) srgb r g b / 0.99
+  ) !important;
+  --panel-text-color: var(--cosmic-component-on) !important;
+  /* url bar suggestions background */
+  --toolbar-field-background-color-focus: var(
+    --panel-background-color
   ) !important;
 
   /* background of blank page like about:blank or while a page is loading */
