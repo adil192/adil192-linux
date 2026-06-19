@@ -103,14 +103,15 @@
   --toolbar-field-background-color-focus: var(
     --panel-background-color
   ) !important;
-
   /* background of blank page like about:blank or while a page is loading */
   --tabpanel-background-color: transparent !important;
-
+  /* borders */
   --chrome-content-separator-color: color(
     from var(--cosmic-background-on) srgb r g b / 0.05
   ) !important;
   --panel-border-color: var(--chrome-content-separator-color) !important;
+  /* vertical line before tabs */
+  --tabstrip-inner-border: none !important;
 }
 
 #nav-bar {
