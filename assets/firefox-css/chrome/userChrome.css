@@ -112,6 +112,13 @@
   --panel-border-color: var(--chrome-content-separator-color) !important;
   /* vertical line before tabs */
   --tabstrip-inner-border: none !important;
+  /* tab and button border radius */
+  --border-radius-medium: 12px !important;
+}
+
+.titlebar-spacer[type="pre-tabs"] {
+  /* Remove space before tabs */
+  max-width: 2px !important;
 }
 
 #nav-bar {
