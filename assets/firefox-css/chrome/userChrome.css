@@ -116,7 +116,7 @@
   --border-radius-medium: 12px !important;
 }
 
-.titlebar-spacer[type="pre-tabs"] {
+.titlebar-spacer {
   /* Remove space before tabs */
   max-width: 2px !important;
 }
@@ -174,7 +174,9 @@
   cursor: pointer !important;
 
   & > .toolbarbutton-icon {
-    border-radius: 5px !important; /* rrect instead of circle buttons */
+    border-radius: var(
+      --border-radius-medium
+    ) !important; /* rrect instead of circle buttons */
 
     @media (-moz-gtk-theme-family: adwaita) or (-moz-gtk-theme-family: yaru) {
       background-color: transparent !important; /* remove unhovered background */
