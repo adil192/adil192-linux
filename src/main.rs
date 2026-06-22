@@ -5,6 +5,7 @@ mod drivers;
 mod firefox_cacher;
 mod my_css;
 mod tools;
+mod yaru;
 
 use anyhow::bail;
 
@@ -12,6 +13,7 @@ use crate::apps::MyApps;
 use crate::drivers::MyDrivers;
 use crate::firefox_cacher::FirefoxCacher;
 use crate::my_css::MyCss;
+use crate::yaru::Yaru;
 
 fn main() -> anyhow::Result<()> {
   let arg = match std::env::args().nth(1) {
@@ -30,6 +32,7 @@ fn install() -> anyhow::Result<()> {
   MyDrivers::install()?;
   MyApps::install()?;
   FirefoxCacher::install()?;
+  Yaru::install()?;
 
   if MyCss::enabled()? {
     MyCss::generate_tokens()?;
