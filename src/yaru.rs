@@ -39,7 +39,7 @@ impl Yaru {
     }
 
     let pwd = var("PWD").unwrap();
-    let switch_gnome_theme_sh = format_args!("{pwd}/assets/scripts/switch_gnome_theme.sh");
+    let switch_gnome_theme_sh = format_args!("{pwd}/scripts/switch_gnome_theme.sh");
     run_interactively(
       "dconf",
       &[
