@@ -4,6 +4,7 @@ mod apps;
 mod drivers;
 mod firefox_cacher;
 mod my_css;
+mod my_home;
 mod tools;
 mod yaru;
 
@@ -13,6 +14,7 @@ use crate::apps::MyApps;
 use crate::drivers::MyDrivers;
 use crate::firefox_cacher::FirefoxCacher;
 use crate::my_css::MyCss;
+use crate::my_home::MyHome;
 use crate::yaru::Yaru;
 
 fn main() -> anyhow::Result<()> {
@@ -24,6 +26,7 @@ fn main() -> anyhow::Result<()> {
   match arg.as_str() {
     "--install" => install(),
     "--uninstall" => uninstall(),
+    "track" => MyHome::track(),
     _ => bail!("Unrecognized argument: {arg}"),
   }
 }

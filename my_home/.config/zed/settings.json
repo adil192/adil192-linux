@@ -1,0 +1,156 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent": {
+    "button": false,
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "mouse_wheel_zoom": true,
+  "vertical_scroll_margin": 5.0,
+  "expand_excerpt_lines": 10,
+  "hover_popover_sticky": false,
+  "buffer_line_height": {
+    "custom": 1.5
+  },
+  "middle_click_paste": false,
+  "code_lens": "menu",
+  "always_treat_brackets_as_autoclosed": true,
+  "toolbar": {
+    "code_actions": true,
+    "agent_review": true,
+    "breadcrumbs": true,
+  },
+  "hover_popover_hiding_delay": 0,
+  "sticky_scroll": {
+    "enabled": false,
+  },
+  "scroll_beyond_last_line": "vertical_scroll_margin",
+  "diff_view_style": "unified",
+  "scrollbar": {
+    "search_results": false,
+    "diagnostics": "warning",
+    "selected_text": false,
+    "selected_symbol": false,
+    "git_diff": false,
+    "cursors": false,
+  },
+  "gutter": {
+    "runnables": false,
+    "line_numbers": true,
+    "min_line_number_digits": 2,
+    "bookmarks": false,
+    "breakpoints": false,
+  },
+  "indent_guides": {
+    "active_line_width": 2,
+    "coloring": "indent_aware",
+  },
+  "terminal": {
+    "font_size": 14.0,
+    "font_family": ".ZedMono",
+    "shell": {
+      "program": "/home/ahann/.cargo/bin/brush",
+    },
+  },
+  "cli_default_open_behavior": "new_window",
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "file_scan_exclusions": [
+    // Defaults from Zed
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/.jj",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    // Mine
+    "**/submodules/flutter/*",
+    "**/.flatpak-builder/cache",
+    "**/.flatpak-builder/ccache",
+    "**/.flatpak-builder/rofiles",
+  ],
+  "show_edit_predictions": true,
+  "tab_size": 2,
+  "ui_font_family": "Adwaita Sans",
+  "ui_font_fallbacks": [
+    ".ZedSans",
+    "Noto Sans",
+    "Noto Color Emoji",
+    "Noto Emoji",
+    "OpenSymbol",
+    "Segoe UI Emoji",
+  ],
+  "buffer_font_family": ".ZedMono",
+  "buffer_font_fallbacks": [
+    ".ZedMono",
+    "Adwaita Mono",
+    "Noto Sans Mono",
+    "Noto Color Emoji",
+    "Noto Emoji",
+    "OpenSymbol",
+    "Segoe UI Emoji",
+  ],
+  "drag_and_drop_selection": {
+    "delay": 0,
+  },
+  "colorize_brackets": true,
+  "project_panel": {
+    "dock": "left",
+    "hide_hidden": false,
+    "hide_root": true,
+    "indent_size": 12.0,
+    "entry_spacing": "standard",
+  },
+  "edit_predictions": {
+    "provider": "ollama",
+    "ollama": {
+      "model": "hf.co/unsloth/Qwen2.5-Coder-1.5B-Instruct-GGUF:Q4_K_M",
+      "api_url": "http://localhost:11434",
+      "prompt_format": "qwen",
+      "max_output_tokens": 32
+    }
+  },
+  "soft_wrap": "editor_width",
+  "format_on_save": "off",
+  "base_keymap": "VSCode",
+  "minimap": {
+    "show": "never",
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+  "languages": {
+    "Rust": {
+      "format_on_save": "on",
+    },
+    "Dart": {
+      "format_on_save": "on",
+    },
+  },
+}
