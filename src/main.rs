@@ -36,6 +36,7 @@ fn install() -> anyhow::Result<()> {
   MyApps::install()?;
   FirefoxCacher::install()?;
   Yaru::install()?;
+  MyHome::install()?;
 
   if MyCss::enabled()? {
     MyCss::generate_tokens()?;

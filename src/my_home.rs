@@ -5,8 +5,50 @@ use std::path::Path;
 
 use anyhow::{Result, anyhow, bail};
 
+use crate::tools::ask;
+
 pub struct MyHome;
 impl MyHome {
+  /// Symlinks files from `my_home` to your actual home directory.
+  pub fn install() -> Result<()> {
+    let home = var("HOME")?;
+    let pwd = var("PWD")?;
+    let my_home = Path::new(&pwd).join("my_home");
+
+    visit_files(&my_home, &|tracked_file| -> Result<()> {
+      let relative_path = tracked_file.strip_prefix(&my_home)?;
+      let target_path = Path::new(&home).join(relative_path);
+      if target_path.is_symlink() {
+        return Ok(());
+      }
+      if !ask(
+        &format!("Install ~/{}?", relative_path.to_string_lossy()),
+        true,
+      ) {
+        return Ok(());
+      }
+      if target_path.exists() {
+        if !ask(
+          &format!(
+            "└─ Already exists, overwrite ~/{}?",
+            relative_path.to_string_lossy()
+          ),
+          false,
+        ) {
+          return Ok(());
+        }
+        fs::remove_file(&target_path)?;
+      }
+      if let Some(parent) = target_path.parent() {
+        fs::create_dir_all(parent)?;
+      }
+      symlink(tracked_file, target_path)?;
+      Ok(())
+    })?;
+
+    Ok(())
+  }
+
   /// Tracks a local file into this git repo.
   /// The original file will be moved into `my_home` and symlinked back.
   pub fn track() -> Result<()> {
@@ -38,4 +80,21 @@ impl MyHome {
 
     Ok(())
   }
+}
+
+/// Recursively finds files in the specified [dir].
+fn visit_files(dir: &Path, cb: &dyn Fn(&Path) -> Result<()>) -> Result<()> {
+  if !dir.is_dir() {
+    return Ok(());
+  }
+  for entry in fs::read_dir(dir)? {
+    let entry = entry?;
+    let path = entry.path();
+    if path.is_dir() {
+      visit_files(&path, cb)?;
+    } else {
+      cb(&path)?;
+    }
+  }
+  Ok(())
 }
