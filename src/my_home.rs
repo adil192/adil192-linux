@@ -3,7 +3,7 @@ use std::fs;
 use std::os::unix::fs::symlink;
 use std::path::Path;
 
-use anyhow::{Result, anyhow};
+use anyhow::{Result, anyhow, bail};
 
 pub struct MyHome;
 impl MyHome {
@@ -27,7 +27,14 @@ impl MyHome {
 
     fs::copy(orig_file, &tracked_file)?;
     fs::remove_file(orig_file)?;
-    symlink(&tracked_file, orig_file)?;
+    if symlink(&tracked_file, orig_file).is_err() {
+      _ = fs::copy(&tracked_file, orig_file);
+      bail!(
+        "Failed to symlink {} to {}, restoring original file...",
+        tracked_file.to_string_lossy(),
+        orig_file.to_string_lossy(),
+      );
+    }
 
     Ok(())
   }
