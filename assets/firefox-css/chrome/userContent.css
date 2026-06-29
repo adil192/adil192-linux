@@ -1,21 +1,21 @@
 /* START OF GENERATED CODE */
 /* DO NOT EDIT. Changes will be overwritten. */
 :root {
-  --cosmic-background-base-light: #d0e3e299;
+  --cosmic-background-base-light: #d0e3e29c;
   --cosmic-background-base-rgb-light: 208 227 226;
   --cosmic-background-on-light: #000000;
   --cosmic-background-on-rgb-light: 0 0 0;
   --cosmic-component-base-light: #f1fffecc;
   --cosmic-component-base-rgb-light: 241 255 254;
-  --cosmic-component-on-light: #020202;
-  --cosmic-component-on-rgb-light: 2 2 2;
+  --cosmic-component-on-light: #030303;
+  --cosmic-component-on-rgb-light: 3 3 3;
   --cosmic-button-base-light: #c2ecf0cc;
   --cosmic-button-base-rgb-light: 194 236 240;
-  --cosmic-button-on-light: #020202;
-  --cosmic-button-on-rgb-light: 2 2 2;
+  --cosmic-button-on-light: #030303;
+  --cosmic-button-on-rgb-light: 3 3 3;
   --cosmic-hue-light: 185deg;
 
-  --cosmic-background-base-dark: #060e11a5;
+  --cosmic-background-base-dark: #060e1199;
   --cosmic-background-base-rgb-dark: 6 14 17;
   --cosmic-background-on-dark: #ffffff;
   --cosmic-background-on-rgb-dark: 255 255 255;
