@@ -6,7 +6,11 @@ if [ "$1" == "dark" ]; then
   dconf write /org/gnome/desktop/interface/gtk-theme "'Yaru-prussiangreen-dark'"
   dconf write /org/gnome/desktop/interface/icon-theme "'Yaru-prussiangreen-dark'"
   KCOLORSCHEME="$HOME/.local/share/color-schemes/CosmicDark.colors"
-  [ -f "$KCOLORSCHEME" ] || KCOLORSCHEME="/usr/share/color-schemes/BreezeDark.colors"
+  if [ -f "$KCOLORSCHEME" ]; then
+    cp "$KCOLORSCHEME" "$HOME/.config/kdeglobals"
+  else
+    KCOLORSCHEME="/usr/share/color-schemes/BreezeDark.colors"
+  fi
   sed -i \
     -e "s|^color_scheme_path=/usr/share/color-schemes/Breeze.*|color_scheme_path=$KCOLORSCHEME|" \
     -e "s|^color_scheme_path=$HOME/.local/share/color-schemes/Cosmic.*|color_scheme_path=$KCOLORSCHEME|" \
@@ -24,7 +28,11 @@ elif [ "$1" == "light" ]; then
   dconf write /org/gnome/desktop/interface/gtk-theme "'Yaru-prussiangreen'"
   dconf write /org/gnome/desktop/interface/icon-theme "'Yaru-prussiangreen'"
   KCOLORSCHEME="$HOME/.local/share/color-schemes/CosmicLight.colors"
-  [ -f "$KCOLORSCHEME" ] || KCOLORSCHEME="/usr/share/color-schemes/BreezeLight.colors"
+  if [ -f "$KCOLORSCHEME" ]; then
+    cp "$KCOLORSCHEME" "$HOME/.config/kdeglobals"
+  else
+    KCOLORSCHEME="/usr/share/color-schemes/BreezeLight.colors"
+  fi
   sed -i \
     -e "s|^color_scheme_path=/usr/share/color-schemes/Breeze.*|color_scheme_path=$KCOLORSCHEME|" \
     -e "s|^color_scheme_path=$HOME/.local/share/color-schemes/Cosmic.*|color_scheme_path=$KCOLORSCHEME|" \
