@@ -9,15 +9,14 @@
 {
   "agent": {
     "button": false,
-    "favorite_models": [],
-    "model_parameters": []
+    "dock": "right",
   },
   "mouse_wheel_zoom": true,
   "vertical_scroll_margin": 5.0,
   "expand_excerpt_lines": 10,
   "hover_popover_sticky": false,
   "buffer_line_height": {
-    "custom": 1.5
+    "custom": 1.5,
   },
   "middle_click_paste": false,
   "code_lens": "menu",
@@ -54,10 +53,7 @@
   },
   "terminal": {
     "font_size": 14.0,
-    "font_family": ".ZedMono",
-    "shell": {
-      "program": "/home/ahann/.cargo/bin/brush",
-    },
+    "max_scroll_history_lines": 5000,
   },
   "cli_default_open_behavior": "new_window",
   "outline_panel": {
@@ -97,9 +93,11 @@
     "OpenSymbol",
     "Segoe UI Emoji",
   ],
-  "buffer_font_family": ".ZedMono",
+  "buffer_font_family": "FiraCode Nerd Font",
   "buffer_font_fallbacks": [
     ".ZedMono",
+    "FiraCode",
+    "Droid Sans Mono",
     "Adwaita Mono",
     "Noto Sans Mono",
     "Noto Color Emoji",
@@ -113,9 +111,8 @@
   "colorize_brackets": true,
   "project_panel": {
     "dock": "left",
-    "hide_hidden": false,
     "hide_root": true,
-    "indent_size": 12.0,
+    "indent_size": 16.0,
     "entry_spacing": "standard",
   },
   "edit_predictions": {
@@ -124,8 +121,10 @@
       "model": "hf.co/unsloth/Qwen2.5-Coder-1.5B-Instruct-GGUF:Q4_K_M",
       "api_url": "http://localhost:11434",
       "prompt_format": "qwen",
-      "max_output_tokens": 32
-    }
+      "max_output_tokens": 32,
+    },
+    "mode": "subtle",
+    "disabled_globs": ["**/key.properties"],
   },
   "soft_wrap": "editor_width",
   "format_on_save": "off",
@@ -139,18 +138,24 @@
     },
   },
   "ui_font_size": 16,
-  "buffer_font_size": 16.0,
+  "buffer_font_size": 15.0,
   "theme": {
     "mode": "system",
     "light": "One Light",
     "dark": "One Dark",
   },
+  "preferred_line_length": 100,
   "languages": {
     "Rust": {
       "format_on_save": "on",
     },
     "Dart": {
       "format_on_save": "on",
+      "preferred_line_length": 80,
+      "tab_size": 2,
     },
+  },
+  "file_types": {
+    "ini": [".weblate"],
   },
 }
