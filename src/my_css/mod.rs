@@ -3,8 +3,6 @@ pub mod github_desktop;
 pub mod thunderbird;
 pub mod tokens;
 
-use std::env::var;
-
 use anyhow::Result;
 use cached::proc_macro::once;
 use cosmic::config::CosmicTk;
@@ -23,10 +21,6 @@ impl MyCss {
 /// and the COSMIC `apply_theme_global` setting is true.
 #[once(result = true)]
 fn _enabled() -> Result<bool> {
-  if var("XDG_SESSION_DESKTOP")? != "COSMIC" {
-    return Ok(false);
-  }
-
   let tk_helper = CosmicTk::config()?;
   let tk = match CosmicTk::get_entry(&tk_helper) {
     Ok(tk) => tk,
