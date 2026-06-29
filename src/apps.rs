@@ -208,7 +208,10 @@ fn install_git_credential_manager() -> Result<bool> {
 }
 
 fn install_github_desktop_plus() -> Result<bool> {
-  if is_exe_in_path("github-desktop-plus") || is_exe_in_path("github-desktop") {
+  if is_exe_in_path("desktop-plus")
+    || is_exe_in_path("github-desktop-plus")
+    || is_exe_in_path("github-desktop")
+  {
     println!("Skipping GitHub Desktop Plus: already installed");
     return Ok(true);
   }
@@ -232,7 +235,7 @@ fn install_github_desktop_plus() -> Result<bool> {
       "echo -e '[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key' | sudo tee /etc/yum.repos.d/github-desktop-plus.repo",
     ],
   )?;
-  Dnf::install(&["github-desktop-plus"])?;
+  Dnf::install(&["desktop-plus"])?;
   println!();
   Ok(true)
 }

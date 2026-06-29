@@ -14,7 +14,7 @@ use crate::tools::{ask, run_interactively, run_output};
 impl MyCss {
   pub fn theme_github_desktop() -> Result<()> {
     assert!(Self::enabled()?);
-    println!("Tinting GitHub Desktop");
+    println!("Tinting GitHub Desktop Plus");
 
     let app = find_app()?;
 
@@ -71,10 +71,10 @@ impl MyCss {
   }
 
   pub fn untheme_github_desktop() -> Result<bool> {
-    if !ask("Untheme GitHub Desktop?", true) {
+    if !ask("Untheme GitHub Desktop Plus?", true) {
       return Ok(false);
     }
-    println!("Resetting GitHub Desktop css...");
+    println!("Resetting GitHub Desktop Plus css...");
     let app = find_app()?;
     let css_files_raw = run_output(
       "find",
@@ -98,12 +98,12 @@ impl MyCss {
 const HUE_DEFAULT: f32 = 210.0;
 
 fn find_app() -> Result<PathBuf> {
-  let bin = run_output("which", &["github-desktop-plus"])?;
+  let bin = run_output("which", &["desktop-plus"])?;
   let real_bin = run_output("realpath", &[&bin])?;
   Path::new(&real_bin)
     .parent()
     .map(Path::to_owned)
-    .ok_or_else(|| anyhow!("Could not find parent dir of github desktop binary"))
+    .ok_or_else(|| anyhow!("Could not find parent dir of github desktop plus binary"))
 }
 
 fn get_target_hue() -> Result<f32> {
