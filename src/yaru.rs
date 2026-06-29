@@ -28,14 +28,11 @@ impl Yaru {
     Dnf::install(&["yaru-theme", "gnome-shell-extension-user-theme"])?;
     println!();
 
-    loop {
+    while !_is_switcher_extension_installed()? {
       println!(
         "Please install the extension from https://extensions.gnome.org/extension/2236/night-theme-switcher/"
       );
       ask("Press enter when installed... ", true);
-      if _is_switcher_extension_installed()? {
-        break;
-      }
     }
 
     let pwd = var("PWD").unwrap();
