@@ -35,7 +35,7 @@ clone cosmic-edit theme-v2
 clone cosmic-files theme-v2
 clone cosmic-greeter theme-v2
 clone cosmic-launcher theme-v2
-clone cosmic-monitor theme-v2
+clone cosmic-monitor master # Merged on Jul 2: https://github.com/pop-os/cosmic-monitor/pull/59
 clone cosmic-notifications theme-v2
 clone cosmic-osd theme-v2
 clone cosmic-panel theme-v2
@@ -45,7 +45,7 @@ clone cosmic-settings-daemon theme-v2
 clone cosmic-store theme-v2
 clone cosmic-term theme-v2
 clone cosmic-workspaces-epoch theme-v2
-clone libcosmic theme-v2
+rm -rf libcosmic # Merged on Jul 1: https://github.com/pop-os/libcosmic/pull/1196
 clone xdg-desktop-portal-cosmic theme-v2
 
 echo
