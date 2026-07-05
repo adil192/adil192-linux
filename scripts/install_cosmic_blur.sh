@@ -48,6 +48,13 @@ clone cosmic-workspaces-epoch theme-v2
 rm -rf libcosmic # Merged on Jul 1: https://github.com/pop-os/libcosmic/pull/1196
 clone xdg-desktop-portal-cosmic theme-v2
 
+if [[ "$USER" == "ahann" ]]; then
+  # Just for me, apply changes from this PR for touchpad gestures (rebased by me):
+  # https://github.com/pop-os/cosmic-comp/pull/1799.
+  git -C cosmic-comp reset --hard origin/frosted-glass_noble
+  git -C cosmic-comp am /home/ahann/Documents/GitHub/adil192-linux/assets/1799-touchpad-gestures.patch
+fi
+
 echo
 echo "Starting the builds. This will take a while..."
 echo "If the builds fail, ensure you have the necessary dependencies: https://github.com/pop-os/cosmic-epoch#setup-on-distributions-without-packaging-of-cosmic-components"

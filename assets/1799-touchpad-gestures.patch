@@ -1,0 +1,294 @@
+From c7ea77fbd013aaddd7ac1e9c78e101edd1819916 Mon Sep 17 00:00:00 2001
+From: Frederic Laing <frederic.laing.development@gmail.com>
+Date: Tue, 11 Nov 2025 12:03:21 +0100
+Subject: [PATCH] implement four finger gestures to hide/show the cosmic app
+ library and cosmic workspace overview
+
+---
+ src/input/actions.rs      |  20 +++++
+ src/input/gestures/mod.rs |   2 +
+ src/input/mod.rs          | 160 +++++++++++++++++++++++++++++---------
+ src/utils/quirks.rs       |  10 +++
+ 4 files changed, 157 insertions(+), 35 deletions(-)
+
+diff --git a/src/input/actions.rs b/src/input/actions.rs
+index 3d017697..cea88433 100644
+--- a/src/input/actions.rs
++++ b/src/input/actions.rs
+@@ -136,6 +136,26 @@ impl State {
+                     &mut self.common.workspace_state.update(),
+                 );
+             }
++            SwipeAction::ToggleWorkspaceOverview => {
++                if let Some(command) = self
++                    .common
++                    .config
++                    .system_actions
++                    .get(&shortcuts::action::System::WorkspaceOverview)
++                {
++                    self.spawn_command(command.clone());
++                }
++            }
++            SwipeAction::ToggleAppLibrary => {
++                if let Some(command) = self
++                    .common
++                    .config
++                    .system_actions
++                    .get(&shortcuts::action::System::AppLibrary)
++                {
++                    self.spawn_command(command.clone());
++                }
++            }
+         }
+     }
+ 
+diff --git a/src/input/gestures/mod.rs b/src/input/gestures/mod.rs
+index 6c9c2f38..2826374c 100644
+--- a/src/input/gestures/mod.rs
++++ b/src/input/gestures/mod.rs
+@@ -16,6 +16,8 @@ pub struct SwipeEvent {
+ pub enum SwipeAction {
+     NextWorkspace,
+     PrevWorkspace,
++    ToggleWorkspaceOverview,
++    ToggleAppLibrary,
+ }
+ 
+ #[derive(Debug, Clone)]
+diff --git a/src/input/mod.rs b/src/input/mod.rs
+index 1114d50b..062502fe 100644
+--- a/src/input/mod.rs
++++ b/src/input/mod.rs
+@@ -23,7 +23,10 @@ use crate::{
+         },
+         zoom::ZoomState,
+     },
+-    utils::{prelude::*, quirks::workspace_overview_is_open},
++    utils::{
++        prelude::*,
++        quirks::{app_library_is_open, workspace_overview_is_open},
++    },
+     wayland::handlers::{
+         image_copy_capture::SessionHolder, xwayland_keyboard_grab::XWaylandGrabSeat,
+     },
+@@ -1045,7 +1048,9 @@ impl State {
+                     .cloned();
+                 if let Some(seat) = maybe_seat {
+                     self.common.idle_notifier_state.notify_activity(&seat);
+-                    if event.fingers() >= 3 && !workspace_overview_is_open(&seat.active_output()) {
++                    // Allow 4-finger gestures even when overview is open (for closing it)
++                    // Allow 3+ finger gestures when overview is not open
++                    if event.fingers() >= 3 {
+                         self.common.gesture_state = Some(GestureState::new(event.fingers()));
+                     } else {
+                         let serial = SERIAL_COUNTER.next_serial();
+@@ -1086,47 +1091,86 @@ impl State {
+                             {
+                                 natural_scroll = natural;
+                             }
++                            let overview_is_open =
++                                workspace_overview_is_open(&seat.active_output());
++                            let app_library_is_open = app_library_is_open(&seat.active_output());
++
++                            // Helper to determine action for overview/app library toggle gestures
++                            let overview_or_library_action =
++                                |is_overview_direction: bool| -> Option<SwipeAction> {
++                                    if is_overview_direction {
++                                        // Swipe in "overview direction" closes app library or opens overview
++                                        if app_library_is_open {
++                                            Some(SwipeAction::ToggleAppLibrary)
++                                        } else if !overview_is_open {
++                                            Some(SwipeAction::ToggleWorkspaceOverview)
++                                        } else {
++                                            None
++                                        }
++                                    } else {
++                                        // Swipe in "app library direction" closes overview or opens app library
++                                        if overview_is_open {
++                                            Some(SwipeAction::ToggleWorkspaceOverview)
++                                        } else if !app_library_is_open {
++                                            Some(SwipeAction::ToggleAppLibrary)
++                                        } else {
++                                            None
++                                        }
++                                    }
++                                };
++
+                             activate_action = match gesture_state.fingers {
+                                 3 => None, // TODO: 3 finger gestures
+                                 4 => {
+-                                    if self.common.config.cosmic_conf.workspaces.workspace_layout
+-                                        == WorkspaceLayout::Horizontal
+-                                    {
+-                                        match gesture_state.direction {
+-                                            Some(Direction::Left) => {
+-                                                if natural_scroll {
+-                                                    Some(SwipeAction::NextWorkspace)
+-                                                } else {
+-                                                    Some(SwipeAction::PrevWorkspace)
+-                                                }
++                                    let is_horizontal =
++                                        self.common.config.cosmic_conf.workspaces.workspace_layout
++                                            == WorkspaceLayout::Horizontal;
++
++                                    match gesture_state.direction {
++                                        // Vertical gestures in horizontal layout, or horizontal gestures in vertical layout
++                                        Some(Direction::Up) if is_horizontal => {
++                                            overview_or_library_action(natural_scroll)
++                                        }
++                                        Some(Direction::Down) if is_horizontal => {
++                                            overview_or_library_action(!natural_scroll)
++                                        }
++                                        Some(Direction::Left) if !is_horizontal => {
++                                            overview_or_library_action(natural_scroll)
++                                        }
++                                        Some(Direction::Right) if !is_horizontal => {
++                                            overview_or_library_action(!natural_scroll)
++                                        }
++                                        // Horizontal gestures in horizontal layout = workspace switching
++                                        Some(Direction::Left) if is_horizontal => {
++                                            if natural_scroll {
++                                                Some(SwipeAction::NextWorkspace)
++                                            } else {
++                                                Some(SwipeAction::PrevWorkspace)
+                                             }
+-                                            Some(Direction::Right) => {
+-                                                if natural_scroll {
+-                                                    Some(SwipeAction::PrevWorkspace)
+-                                                } else {
+-                                                    Some(SwipeAction::NextWorkspace)
+-                                                }
++                                        }
++                                        Some(Direction::Right) if is_horizontal => {
++                                            if natural_scroll {
++                                                Some(SwipeAction::PrevWorkspace)
++                                            } else {
++                                                Some(SwipeAction::NextWorkspace)
+                                             }
+-                                            _ => None, // TODO: Other actions
+                                         }
+-                                    } else {
+-                                        match gesture_state.direction {
+-                                            Some(Direction::Up) => {
+-                                                if natural_scroll {
+-                                                    Some(SwipeAction::NextWorkspace)
+-                                                } else {
+-                                                    Some(SwipeAction::PrevWorkspace)
+-                                                }
++                                        // Vertical gestures in vertical layout = workspace switching
++                                        Some(Direction::Up) if !is_horizontal => {
++                                            if natural_scroll {
++                                                Some(SwipeAction::NextWorkspace)
++                                            } else {
++                                                Some(SwipeAction::PrevWorkspace)
+                                             }
+-                                            Some(Direction::Down) => {
+-                                                if natural_scroll {
+-                                                    Some(SwipeAction::PrevWorkspace)
+-                                                } else {
+-                                                    Some(SwipeAction::NextWorkspace)
+-                                                }
++                                        }
++                                        Some(Direction::Down) if !is_horizontal => {
++                                            if natural_scroll {
++                                                Some(SwipeAction::PrevWorkspace)
++                                            } else {
++                                                Some(SwipeAction::NextWorkspace)
+                                             }
+-                                            _ => None, // TODO: Other actions
+                                         }
++                                        _ => None,
+                                     }
+                                 }
+                                 _ => None,
+@@ -1157,8 +1201,15 @@ impl State {
+                         );
+                     }
+ 
++                    // Only trigger workspace switching during updates
++                    // Other actions (overview, app library) are triggered on gesture end
+                     if let Some(action) = activate_action {
+-                        self.handle_swipe_action(action, &seat);
++                        match action {
++                            SwipeAction::NextWorkspace | SwipeAction::PrevWorkspace => {
++                                self.handle_swipe_action(action, &seat);
++                            }
++                            _ => {}
++                        }
+                     }
+                 }
+             }
+@@ -1190,6 +1241,45 @@ impl State {
+                                     &mut self.common.workspace_state.update(),
+                                 );
+                             }
++                            Some(SwipeAction::ToggleWorkspaceOverview)
++                            | Some(SwipeAction::ToggleAppLibrary) => {
++                                // For overview and app library actions, check if gesture was completed
++                                // (not cancelled and sufficient delta/velocity)
++                                if !event.cancelled() {
++                                    let velocity = gesture_state.velocity();
++                                    let delta = gesture_state.delta.abs();
++
++                                    // Use thresholds similar to workspace switching
++                                    let output_size = if self
++                                        .common
++                                        .config
++                                        .cosmic_conf
++                                        .workspaces
++                                        .workspace_layout
++                                        == WorkspaceLayout::Horizontal
++                                    {
++                                        seat.active_output().geometry().size.h as f64
++                                    } else {
++                                        seat.active_output().geometry().size.w as f64
++                                    };
++
++                                    let norm_velocity = velocity / output_size;
++                                    let norm_delta = delta / output_size;
++
++                                    // Trigger action if sufficient movement or velocity
++                                    const POSITION_THRESHOLD: f64 = 0.15;
++                                    const VELOCITY_THRESHOLD: f64 = 0.0005;
++
++                                    if norm_delta >= POSITION_THRESHOLD
++                                        || norm_velocity.abs() >= VELOCITY_THRESHOLD
++                                    {
++                                        self.handle_swipe_action(
++                                            gesture_state.action.unwrap(),
++                                            &seat,
++                                        );
++                                    }
++                                }
++                            }
+                             _ => {}
+                         }
+                         self.common.gesture_state = None;
+diff --git a/src/utils/quirks.rs b/src/utils/quirks.rs
+index e0954fd4..54db093b 100644
+--- a/src/utils/quirks.rs
++++ b/src/utils/quirks.rs
+@@ -9,6 +9,9 @@ use smithay::{
+ // TODO: Avoid special case, or add protocol to expose required behavior
+ pub const WORKSPACE_OVERVIEW_NAMESPACE: &str = "cosmic-workspace-overview";
+ 
++/// Layer shell namespace used by `cosmic-applibrary`
++pub const APP_LIBRARY_NAMESPACE: &str = "app-library";
++
+ /// Check if a workspace overview shell surface is open on the output
+ pub fn workspace_overview_is_open(output: &Output) -> bool {
+     layer_map_for_output(output)
+@@ -24,3 +27,10 @@ pub fn workspace_overview_is_open(output: &Output) -> bool {
+                 .unwrap_or(false)
+         })
+ }
++
++/// Check if an app library shell surface is open on the output
++pub fn app_library_is_open(output: &Output) -> bool {
++    layer_map_for_output(output)
++        .layers()
++        .any(|s| s.namespace() == APP_LIBRARY_NAMESPACE)
++}
+-- 
+2.55.0
+
