@@ -29,23 +29,23 @@ clone() {
   git -C "${PROJECT}" pull || git -C "${PROJECT}" reset --hard "origin/${BRANCH}"
 }
 clone cosmic-app-library theme-v2
-clone cosmic-applets theme-v2
+clone cosmic-applets master # theme-v2 merged on Jul 6
 clone cosmic-comp frosted-glass_noble
 clone cosmic-edit theme-v2
-clone cosmic-files theme-v2
+clone cosmic-files master # theme-v2 merged on Jul 6
 clone cosmic-greeter theme-v2
-clone cosmic-launcher theme-v2
-clone cosmic-monitor master # Merged on Jul 2: https://github.com/pop-os/cosmic-monitor/pull/59
+clone cosmic-launcher master # theme-v2 merged on Jul 6
+clone cosmic-monitor master # theme-v2 merged on Jul 2
 clone cosmic-notifications theme-v2
 clone cosmic-osd theme-v2
 clone cosmic-panel theme-v2
-clone cosmic-player theme-v2
+clone cosmic-player master # theme-v2 merged on Jul 6
 clone cosmic-settings theme-v2
 clone cosmic-settings-daemon theme-v2
 clone cosmic-store theme-v2
 clone cosmic-term theme-v2
 clone cosmic-workspaces-epoch theme-v2
-rm -rf libcosmic # Merged on Jul 1: https://github.com/pop-os/libcosmic/pull/1196
+rm -rf libcosmic # theme-v2 merged on Jul 1
 clone xdg-desktop-portal-cosmic theme-v2
 
 if [[ "$USER" == "ahann" ]]; then
