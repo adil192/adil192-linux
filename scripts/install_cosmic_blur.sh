@@ -28,25 +28,26 @@ clone() {
   git -C "${PROJECT}" switch "${BRANCH}"
   git -C "${PROJECT}" pull || git -C "${PROJECT}" reset --hard "origin/${BRANCH}"
 }
-clone cosmic-app-library theme-v2
-clone cosmic-applets master # theme-v2 merged on Jul 6
-clone cosmic-comp frosted-glass_noble
-clone cosmic-edit theme-v2
-clone cosmic-files master # theme-v2 merged on Jul 6
-clone cosmic-greeter theme-v2
-clone cosmic-launcher master # theme-v2 merged on Jul 6
-clone cosmic-monitor master # theme-v2 merged on Jul 2
-clone cosmic-notifications theme-v2
-clone cosmic-osd theme-v2
-clone cosmic-panel theme-v2
-clone cosmic-player master # theme-v2 merged on Jul 6
-clone cosmic-settings theme-v2
-clone cosmic-settings-daemon theme-v2
-clone cosmic-store theme-v2
-clone cosmic-term theme-v2
-clone cosmic-workspaces-epoch theme-v2
-rm -rf libcosmic # theme-v2 merged on Jul 1
-clone xdg-desktop-portal-cosmic theme-v2
+# Some of the following have had theme-v2 merged to master already
+clone cosmic-app-library master
+clone cosmic-applets master
+clone cosmic-comp frosted-glass_noble # https://github.com/pop-os/cosmic-comp/pull/2179
+clone cosmic-edit theme-v2 # https://github.com/pop-os/cosmic-edit/pull/590
+clone cosmic-files master
+clone cosmic-greeter theme-v2 # https://github.com/pop-os/cosmic-greeter/pulls ?
+clone cosmic-launcher master
+clone cosmic-monitor master
+clone cosmic-notifications master
+clone cosmic-osd theme-v2 # https://github.com/pop-os/cosmic-osd/pull/209
+clone cosmic-panel theme-v2 # https://github.com/pop-os/cosmic-panel/pull/591
+clone cosmic-player master
+clone cosmic-settings theme-v2 # https://github.com/pop-os/cosmic-settings/pull/2062
+clone cosmic-settings-daemon theme-v2 # https://github.com/pop-os/cosmic-settings-daemon/pulls ?
+clone cosmic-store theme-v2 # https://github.com/pop-os/cosmic-store/pull/564
+clone cosmic-term theme-v2 # https://github.com/pop-os/cosmic-term/pull/862
+clone cosmic-workspaces-epoch theme-v2 # https://github.com/pop-os/cosmic-workspaces-epoch/pull/312
+rm -rf libcosmic
+clone xdg-desktop-portal-cosmic theme-v2 # https://github.com/pop-os/xdg-desktop-portal-cosmic/pull/334
 
 if [[ "$USER" == "ahann" ]]; then
   # Just for me, apply changes from this PR for touchpad gestures (rebased by me):
