@@ -33,7 +33,7 @@ clone cosmic-applets master
 clone cosmic-comp master
 clone cosmic-edit master
 clone cosmic-files master
-clone cosmic-greeter theme-v2 # https://github.com/pop-os/cosmic-greeter/pull/482
+clone cosmic-greeter master
 clone cosmic-launcher master
 clone cosmic-monitor master
 clone cosmic-notifications master
@@ -44,7 +44,7 @@ clone cosmic-settings master
 clone cosmic-settings-daemon master
 clone cosmic-store master
 clone cosmic-term master
-clone cosmic-workspaces-epoch theme-v2 # https://github.com/pop-os/cosmic-workspaces-epoch/pull/312
+clone cosmic-workspaces-epoch master
 clone xdg-desktop-portal-cosmic master
 rm -rf libcosmic
 
