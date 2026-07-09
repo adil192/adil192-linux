@@ -25,34 +25,33 @@ clone() {
   BRANCH=$2
   [[ -d "${PROJECT}" ]] || git clone "https://github.com/pop-os/${PROJECT}.git" -b "${BRANCH}" --recurse-submodules
   git -C "${PROJECT}" fetch
-  git -C "${PROJECT}" switch "${BRANCH}"
-  git -C "${PROJECT}" pull || git -C "${PROJECT}" reset --hard "origin/${BRANCH}"
+  git -C "${PROJECT}" reset --hard "origin/${BRANCH}"
 }
 # Some of the following have had theme-v2 merged to master already
 clone cosmic-app-library master
 clone cosmic-applets master
-clone cosmic-comp frosted-glass_noble # https://github.com/pop-os/cosmic-comp/pull/2179
-clone cosmic-edit theme-v2 # https://github.com/pop-os/cosmic-edit/pull/590
+clone cosmic-comp master
+clone cosmic-edit master
 clone cosmic-files master
-clone cosmic-greeter theme-v2 # https://github.com/pop-os/cosmic-greeter/pulls ?
+clone cosmic-greeter theme-v2 # https://github.com/pop-os/cosmic-greeter/pull/482
 clone cosmic-launcher master
 clone cosmic-monitor master
 clone cosmic-notifications master
-clone cosmic-osd theme-v2 # https://github.com/pop-os/cosmic-osd/pull/209
-clone cosmic-panel theme-v2 # https://github.com/pop-os/cosmic-panel/pull/591
+clone cosmic-osd master
+clone cosmic-panel master
 clone cosmic-player master
-clone cosmic-settings theme-v2 # https://github.com/pop-os/cosmic-settings/pull/2062
-clone cosmic-settings-daemon theme-v2 # https://github.com/pop-os/cosmic-settings-daemon/pulls ?
-clone cosmic-store theme-v2 # https://github.com/pop-os/cosmic-store/pull/564
-clone cosmic-term theme-v2 # https://github.com/pop-os/cosmic-term/pull/862
+clone cosmic-settings master
+clone cosmic-settings-daemon master
+clone cosmic-store master
+clone cosmic-term master
 clone cosmic-workspaces-epoch theme-v2 # https://github.com/pop-os/cosmic-workspaces-epoch/pull/312
+clone xdg-desktop-portal-cosmic master
 rm -rf libcosmic
-clone xdg-desktop-portal-cosmic theme-v2 # https://github.com/pop-os/xdg-desktop-portal-cosmic/pull/334
 
 if [[ "$USER" == "ahann" ]]; then
   # Just for me, apply changes from this PR for touchpad gestures (rebased by me):
   # https://github.com/pop-os/cosmic-comp/pull/1799.
-  git -C cosmic-comp reset --hard origin/frosted-glass_noble
+  git -C cosmic-comp reset --hard origin/master
   git -C cosmic-comp am /home/ahann/Documents/GitHub/adil192-linux/assets/1799-touchpad-gestures.patch
 fi
 
