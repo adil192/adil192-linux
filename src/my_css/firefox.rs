@@ -124,7 +124,8 @@ impl Firefox {
       // Enable rounded corners
       "widget.gtk.rounded-bottom-corners.enabled": true,
       // Disable middle click paste
-      "middlemouse.paste": true,
+      "middlemouse.paste": false,
+      "browser.tabs.searchclipboardfor.middleclick": false,
       // Replace the Fedora start page with the normal newtab page
       "browser.startup.homepage": "about:newtab",
       // Debloat the newtab page
@@ -182,6 +183,16 @@ impl Firefox {
       "dom.ipc.processCount": 1,
       "dom.ipc.processCount.webIsolated": 1,
       "dom.ipc.processPrelaunch.fission.number": 1,
+      // Remove "Unload tab" from context menu
+      "browser.tabs.unloadTabInContextMenu": false,
+      // Disable Split View to remove it from context menus
+      "browser.tabs.splitView.enabled": false,
+      // Disable tab groups
+      "browser.tabs.groups.enabled": false,
+      "browser.tabs.groups.smart.enabled": false,
+      "browser.tabs.dragDrop.createGroup.enabled": false,
+      // Match browser.tabs.fadeOutExplicitlyUnloadedTabs
+      "browser.tabs.fadeOutUnloadedTabs": true,
     })
     .as_object()
     .unwrap()
