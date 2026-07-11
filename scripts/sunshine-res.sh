@@ -7,9 +7,6 @@
 #   sudo dnf copr enable eaglesemanation/displayconfig-mutter
 #   sudo dnf install displayconfig-mutter
 # See more instructions at https://github.com/eaglesemanation/displayconfig-mutter.
-#
-# Update: This now requires my branch for file save/load functionality.
-# Build and install from https://github.com/adil192/displayconfig-mutter/tree/savefile-and-normalize-position
 
 set -e
 
