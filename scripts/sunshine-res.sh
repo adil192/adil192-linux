@@ -19,6 +19,11 @@ if [ "$1" == "do" ]; then
   # Make a backup to restore later in "undo"
   [ -f "$SAVE_FILE" ] || displayconfig-mutter save-file "$SAVE_FILE"
 
+  # Disable second monitor so Steam doesn't use it
+  displayconfig-mutter set \
+    --connector DP-2 \
+    --disable
+
   # Set resolution from sunshine on DP-1
   displayconfig-mutter set \
     --connector DP-1 \
@@ -26,11 +31,6 @@ if [ "$1" == "do" ]; then
     --refresh-rate ${SUNSHINE_CLIENT_FPS:-30} \
     --vrr false \
     --hdr ${SUNSHINE_CLIENT_HDR:-false}
-
-  # Disable second monitor so Steam doesn't use it
-  displayconfig-mutter set \
-    --connector HDMI-2 \
-    --disable
 elif [ "$1" == "undo" ]; then
   # Restore backed up monitor configuration
   displayconfig-mutter load-file "$SAVE_FILE"
