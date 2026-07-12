@@ -58,9 +58,7 @@
     --cosmic-hue: var(--cosmic-hue-dark);
   }
 
-  --cosmic-inactive-on: color(
-    from var(--cosmic-background-on) srgb r g b / 0.5
-  );
+  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);
 }
 /* END OF GENERATED CODE */
 
@@ -95,14 +93,10 @@
   --toolbar-background-color: var(--cosmic-component-base) !important;
   --toolbar-text-color: var(--cosmic-component-on) !important;
   /* popups and panels background */
-  --panel-background-color: color(
-    from var(--cosmic-component-base) srgb r g b / 0.99
-  ) !important;
+  --panel-background-color: color(from var(--cosmic-component-base) srgb r g b / 0.99) !important;
   --panel-text-color: var(--cosmic-component-on) !important;
   /* url bar suggestions background */
-  --toolbar-field-background-color-focus: var(
-    --panel-background-color
-  ) !important;
+  --toolbar-field-background-color-focus: var(--panel-background-color) !important;
   /* background of blank page like about:blank or while a page is loading */
   --tabpanel-background-color: transparent !important;
   /* borders */
@@ -133,12 +127,8 @@
   :root[customtitlebar] {
     body {
       background:
-        linear-gradient(
-          var(--cosmic-background-base),
-          var(--cosmic-background-base)
-        ),
-        var(--cosmic-blurred-bg) center center / 100vw 100vh
-          var(--cosmic-background-base) no-repeat !important;
+        linear-gradient(var(--cosmic-background-base), var(--cosmic-background-base)),
+        var(--cosmic-blurred-bg) center center / 100vw 100vh var(--cosmic-background-base) no-repeat !important;
       color: var(--cosmic-background-on) !important;
     }
 
@@ -174,9 +164,7 @@
   cursor: pointer !important;
 
   & > .toolbarbutton-icon {
-    border-radius: var(
-      --border-radius-medium
-    ) !important; /* rrect instead of circle buttons */
+    border-radius: var(--border-radius-medium) !important; /* rrect instead of circle buttons */
 
     @media (-moz-gtk-theme-family: adwaita) or (-moz-gtk-theme-family: yaru) {
       background-color: transparent !important; /* remove unhovered background */
@@ -202,6 +190,5 @@ panel {
 menupopup {
   --panel-background:
     linear-gradient(var(--cosmic-component-base), var(--cosmic-component-base)),
-    var(--cosmic-blurred-bg) center center / 1280px
-      var(--cosmic-background-base) no-repeat !important;
+    var(--cosmic-blurred-bg) center center / 1280px var(--cosmic-background-base) no-repeat !important;
 }

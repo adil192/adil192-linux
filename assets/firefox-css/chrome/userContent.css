@@ -58,9 +58,7 @@
     --cosmic-hue: var(--cosmic-hue-dark);
   }
 
-  --cosmic-inactive-on: color(
-    from var(--cosmic-background-on) srgb r g b / 0.5
-  );
+  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);
 }
 /* END OF GENERATED CODE */
 
@@ -69,18 +67,14 @@
     /* background of new tab page */
     --newtab-background-color: transparent !important;
     /* background of search bar inside new tab page */
-    --newtab-background-color-secondary: var(
-      --cosmic-component-base
-    ) !important;
+    --newtab-background-color-secondary: var(--cosmic-component-base) !important;
     --text-color: var(--cosmic-component-on) !important;
     /* toolbar contains search bar in about:preferences */
     --toolbar-bgcolor: var(--cosmic-component-base) !important;
     --background-color-box: var(--cosmic-component-base) !important;
     --background-color-canvas: var(--cosmic-background-base) !important;
     --promo-background-color: var(--cosmic-component-base) !important;
-    --table-row-background-color-alternate: var(
-      --cosmic-component-base
-    ) !important;
+    --table-row-background-color-alternate: var(--cosmic-component-base) !important;
   }
   html,
   body {
@@ -197,18 +191,10 @@
     --yt-spec-outline: var(--cosmic-component-base) !important;
     --yt-spec-text-primary: var(--cosmic-component-on) !important;
 
-    --yt-sys-color-baseline--base-background: var(
-      --yt-spec-base-background
-    ) !important;
-    --yt-sys-color-baseline--text-primary: var(
-      --yt-spec-text-primary
-    ) !important;
-    --yt-sys-color-baseline--frosted-glass-desktop: var(
-      --yt-spec-frosted-glass-desktop
-    ) !important;
-    --yt-sys-color-baseline--frosted-glass-mobile: var(
-      --yt-spec-frosted-glass-desktop
-    ) !important;
+    --yt-sys-color-baseline--base-background: var(--yt-spec-base-background) !important;
+    --yt-sys-color-baseline--text-primary: var(--yt-spec-text-primary) !important;
+    --yt-sys-color-baseline--frosted-glass-desktop: var(--yt-spec-frosted-glass-desktop) !important;
+    --yt-sys-color-baseline--frosted-glass-mobile: var(--yt-spec-frosted-glass-desktop) !important;
 
     /* Replace the outdated Roboto font with local fonts. Roboto doesn't support hinting and other modern font features, making it harder to read. */
     --font-family:
@@ -369,8 +355,7 @@
       .ytLockupMetadataViewModelHost {
         height: 100%;
       }
-      .ytLockupMetadataViewModelTextContainer
-        .ytLockupMetadataViewModelHeadingReset {
+      .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
         flex-grow: 1;
       }
     }
@@ -382,13 +367,11 @@
     border-radius: var(--comment-border-radius) !important;
     padding: 1rem !important;
 
-    #author-thumbnail.ytd-comment-view-model
-      yt-img-shadow.ytd-comment-view-model {
+    #author-thumbnail.ytd-comment-view-model yt-img-shadow.ytd-comment-view-model {
       /* match pfp corner radius to container */
       border-top-left-radius: var(--comment-border-radius) !important;
     }
-    ytd-comment-view-model[optimal-reading-width-comments]
-      #action-menu.ytd-comment-view-model {
+    ytd-comment-view-model[optimal-reading-width-comments] #action-menu.ytd-comment-view-model {
       /* realign so it's not outside our background */
       top: 0 !important;
       right: 0 !important;
@@ -463,16 +446,12 @@
   :root {
     --bgColor-default: var(--cosmic-background-base) !important;
     --bgColor-inset: var(--cosmic-component-base) !important;
-    --bgColor-muted: color(
-      from var(--cosmic-component-base) srgb r g b / 0.5
-    ) !important;
+    --bgColor-muted: color(from var(--cosmic-component-base) srgb r g b / 0.5) !important;
     --bgColor-neutral-muted: var(--bgColor-muted) !important;
     --bgColor-disabled: var(--cosmic-component-base) !important;
     --fgColor-default: var(--cosmic-component-on) !important;
     --fgColor-muted: var(--cosmic-inactive-on) !important;
-    --borderColor-default: color(
-      from var(--cosmic-component-on) srgb r g b / 0.3
-    ) !important;
+    --borderColor-default: color(from var(--cosmic-component-on) srgb r g b / 0.3) !important;
     --control-bgColor-rest: var(--cosmic-button-base) !important;
     --control-bgColor-hover: color-mix(
       in srgb,
@@ -560,9 +539,7 @@
 
   :root {
     --theme-col-bg-header: var(--cosmic-component-base) !important;
-    --theme-col-bg-header-transparent: color(
-      from var(--theme-col-bg-header) srgb r g b / 0
-    );
+    --theme-col-bg-header-transparent: color(from var(--theme-col-bg-header) srgb r g b / 0);
     --theme-col-bg-page: transparent !important;
     --theme-assist-bg-chat-system: color-mix(
       in srgb,
@@ -590,8 +567,7 @@
   .vertical--map__sidebar__header,
   .page-chrome_newtab,
   .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded,
-  .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded
-    .metabar:not(.is-stuck) {
+  .zci--type--tiles:not(.is-fallback).is-full-page.is-expanded .metabar:not(.is-stuck) {
     background: var(--theme-col-bg-page) !important;
     color: var(--cosmic-component-on) !important;
   }
@@ -635,9 +611,7 @@
     --pub-neutral-textColor: var(--cosmic-component-on) !important;
     --dash-surface-fgColor: var(--cosmic-component-on) !important;
     --pub-inset-bgColor: var(--cosmic-component-base) !important;
-    --pub-site_header_banner-background-color: var(
-      --cosmic-component-base
-    ) !important;
+    --pub-site_header_banner-background-color: var(--cosmic-component-base) !important;
     --pub-site_header_banner-text-color: var(--cosmic-component-on) !important;
     --pub-footer-background-color: var(--cosmic-component-base) !important;
     --pub-footer-text-color: var(--cosmic-component-on) !important;

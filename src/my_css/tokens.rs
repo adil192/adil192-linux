@@ -62,7 +62,7 @@ fn generate_tokens_css_content() -> Result<String> {
   output.push_str("  }\n");
   output.push('\n');
   output.push_str(
-    "  --cosmic-inactive-on: color(\n    from var(--cosmic-background-on) srgb r g b / 0.5\n  );\n",
+    "  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);\n",
   );
   output.push('}');
 
