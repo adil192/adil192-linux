@@ -4,7 +4,7 @@ pub mod thunderbird;
 pub mod tokens;
 
 use anyhow::Result;
-use cached::proc_macro::once;
+use cached::once;
 use cosmic::config::CosmicTk;
 use cosmic::cosmic_config::CosmicConfigEntry;
 
@@ -19,7 +19,7 @@ impl MyCss {
 
 /// Returns true when we're currently running in the COSMIC DE
 /// and the COSMIC `apply_theme_global` setting is true.
-#[once(result = true)]
+#[once()]
 fn _enabled() -> Result<bool> {
   let tk_helper = CosmicTk::config()?;
   let tk = match CosmicTk::get_entry(&tk_helper) {

@@ -1,7 +1,7 @@
 use std::env::var;
 
 use anyhow::Result;
-use cached::proc_macro::once;
+use cached::once;
 
 use crate::tools::dnf::Dnf;
 use crate::tools::{ask, run_interactively, run_output};
@@ -66,7 +66,7 @@ impl Yaru {
   }
 }
 
-#[once(result = true)]
+#[once()]
 fn _is_gnome() -> Result<bool> {
   Ok(var("XDG_SESSION_DESKTOP")? == "gnome")
 }

@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.102"
-cached = { version = "0.59.0", features = ["proc_macro"] }
+cached = { version = "2.0.0", features = ["proc_macro"] }
 cosmic-bg-config = { git = "https://github.com/pop-os/cosmic-bg" }
 csscolorparser = "0.8.3"
 libcosmic = { git = "https://github.com/pop-os/libcosmic" }

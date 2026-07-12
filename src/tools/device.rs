@@ -1,10 +1,10 @@
 use std::fs;
 
-use cached::proc_macro::once;
+use cached::once;
 
 use crate::tools::run_output;
 
-#[once(sync_writes = true)]
+#[once()]
 fn get_gpu_info() -> String {
   run_output("lspci", &["-mm"])
     .unwrap()
@@ -15,7 +15,7 @@ fn get_gpu_info() -> String {
     })
     .collect()
 }
-#[once(sync_writes = true)]
+#[once()]
 fn get_cpu_info() -> String {
   fs::read_to_string("/proc/cpuinfo").unwrap().to_lowercase()
 }
