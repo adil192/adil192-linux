@@ -1,0 +1,92 @@
+#!/bin/bash
+# Note: This was written largely with AI because I don't like bash,
+# but I told it what to write.
+
+set -euo pipefail
+
+usage() {
+  cat <<EOF
+Sets the TDP for a game, then restores it afterwards.
+
+Usage:
+  $0 <tdp-watts> %command%
+
+Example:
+  MANGOHUD=1 $0 15 %command%
+
+Notes:
+  - TDP is specified in whole or decimal watts.
+  - Root privileges are required to change the power limit.
+EOF
+}
+
+# Stock values for reference:
+#
+# /sys/class/powercap/intel-rapl:0/constraint_0_max_power_uw    | 17000000    | (17 W)  #
+# /sys/class/powercap/intel-rapl:0/constraint_0_name            | long_term   |         #
+# /sys/class/powercap/intel-rapl:0/constraint_0_power_limit_uw  | 200000000   | (200 W) #
+# /sys/class/powercap/intel-rapl:0/constraint_0_time_window_us  | 27983872    | (28 s)  #
+#
+# /sys/class/powercap/intel-rapl:0/constraint_1_max_power_uw    | 0           |         #
+# /sys/class/powercap/intel-rapl:0/constraint_1_name            | short_term  |         #
+# /sys/class/powercap/intel-rapl:0/constraint_1_power_limit_uw  | 37000000    | (37 W)  #
+# /sys/class/powercap/intel-rapl:0/constraint_1_time_window_us  | 976         | (1 ms)  #
+
+FILE=/sys/class/powercap/intel-rapl:0/constraint_0_power_limit_uw
+MAX_FILE=/sys/class/powercap/intel-rapl:0/constraint_0_max_power_uw
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+if [[ $# -lt 2 ]]; then
+  echo "Error: missing arguments!" >&2
+  echo
+  usage
+  exit 1
+fi
+if [[ ! -w "$FILE" ]]; then
+  echo "Error: '$FILE' is not writable." >&2
+  echo "Run this command to gain access:" >&2
+  echo "  sudo chown $USER $FILE" >&2
+  exit 1
+fi
+
+NEW_LIMIT_W="$1"
+shift
+
+# Accept integers or decimals.
+if ! [[ "$NEW_LIMIT_W" =~ ^([0-9]+)(\.[0-9]+)?$ ]]; then
+  echo "Error: '$NEW_LIMIT_W' is not a valid TDP value." >&2
+  exit 1
+fi
+
+NEW_LIMIT_UW=$(awk -v w="$NEW_LIMIT_W" 'BEGIN { printf "%.0f", w * 1000000 }')
+OLD_LIMIT_UW=$(cat "$FILE")
+OLD_LIMIT_W=$(echo "$OLD_LIMIT_UW / 1000000" | bc)
+MAX_LIMIT_UW=$(cat "$MAX_FILE")
+MAX_LIMIT_W=$(echo "$MAX_LIMIT_UW / 1000000" | bc)
+
+if (( NEW_LIMIT_UW <= 1000000 )); then
+  echo "Error: TDP must be greater than 1 W." >&2
+  exit 1
+fi
+if (( NEW_LIMIT_UW > MAX_LIMIT_UW )); then
+  echo "Error: Requested TDP (${NEW_LIMIT_W} W) exceeds maximum supported (${MAX_LIMIT_W} W)." >&2
+  exit 1
+fi
+if (( OLD_LIMIT_UW != MAX_LIMIT_UW )); then
+  # I don't want to deal with race conditions and knowing what the "proper" previous value should be.
+  echo "Warning: The previous power limit is ${OLD_LIMIT_W} W, expected ${MAX_LIMIT_W} W." >&2
+  echo "         After the game finishes, the power limit will be restored to ${MAX_LIMIT_W} W." >&2
+fi
+
+restore() {
+  echo "$MAX_LIMIT_UW" >"$FILE"
+  echo "Restored power limit to ${MAX_LIMIT_W} W."
+}
+trap restore EXIT
+
+echo "$NEW_LIMIT_UW" >"$FILE"
+
+"$@"
