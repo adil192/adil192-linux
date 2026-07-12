@@ -129,27 +129,12 @@
     --ink-90: hsl(var(--cosmic-hue) 40% 15.7%) !important;
   }
   [data-channel] {
-    --alt-hue: calc(var(--cosmic-hue) + 40);
-    --bg-gradient-hsl-values: var(--cosmic-hue) 97.5% 52%;
-    --bg-gradient2-hsl-values: var(--alt-hue) 97.5% 52%;
-    --bg-gradient:
-      linear-gradient(
-        to top right,
-        hsl(var(--bg-gradient-hsl-values) / 0.1) 0%,
-        hsl(var(--bg-gradient-hsl-values) / 0) 33%,
-        hsl(var(--bg-gradient-hsl-values) / 0) 67%,
-        hsl(var(--bg-gradient-hsl-values) / 0.1) 100%
-      ),
-      linear-gradient(
-        to right,
-        hsl(var(--bg-gradient2-hsl-values) / 0.05) 0%,
-        hsl(var(--bg-gradient2-hsl-values) / 0) 30%,
-        hsl(var(--bg-gradient2-hsl-values) / 0.05) 100%
-      ) !important;
+    --text-gradient-hue-start: calc(var(--cosmic-hue) + 30deg);
+    --text-gradient-hue-end: calc(var(--cosmic-hue) - 30deg);
     --text-gradient: linear-gradient(
       90deg,
-      hsl(var(--cosmic-hue) 83.9% 46.3%) 0%,
-      hsl(var(--alt-hue) 81.3% 55.9%) 100%
+      hsl(var(--text-gradient-hue-start) 83.9% 50%) 0%,
+      hsl(var(--text-gradient-hue-end) 81.3% 50%) 100%
     ) !important;
     --button-bg: radial-gradient(
       ellipse at center,
@@ -162,11 +147,9 @@
       --bg: var(--gray-90) !important;
     }
     [data-channel] {
-      --bg-gradient-hsl-values: var(--cosmic-hue) 97.5% 15.7%;
-      --bg-gradient2-hsl-values: var(--alt-hue) 97.5% 15.7%;
       --button-bg: radial-gradient(
         ellipse at center,
-        hsl(var(--cosmic-hue) 97.2% 15.7% / 0.25) 0%,
+        hsl(var(--cosmic-hue) 97.2% 25% / 0.25) 0%,
         transparent 70%
       ) !important;
     }
