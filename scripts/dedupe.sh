@@ -12,4 +12,9 @@ if [ -n "$1" ]; then
 fi
 echo "Deduping $TARGET"
 
-duperemove -rdh --skip-zeroes --hashfile=/home/duperemove/hashes "$TARGET"
+# Some volatile/inaccessible dirs are excluded to save time
+time duperemove \
+  -rdh --io-threads=16 --cpu-threads=8 \
+  --exclude="$HOME/.cache/" \
+  --hashfile=/home/duperemove/hashes \
+  "$TARGET"
