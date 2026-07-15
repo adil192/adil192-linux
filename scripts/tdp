@@ -32,7 +32,8 @@ EOF
 # /sys/class/powercap/intel-rapl:0/constraint_1_power_limit_uw  | 37000000    | (37 W)  #
 # /sys/class/powercap/intel-rapl:0/constraint_1_time_window_us  | 976         | (1 ms)  #
 
-FILE=/sys/class/powercap/intel-rapl:0/constraint_0_power_limit_uw
+LIMIT_FILE=/sys/class/powercap/intel-rapl:0/constraint_0_power_limit_uw
+TIME_FILE=/sys/class/powercap/intel-rapl:0/constraint_0_time_window_us
 MAX_FILE=/sys/class/powercap/intel-rapl:0/constraint_0_max_power_uw
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
@@ -45,10 +46,11 @@ if [[ $# -lt 2 ]]; then
   usage
   exit 1
 fi
-if [[ ! -w "$FILE" ]]; then
-  echo "Error: '$FILE' is not writable." >&2
-  echo "Run this command to gain access:" >&2
-  echo "  sudo chown $USER $FILE" >&2
+if [[ ! -w "$LIMIT_FILE" ]] || [[ ! -w "$TIME_FILE" ]]; then
+  echo "Error: Files not writable." >&2
+  echo "Run these commands to gain access:" >&2
+  echo "  sudo chown $USER $LIMIT_FILE" >&2
+  echo "  sudo chown $USER $TIME_FILE" >&2
   exit 1
 fi
 
@@ -62,7 +64,7 @@ if ! [[ "$NEW_LIMIT_W" =~ ^([0-9]+)(\.[0-9]+)?$ ]]; then
 fi
 
 NEW_LIMIT_UW=$(awk -v w="$NEW_LIMIT_W" 'BEGIN { printf "%.0f", w * 1000000 }')
-OLD_LIMIT_UW=$(cat "$FILE")
+OLD_LIMIT_UW=$(cat "$LIMIT_FILE")
 OLD_LIMIT_W=$(echo "$OLD_LIMIT_UW / 1000000" | bc)
 MAX_LIMIT_UW=$(cat "$MAX_FILE")
 MAX_LIMIT_W=$(echo "$MAX_LIMIT_UW / 1000000" | bc)
@@ -82,11 +84,15 @@ if (( OLD_LIMIT_UW != MAX_LIMIT_UW )); then
 fi
 
 restore() {
-  echo "$MAX_LIMIT_UW" >"$FILE"
+  echo "$MAX_LIMIT_UW" >"$LIMIT_FILE"
   echo "Restored power limit to ${MAX_LIMIT_W} W."
 }
 trap restore EXIT
 
-echo "$NEW_LIMIT_UW" >"$FILE"
+# Set power limit
+echo "$NEW_LIMIT_UW" >"$LIMIT_FILE"
+# Set time window to 2s
+echo 2000000 >"$TIME_FILE"
 
+# Run the command
 "$@"
