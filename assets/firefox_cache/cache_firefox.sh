@@ -11,10 +11,10 @@ function precache() {
 
     if command -v vmtouch &> /dev/null; then
         echo "Using vmtouch to precache $dir..."
-        vmtouch -tf "$dir"
+        chrt -i 0 vmtouch -tf "$dir"
     else
         echo "vmtouch not found: Using cat to precache $dir..."
-        find "$dir" -type f -exec cat {} > /dev/null \;
+        chrt -i 0 find "$dir" -type f -exec cat {} > /dev/null \;
     fi
     echo
 }
