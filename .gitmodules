@@ -1,0 +1,6 @@
+[submodule "submodules/ModernZ"]
+	path = submodules/ModernZ
+	url = https://github.com/Samillion/ModernZ
+[submodule "submodules/thumbfast"]
+	path = submodules/thumbfast
+	url = https://github.com/po5/thumbfast
