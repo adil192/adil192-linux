@@ -12,5 +12,4 @@ csscolorparser = "0.8.3"
 libcosmic = { git = "https://github.com/pop-os/libcosmic" }
 regex = "1.12.3"
 reqwest = { version = "0.13.3", features = ["blocking", "json"] }
-serde = "1.0.228"
 serde_json = "1.0.149"
