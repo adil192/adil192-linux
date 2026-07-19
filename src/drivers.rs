@@ -20,7 +20,6 @@ impl MyDrivers {
 
     DnfRepos::add_rpmfusion_repos()?;
     DnfRepos::add_terra_repos()?;
-    DnfRepos::add_ultramarine_repos()?;
 
     install_full_ffmpeg()?;
     install_gstreamer_plugins()?;

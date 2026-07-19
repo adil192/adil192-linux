@@ -67,25 +67,4 @@ impl DnfRepos {
     repos.insert("terra".to_owned());
     Ok(true)
   }
-
-  pub fn add_ultramarine_repos() -> anyhow::Result<bool> {
-    let mut repos = get_repos().lock().unwrap();
-    if repos.contains("ultramarine") {
-      println!("Skipping Ultramarine repos: already added");
-      return Ok(true);
-    }
-    if !ask("Add Ultramarine repos?", true) {
-      return Ok(false);
-    }
-    println!("Adding Ultramarine repos...");
-    let release = run_output("rpm", &["-E", "%fedora"])?;
-    Dnf::install(&[
-      "--repofrompath",
-      "ultramarine,https://repos.fyralabs.com/um$releasever",
-      &format!("--setopt=\"ultramarine.gpgkey=https://repos.fyralabs.com/um{release}/key.asc\""),
-      "ultramarine-repos-common",
-    ])?;
-    repos.insert("ultramarine".to_owned());
-    Ok(true)
-  }
 }
