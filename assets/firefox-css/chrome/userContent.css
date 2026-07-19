@@ -15,12 +15,12 @@
   --cosmic-button-on-rgb-light: 2 2 2;
   --cosmic-hue-light: 185deg;
 
-  --cosmic-background-base-dark: #060e11a5;
-  --cosmic-background-base-rgb-dark: 6 14 17;
+  --cosmic-background-base-dark: #021015a5;
+  --cosmic-background-base-rgb-dark: 2 16 21;
   --cosmic-background-on-dark: #ffffff;
   --cosmic-background-on-rgb-dark: 255 255 255;
-  --cosmic-component-base-dark: #182125cc;
-  --cosmic-component-base-rgb-dark: 24 33 37;
+  --cosmic-component-base-dark: #122328cc;
+  --cosmic-component-base-rgb-dark: 18 35 40;
   --cosmic-component-on-dark: #ffffff;
   --cosmic-component-on-rgb-dark: 255 255 255;
   --cosmic-button-base-dark: #00444ccc;
