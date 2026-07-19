@@ -31,19 +31,14 @@ impl MyCss {
       println!("Patching {css_file}...");
 
       let untinted_file = Path::new(css_file).with_added_extension("untinted");
-      let mut css_content = if untinted_file.exists() {
-        println!("- Reading from {untinted_file:?}");
-        fs::read_to_string(&untinted_file)?
-      } else {
-        println!("- Backing up {css_file} to {untinted_file:?}");
-        run_interactively("sudo", &["cp", css_file, &untinted_file.to_string_lossy()])?;
-        fs::read_to_string(css_file)?
-      };
-
-      if run_interactively("test", &["-w", css_file]).is_err() {
+      if run_interactively("test", &["-w", css_file]).is_err() || !untinted_file.exists() {
+        // App was updated, set permissions and backup css
         println!("- Making {css_file} writeable");
         run_interactively("sudo", &["chmod", "a+rw", css_file])?;
+        println!("- Backing up {css_file} to {untinted_file:?}");
+        run_interactively("sudo", &["cp", css_file, &untinted_file.to_string_lossy()])?;
       }
+      let mut css_content = fs::read_to_string(untinted_file)?;
 
       let original_colors: HashSet<String> = colors_regex
         .find_iter(&css_content)
