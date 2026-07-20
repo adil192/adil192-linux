@@ -1,19 +1,13 @@
 use std::fs;
 
 use cached::once;
-
-use crate::tools::run_output;
+use cmd_lib::run_fun;
 
 #[once()]
 fn get_gpu_info() -> String {
-  run_output("lspci", &["-mm"])
+  run_fun!(lspci "-mm" | grep -E -i "vga|display|3d")
     .unwrap()
-    .lines()
-    .filter(|line| {
-      let lowercase = line.to_lowercase();
-      lowercase.contains("vga") || lowercase.contains("display") || lowercase.contains("3d")
-    })
-    .collect()
+    .to_lowercase()
 }
 #[once()]
 fn get_cpu_info() -> String {

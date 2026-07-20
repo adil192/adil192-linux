@@ -4,6 +4,7 @@ use std::process::Command;
 
 use anyhow::Result;
 use cached::once;
+use cmd_lib::run_cmd;
 
 use crate::tools::dnf::Dnf;
 use crate::tools::{ask, run_interactively};
@@ -38,46 +39,23 @@ impl Yaru {
       let home = var("HOME")?;
       let repo = format!("{home}/Documents/GitHub/themescriptrunner");
       if !Path::new(&repo).exists() {
-        run_interactively(
-          "git",
-          &[
-            "clone",
-            "https://github.com/adil192/themescriptrunner.git",
-            &repo,
-          ],
+        run_cmd!(
+          git clone "https://github.com/adil192/themescriptrunner.git" ${repo}
         )?;
       }
-      Command::new("make")
-        .current_dir(repo)
-        .args(["clean", "install"])
-        .status()
-        .expect("Failed to install themescriptrunner");
+      run_cmd!(
+        cd ${repo}
+        make clean install
+      )?;
     }
 
     let pwd = var("PWD")?;
     let switch_gnome_theme_sh = format_args!("{pwd}/scripts/switch_gnome_theme.sh");
-    run_interactively(
-      "dconf",
-      &[
-        "write",
-        "/org/gnome/shell/extensions/themescriptrunner/light-command",
-        &format!("'{switch_gnome_theme_sh} light'"),
-      ],
+    run_cmd!(
+      dconf write /org/gnome/shell/extensions/themescriptrunner/light-command "'${switch_gnome_theme_sh} light'"
+      dconf write /org/gnome/shell/extensions/themescriptrunner/dark-command "'${switch_gnome_theme_sh} dark'"
     )?;
-    run_interactively(
-      "dconf",
-      &[
-        "write",
-        "/org/gnome/shell/extensions/themescriptrunner/dark-command",
-        &format!("'{switch_gnome_theme_sh} dark'"),
-      ],
-    )?;
-    if run_interactively(
-      "gnome-extensions",
-      &["enable", "themescriptrunner@adilhanney.com"],
-    )
-    .is_err()
-    {
+    if run_cmd!(gnome-extensions enable "themescriptrunner@adilhanney.com").is_err() {
       println!("Please relogin/reboot to activate this extension.");
     }
 
