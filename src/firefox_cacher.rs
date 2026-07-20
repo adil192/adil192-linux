@@ -30,8 +30,8 @@ impl FirefoxCacher {
     println!("Installing Firefox precacher...");
 
     run_cmd!(
-      install -Dm644 $script_src $script_dst
-      install -Dm755 $desktop_src $desktop_dst
+      install -Dm644 $script_src $script_dst;
+      install -Dm755 $desktop_src $desktop_dst;
     )?;
 
     if home != "/home/ahann" {
