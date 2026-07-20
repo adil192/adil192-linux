@@ -29,5 +29,8 @@ for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do
     --set "$CONF" Appearance custom_palette true \
     --set "$CONF" Appearance icon_theme "$KICONTHEME" \
     --set "$CONF" Appearance standard_dialogs xdgdesktopportal \
-    --set "$CONF" Appearance style Darkly
+    --set "$CONF" Appearance style Darkly \
+    --set "$CONF" Fonts fixed "Lilex,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0" \
+    --set "$CONF" Fonts general "Adwaita Sans,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0" \
+    --del "$CONF" Troubleshooting
 done
