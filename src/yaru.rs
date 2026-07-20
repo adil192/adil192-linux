@@ -37,6 +37,13 @@ impl Yaru {
     Dnf::install(&["yaru-theme", "crudini", "gnome-shell-extension-user-theme"])?;
     println!();
 
+    println!("Installing Darkly Qt theme...");
+    run_cmd!(
+      sudo dnf copr enable deltacopy/darkly;
+      sudo dnf install --disablerepo=terra darkly;
+    )?;
+    println!();
+
     if !themescriptrunner_install_dir.exists() {
       println!("Installing themescriptrunner extension...");
       let home = var("HOME")?;
