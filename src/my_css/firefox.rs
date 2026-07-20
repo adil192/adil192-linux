@@ -1,4 +1,5 @@
 use anyhow::{Result, anyhow, bail};
+use cmd_lib::run_cmd;
 use cosmic_bg_config::{Config, Source};
 use serde_json::{Value, json};
 use std::env::var;
@@ -7,7 +8,7 @@ use std::os::unix::fs::symlink;
 use std::path::{Path, PathBuf};
 
 use crate::my_css::MyCss;
-use crate::tools::{ask, run_interactively};
+use crate::tools::ask;
 
 impl MyCss {
   pub fn theme_firefox() -> Result<()> {
@@ -229,18 +230,8 @@ impl Firefox {
     }
 
     println!("Generating a blurred version of your wallpaper for a fake blur effect...");
-    run_interactively(
-      "magick",
-      &[
-        &path,
-        "-adaptive-resize",
-        "540x540^",
-        "-blur",
-        "0x32",
-        "+noise",
-        "Uniform",
-        &blurred_image.to_string_lossy(),
-      ],
+    run_cmd!(
+      magick $path -adaptive-resize "540x540^" -blur 0x32 +noise Uniform $blurred_image
     )?;
     fs::write(&blurred_image_src, &path)?;
 

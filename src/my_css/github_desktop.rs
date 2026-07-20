@@ -3,13 +3,14 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Result, anyhow};
+use cmd_lib::{run_cmd, run_fun};
 use cosmic::cosmic_config::CosmicConfigEntry;
 use cosmic::cosmic_theme::Theme;
 use cosmic::cosmic_theme::palette::{Hsl, IntoColor};
 use regex::Regex;
 
 use crate::my_css::MyCss;
-use crate::tools::{ask, run_interactively, run_output};
+use crate::tools::ask;
 
 impl MyCss {
   pub fn theme_github_desktop() -> Result<()> {
@@ -22,21 +23,18 @@ impl MyCss {
 
     let colors_regex = Regex::new(r"#[0-9a-fA-F]{3,6}")?;
 
-    let css_files_raw = run_output(
-      "find",
-      &[&app.to_string_lossy(), "-type", "f", "-name", "*.css"],
-    )?;
+    let css_files_raw = run_fun!(find $app -type f -name *.css)?;
     let css_files = css_files_raw.lines();
     for css_file in css_files {
       println!("Patching {css_file}...");
 
       let untinted_file = Path::new(css_file).with_added_extension("untinted");
-      if run_interactively("test", &["-w", css_file]).is_err() || !untinted_file.exists() {
+      if run_cmd!(test -w $css_file).is_err() || !untinted_file.exists() {
         // App was updated, set permissions and backup css
         println!("- Making {css_file} writeable");
-        run_interactively("sudo", &["chmod", "a+rw", css_file])?;
+        run_cmd!(sudo chmod a+rw $css_file)?;
         println!("- Backing up {css_file} to {untinted_file:?}");
-        run_interactively("sudo", &["cp", css_file, &untinted_file.to_string_lossy()])?;
+        run_cmd!(sudo cp $css_file $untinted_file)?;
       }
       let mut css_content = fs::read_to_string(untinted_file)?;
 
@@ -71,10 +69,7 @@ impl MyCss {
     }
     println!("Resetting GitHub Desktop Plus css...");
     let app = find_app()?;
-    let css_files_raw = run_output(
-      "find",
-      &[&app.to_string_lossy(), "-type", "f", "-name", "*.css"],
-    )?;
+    let css_files_raw = run_fun!(find $app -type f -name *.css)?;
     let css_files = css_files_raw.lines();
     for css_file in css_files {
       let untinted_file = Path::new(css_file).with_added_extension("untinted");
@@ -82,7 +77,7 @@ impl MyCss {
         continue;
       }
       println!("Restoring {css_file}...");
-      run_interactively("sudo", &["mv", &untinted_file.to_string_lossy(), css_file])?;
+      run_cmd!(sudo mv $untinted_file $css_file)?;
     }
     Ok(true)
   }
@@ -93,8 +88,8 @@ impl MyCss {
 const HUE_DEFAULT: f32 = 210.0;
 
 fn find_app() -> Result<PathBuf> {
-  let bin = run_output("which", &["desktop-plus"])?;
-  let real_bin = run_output("realpath", &[&bin])?;
+  let bin = run_fun!(which desktop-plus)?;
+  let real_bin = run_fun!(realpath $bin)?;
   Path::new(&real_bin)
     .parent()
     .map(Path::to_owned)
