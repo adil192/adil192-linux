@@ -1,10 +1,12 @@
 use std::env::var;
+use std::path::Path;
+use std::process::Command;
 
 use anyhow::Result;
 use cached::once;
 
 use crate::tools::dnf::Dnf;
-use crate::tools::{ask, run_interactively, run_output};
+use crate::tools::{ask, run_interactively};
 
 pub struct Yaru;
 impl Yaru {
@@ -16,7 +18,10 @@ impl Yaru {
       return Ok(false);
     }
 
-    if Dnf::is_installed("yaru-theme") && _is_switcher_extension_installed()? {
+    let themescriptrunner_install_dir =
+      Path::new("/home/ahann/.local/share/gnome-shell/extensions/themescriptrunner@adilhanney.com");
+
+    if Dnf::is_installed("yaru-theme") && themescriptrunner_install_dir.exists() {
       return Ok(true);
     }
 
@@ -28,20 +33,34 @@ impl Yaru {
     Dnf::install(&["yaru-theme", "gnome-shell-extension-user-theme"])?;
     println!();
 
-    while !_is_switcher_extension_installed()? {
-      println!(
-        "Please install the extension from https://extensions.gnome.org/extension/2236/night-theme-switcher/"
-      );
-      ask("Press enter when installed... ", true);
+    if !themescriptrunner_install_dir.exists() {
+      println!("Installing themescriptrunner extension...");
+      let home = var("HOME")?;
+      let repo = format!("{home}/Documents/GitHub/themescriptrunner");
+      if !Path::new(&repo).exists() {
+        run_interactively(
+          "git",
+          &[
+            "clone",
+            "https://github.com/adil192/themescriptrunner.git",
+            &repo,
+          ],
+        )?;
+      }
+      Command::new("make")
+        .current_dir(repo)
+        .args(["clean", "install"])
+        .status()
+        .expect("Failed to install themescriptrunner");
     }
 
-    let pwd = var("PWD").unwrap();
+    let pwd = var("PWD")?;
     let switch_gnome_theme_sh = format_args!("{pwd}/scripts/switch_gnome_theme.sh");
     run_interactively(
       "dconf",
       &[
         "write",
-        "/org/gnome/shell/extensions/nightthemeswitcher/commands/sunrise",
+        "/org/gnome/shell/extensions/themescriptrunner/light-command",
         &format!("'{switch_gnome_theme_sh} light'"),
       ],
     )?;
@@ -49,18 +68,18 @@ impl Yaru {
       "dconf",
       &[
         "write",
-        "/org/gnome/shell/extensions/nightthemeswitcher/commands/sunset",
+        "/org/gnome/shell/extensions/themescriptrunner/dark-command",
         &format!("'{switch_gnome_theme_sh} dark'"),
       ],
     )?;
-    run_interactively(
-      "dconf",
-      &[
-        "write",
-        "/org/gnome/shell/extensions/nightthemeswitcher/commands/enabled",
-        "true",
-      ],
-    )?;
+    if run_interactively(
+      "gnome-extensions",
+      &["enable", "themescriptrunner@adilhanney.com"],
+    )
+    .is_err()
+    {
+      println!("Please relogin/reboot to activate this extension.");
+    }
 
     Ok(true)
   }
@@ -69,12 +88,4 @@ impl Yaru {
 #[once()]
 fn _is_gnome() -> Result<bool> {
   Ok(var("XDG_SESSION_DESKTOP")? == "gnome")
-}
-
-fn _is_switcher_extension_installed() -> Result<bool> {
-  let info = run_output(
-    "gnome-extensions",
-    &["info", "nightthemeswitcher@romainvigier.fr"],
-  )?;
-  Ok(info.contains("Enabled: Yes"))
 }
