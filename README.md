@@ -3,7 +3,8 @@
 This is a collection of scripts that apply my personal preferences to a Linux system.
 It installs apps, drivers and themes.
 
-It is generally intended to be used with the [Fedora COSMIC Spin](https://fedoraproject.org/spins/cosmic/).
+It is generally intended to be used on Fedora Linux
+with GNOME and COSMIC desktop environments.
 
 This project is for my personal use:
 no guarantees of any kind are made.
