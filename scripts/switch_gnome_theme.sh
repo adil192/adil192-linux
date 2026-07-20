@@ -6,6 +6,10 @@ if [[ "$MODE" != dark && "$MODE" != "light" ]]; then
   exit 1
 fi
 
+if [ ! -x "$(command -v crudini)" ]; then
+  notify-send --transient --app-name=switch_gnome_theme.sh --icon=dark-mode-symbolic "Cannot switch theme" "Please install crudini"
+fi
+
 light-dark() {
   [ "$MODE" == "light" ] && echo "$1" || echo "$2"
 }
@@ -20,8 +24,10 @@ KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDar
 KICONTHEME=$(light-dark breeze breeze-dark)
 cp "$KCOLORSCHEME" ~/.config/kdeglobals
 for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do
-  sed -i \
-    -e "s|^color_scheme_path=.*|color_scheme_path=$KCOLORSCHEME|" \
-    -e "s|^icon_theme=.*|icon_theme=$KICONTHEME|" \
-    "$CONF"
+  crudini \
+    --set "$CONF" Appearance color_scheme_path "$KCOLORSCHEME" \
+    --set "$CONF" Appearance custom_palette true \
+    --set "$CONF" Appearance icon_theme "$KICONTHEME" \
+    --set "$CONF" Appearance standard_dialogs xdgdesktopportal \
+    --set "$CONF" Appearance style Darkly
 done
