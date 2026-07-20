@@ -35,7 +35,7 @@ impl FirefoxCacher {
     )?;
 
     if home != "/home/ahann" {
-      run_cmd!(sed s|/home/ahann/$home|g $desktop_dst)?;
+      run_cmd!(sed "s|/home/ahann|$home|g" $desktop_dst)?;
     }
 
     install_vmtouch()?;
