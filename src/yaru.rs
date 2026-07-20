@@ -1,13 +1,12 @@
 use std::env::var;
 use std::path::Path;
-use std::process::Command;
 
 use anyhow::Result;
 use cached::once;
 use cmd_lib::run_cmd;
 
+use crate::tools::ask;
 use crate::tools::dnf::Dnf;
-use crate::tools::{ask, run_interactively};
 
 pub struct Yaru;
 impl Yaru {

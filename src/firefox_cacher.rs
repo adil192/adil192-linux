@@ -2,9 +2,10 @@ use std::env::var;
 use std::fs;
 
 use anyhow::Result;
+use cmd_lib::run_cmd;
 
+use crate::tools::ask;
 use crate::tools::dnf::Dnf;
-use crate::tools::{ask, run_interactively};
 
 pub struct FirefoxCacher;
 impl FirefoxCacher {
@@ -28,11 +29,13 @@ impl FirefoxCacher {
     }
     println!("Installing Firefox precacher...");
 
-    run_interactively("install", &["-Dm644", &script_src, &script_dst])?;
-    run_interactively("install", &["-Dm755", &desktop_src, &desktop_dst])?;
+    run_cmd!(
+      install -Dm644 $script_src $script_dst
+      install -Dm755 $desktop_src $desktop_dst
+    )?;
 
     if home != "/home/ahann" {
-      run_interactively("sed", &[&format!("s|/home/ahann|{home}|g"), &desktop_dst])?;
+      run_cmd!(sed s|/home/ahann/$home|g $desktop_dst)?;
     }
 
     install_vmtouch()?;

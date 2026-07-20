@@ -1,8 +1,9 @@
 use crate::tools::dnf::Dnf;
 use crate::tools::dnf_repos::DnfRepos;
 use crate::tools::flatpak::Flatpak;
-use crate::tools::{ask, is_exe_in_path, run_interactively, run_output};
+use crate::tools::{ask, is_exe_in_path};
 use anyhow::{Ok, Result};
+use cmd_lib::run_cmd;
 use regex::Regex;
 use std::env::var;
 use std::fs;
@@ -72,7 +73,7 @@ fn add_cosmic_copr() -> Result<()> {
     return Ok(());
   }
   println!("Adding my repo for faster COSMIC updates...");
-  run_interactively("sudo", &["dnf", "copr", "enable", "adil192/cosmic-epoch"])?;
+  run_cmd!(sudo dnf copr enable adil192/cosmic-epoch)?;
   println!("My builds will be installed the next time you run `sudo dnf update`.");
   Ok(())
 }
@@ -93,20 +94,13 @@ fn install_jetbrains_toolbox() -> Result<bool> {
 
   let tar_file = Path::new("/tmp/jetbrains-toolbox.tar.gz");
   let download_url = "https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.4.3.81140.tar.gz";
-  run_interactively("wget", &[download_url, "-O", &tar_file.to_string_lossy()])?;
-  fs::create_dir_all(&install_dir)?;
-  run_interactively(
-    "tar",
-    &[
-      "-xf",
-      &tar_file.to_string_lossy(),
-      "-C",
-      &install_dir.to_string_lossy(),
-      "--strip-components=1",
-    ],
+  run_cmd!(
+    wget $download_url -O $tar_file
+    mkdir -p $install_dir
+    tar -xf $tar_file -C $install_dir --strip-components=1
+    rm $tar_file
+    chmod +x $exe
   )?;
-  fs::remove_file(tar_file)?;
-  run_output("chmod", &["+x", &exe.to_string_lossy()])?;
 
   // TODO(adil192): Check this continues running after adil192-linux exits
   Command::new(exe).spawn()?;
@@ -161,11 +155,11 @@ fn install_zed() -> Result<bool> {
     return Ok(false);
   }
   println!("Installing Zed...");
-  run_interactively(
-    "wget",
-    &["https://zed.dev/install.sh", "-O", "/tmp/install-zed.sh"],
+  run_cmd!(
+    wget "https://zed.dev/install.sh" -O /tmp/install-zed.sh
+    bash /tmp/install-zed.sh
+    rm /tmp/install-zed.sh
   )?;
-  run_interactively("bash", &["/tmp/install-zed.sh"])?;
   Ok(true)
 }
 
@@ -200,10 +194,12 @@ fn install_git_credential_manager() -> Result<bool> {
     .unwrap();
 
   let tmp_file = "/tmp/gcm-linux-x64.tar.gz";
-  run_interactively("wget", &[download_url, "-O", tmp_file])?;
-  run_interactively("sudo", &["tar", "-xvf", tmp_file, "-C", "/usr/local/bin"])?;
-  fs::remove_file(tmp_file)?;
-  run_interactively("/usr/local/bin/git-credential-manager", &["configure"])?;
+  run_cmd!(
+    wget $download_url -O $tmp_file
+    sudo tar -xvf $tmp_file -C /usr/local/bin
+    rm $tmp_file
+    /usr/local/bin/git-credential-manager configure
+  )?;
   Ok(true)
 }
 
@@ -224,16 +220,9 @@ fn install_github_desktop_plus() -> Result<bool> {
   }
   println!("Installing GitHub Desktop Plus...");
 
-  run_interactively(
-    "sudo",
-    &["rpm", "--import", "https://gpg.polrivero.com/public.key"],
-  )?;
-  run_interactively(
-    "bash",
-    &[
-      "-c",
-      "echo -e '[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key' | sudo tee /etc/yum.repos.d/github-desktop-plus.repo",
-    ],
+  run_cmd!(
+    sudo rpm --import "https://gpg.polrivero.com/public.key"
+    bash -c "echo -e '[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key' | sudo tee /etc/yum.repos.d/github-desktop-plus.repo"
   )?;
   Dnf::install(&["desktop-plus"])?;
   println!();
@@ -271,9 +260,11 @@ fn install_upscaled_vlc() -> Result<bool> {
 
   let url = "https://raw.githubusercontent.com/adil192/upscaled_vlc/main/install.sh";
   let tmp_file = "/tmp/install_upscaled_vlc.sh";
-  run_interactively("wget", &[url, "-O", tmp_file])?;
-  run_interactively("bash", &[tmp_file])?;
-  fs::remove_file(tmp_file)?;
+  run_cmd!(
+    wget $url -O $tmp_file
+    bash $tmp_file
+    rm $tmp_file
+  )?;
   Ok(true)
 }
 
@@ -328,13 +319,8 @@ fn install_lm_studio() -> Result<bool> {
   }
   println!("Installing LM Studio...");
 
-  run_interactively(
-    "wget",
-    &[
-      "-O",
-      &target.to_string_lossy(),
-      "https://lmstudio.ai/download/latest/linux/x64",
-    ],
+  run_cmd!(
+    wget -O $target "https://lmstudio.ai/download/latest/linux/x64"
   )?;
   Ok(true)
 }

@@ -3,11 +3,12 @@ use std::env::var;
 use std::path::Path;
 
 use anyhow::Result;
+use cmd_lib::{run_cmd, run_fun};
 
+use crate::tools::ask;
 use crate::tools::device::Device;
 use crate::tools::dnf::Dnf;
 use crate::tools::dnf_repos::DnfRepos;
-use crate::tools::{ask, run_interactively, run_output};
 
 pub struct MyDrivers;
 impl MyDrivers {
@@ -92,7 +93,7 @@ fn add_mesa_copr() -> Result<bool> {
     return Ok(false);
   }
   println!("Adding my repo for faster Mesa (graphics driver) updates...");
-  run_interactively("sudo", &["dnf", "copr", "enable", "adil192/mesa-rc"])?;
+  run_cmd!("sudo dnf copr enable adil192/mesa-rc")?;
   println!("My builds will be installed the next time you run `sudo dnf update`.");
   Ok(true)
 }
@@ -152,8 +153,8 @@ fn install_intel_battery_optimizer() -> Result<bool> {
   }
   println!("Installing Intel's battery optimizer...");
   Dnf::install(&["intel-lpmd"])?;
-  run_interactively("sudo", &["systemctl", "enable", "--now", "intel_lpmd"])?;
-  run_interactively("sudo", &["intel_lpmd_control", "AUTO"])?;
+  run_cmd!(sudo systemctl enable --now intel_lpmd)?;
+  run_cmd!(sudo intel_lpmd_control AUTO)?;
   Ok(true)
 }
 
@@ -173,14 +174,14 @@ fn install_rocm() -> Result<bool> {
 
 fn add_to_render_video_groups() -> Result<bool> {
   let user = var("LOGNAME").unwrap_or_else(|_| var("USER").unwrap());
-  let groups = run_output("groups", &[&user])?
+  let groups = run_fun!(groups $user)?
     .split_whitespace()
     .map(str::to_owned)
     .collect::<HashSet<String>>();
   if groups.contains("render") && groups.contains("video") {
     return Ok(true);
   }
-  run_interactively("sudo", &["usermod", "-aG", "render,video", &user])?;
+  run_cmd!(sudo usermod -aG render,video $user)?;
   Ok(true)
 }
 
@@ -202,7 +203,7 @@ fn install_nvidia_gpu_drivers() -> Result<bool> {
 }
 
 fn install_broadcom_fingerprint_drivers() -> Result<bool> {
-  let lsusb = run_output("lsusb", &[])?;
+  let lsusb = run_fun!(lsusb)?;
   let has_older_broadcom = lsusb.contains("0a5c:584");
   let has_newer_broadcom = lsusb.contains("0a5c:586");
   if !has_older_broadcom && !has_newer_broadcom {
@@ -221,10 +222,7 @@ fn install_broadcom_fingerprint_drivers() -> Result<bool> {
     return Ok(false);
   }
   println!("Installing Broadcom fingerprint drivers...");
-  run_interactively(
-    "sudo",
-    &["dnf", "copr", "enable", "grahamwhiteuk/libfprint-tod"],
-  )?;
+  run_cmd!(sudo dnf copr enable grahamwhiteuk/libfprint-tod)?;
   Dnf::swap(&["libfprint", "libfprint-tod"])?;
   Dnf::install(&[driver])?;
   Ok(true)
