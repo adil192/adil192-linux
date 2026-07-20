@@ -1,13 +1,15 @@
 use std::collections::HashSet;
 use std::sync::{Mutex, OnceLock};
 
+use cmd_lib::run_fun;
+
+use crate::tools::ask;
 use crate::tools::dnf::Dnf;
-use crate::tools::{ask, run_output};
 
 static REPOS: OnceLock<Mutex<HashSet<String>>> = OnceLock::new();
 fn get_repos() -> &'static Mutex<HashSet<String>> {
   REPOS.get_or_init(|| {
-    let output = run_output("dnf", &["repolist", "--json"]).unwrap();
+    let output = run_fun!(dnf repolist --json).unwrap();
     let set = serde_json::from_str::<serde_json::Value>(&output)
       .unwrap()
       .as_array()
@@ -31,7 +33,7 @@ impl DnfRepos {
       return Ok(false);
     }
     println!("Adding RPM Fusion repos...");
-    let release = run_output("rpm", &["-E", "%fedora"])?;
+    let release = run_fun!(rpm "-E" "%fedora")?;
     Dnf::install(&[
       &format!(
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{release}.noarch.rpm"
@@ -57,7 +59,7 @@ impl DnfRepos {
       return Ok(false);
     }
     println!("Adding Terra repos...");
-    let release = run_output("rpm", &["-E", "%fedora"])?;
+    let release = run_fun!(rpm "-E" "%fedora")?;
     Dnf::install(&[
       "--repofrompath",
       "terra,https://repos.fyralabs.com/terra$releasever",

@@ -19,6 +19,7 @@ pub fn is_exe_in_path(exe: &str) -> bool {
 /// but we can't receive the output of the command programmatically.
 ///
 /// If you need to capture the output of the command, use [`run_output`] instead.
+#[deprecated = "Use the run_cmd! macro instead"]
 pub fn run_interactively(command: &str, args: &[&str]) -> anyhow::Result<()> {
   let Ok(status) = Command::new(command).args(args).status() else {
     panic!("Command failed to start: {command} {args:?}");
@@ -34,6 +35,7 @@ pub fn run_interactively(command: &str, args: &[&str]) -> anyhow::Result<()> {
 /// The process does not inherit stdin, so the user cannot interact with the command.
 ///
 /// If you need to run a command interactively, use [`run_interactively`] instead.
+#[deprecated = "Use the run_fun! macro instead"]
 pub fn run_output(command: &str, args: &[&str]) -> anyhow::Result<String> {
   let Ok(output) = Command::new(command).args(args).output() else {
     panic!("Command failed to start: {command} {args:?}");
