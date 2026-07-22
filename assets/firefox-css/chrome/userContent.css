@@ -300,7 +300,7 @@
   }
   ytd-rich-item-renderer .ytDismissibleItemAspectRatio16By9 {
     /* Use a more reasonable aspect ratio for the card after clicking "Not interested" */
-    padding-top: 25% !important;
+    padding-top: 20% !important;
   }
   ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer) {
     .ytLockupViewModelVertical {
