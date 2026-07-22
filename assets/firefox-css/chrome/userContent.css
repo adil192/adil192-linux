@@ -297,6 +297,10 @@
     width: 100% !important;
     max-width: 80rem !important;
     margin: auto !important;
+    padding-top: 2rem !important;
+    > * {
+      margin-inline: 2rem !important;
+    }
   }
   ytd-rich-item-renderer[rendered-from-rich-grid] {
     width: 100% !important;
