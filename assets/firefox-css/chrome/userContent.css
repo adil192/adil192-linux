@@ -245,7 +245,20 @@
   ytd-mini-guide-renderer,
   #guide-content {
     background: var(--cosmic-background-base) !important;
+    color: var(--cosmic-background-on) !important;
     backdrop-filter: blur(16px) !important;
+  }
+  #chips-wrapper::after {
+    /* Add a little inverted rounded corner */
+    --radius: 2rem;
+    content: "";
+    position: absolute;
+    bottom: calc(0.2px - var(--radius));
+    left: -0.2px;
+    width: var(--radius);
+    height: var(--radius);
+    background: var(--cosmic-background-base);
+    mask: radial-gradient(var(--radius) at 100% 100%, #0000 98%, #000);
   }
   ytd-feed-filter-chip-bar-renderer {
     --ytd-rich-grid-chips-bar-width: 100% !important;
