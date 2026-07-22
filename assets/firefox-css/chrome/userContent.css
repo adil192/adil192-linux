@@ -233,12 +233,6 @@
   #tabs-container.ytd-tabbed-page-header {
     background-color: transparent !important;
   }
-  #guide-content.ytd-app {
-    /* sidebar */
-    background-color: var(--cosmic-component-base) !important;
-    margin: 1rem 0 1rem 1rem !important;
-    border-radius: 1rem;
-  }
   ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy {
     /* black bars around video */
     background-color: rgba(0, 0, 0, 0.9) !important;
@@ -247,15 +241,14 @@
     display: none !important; /* replaced by ytd-masthead */
   }
   ytd-masthead,
-  #chips-wrapper {
+  #chips-wrapper,
+  ytd-mini-guide-renderer,
+  #guide-content {
+    background: var(--cosmic-background-base) !important;
     backdrop-filter: blur(16px) !important;
   }
-  ytd-masthead {
-    background: var(--cosmic-component-base) !important;
-  }
-  #chips-wrapper {
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+  ytd-feed-filter-chip-bar-renderer {
+    --ytd-rich-grid-chips-bar-width: 100% !important;
   }
   ytd-post-renderer,
   .ytThumbnailViewModelImage {
@@ -286,9 +279,11 @@
     /* List view in feed instead of grid */
     --ytd-rich-grid-items-per-row: 1 !important;
     --ytd-rich-grid-item-margin: 0 !important;
+  }
+  ytd-rich-grid-renderer #contents {
     width: 100% !important;
-    max-width: 128rem;
-    margin: auto;
+    max-width: 128rem !important;
+    margin: auto !important;
   }
   ytd-rich-item-renderer[rendered-from-rich-grid] {
     width: 100% !important;
