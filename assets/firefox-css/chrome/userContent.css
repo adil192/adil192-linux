@@ -301,6 +301,15 @@
   ytd-rich-item-renderer .ytDismissibleItemAspectRatio16By9 {
     /* Use a more reasonable aspect ratio for the card after clicking "Not interested" */
     padding-top: 20% !important;
+    .ytNotificationMultiActionRendererHost {
+      background-color: var(--cosmic-background-base) !important;
+      color: var(--cosmic-background-on) !important;
+    }
+    .ytSpecButtonShapeNextSizeM {
+      /* Center the "Undo" and "Tell us why" buttons */
+      max-width: 30rem !important;
+      margin: auto !important;
+    }
   }
   ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer) {
     .ytLockupViewModelVertical {
