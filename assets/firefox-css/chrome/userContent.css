@@ -365,15 +365,17 @@
     .ytLockupViewModelVertical {
       /* Display title next to thumbnail, not below it */
       flex-direction: row-reverse !important;
-      /* Turn into a card so it's easier to distinguish from the background */
-      background: linear-gradient(90deg, var(--cosmic-component-base) 25%, transparent) !important;
+      gap: 1rem;
       color: var(--cosmic-component-on) !important;
-      border-radius: 1rem;
+      border-radius: 2rem;
 
       /* Layout fixes for horizontal layout */
       .ytLockupViewModelContentImage {
         padding-bottom: 0 !important;
 
+        .ytThumbnailViewModelLarge {
+          border-radius: 2rem !important;
+        }
         .ytThumbnailViewModelAspectRatio16By9 {
           padding: 0 !important;
           aspect-ratio: 16 / 9 !important;
@@ -389,6 +391,10 @@
       .ytLockupViewModelMetadata {
         flex-grow: 1;
         padding: 1rem !important;
+        background-color: var(--cosmic-component-base) !important;
+        color: var(--cosmic-component-on) !important;
+        border-radius: 2rem;
+
         .ytLockupMetadataViewModelAvatar {
           align-self: end;
         }
@@ -405,9 +411,6 @@
             max-height: 12rem !important;
           }
         }
-      }
-      .ytThumbnailViewModelLarge {
-        border-radius: 1rem;
       }
 
       /* Better align text to make use of available space */
