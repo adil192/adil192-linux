@@ -366,7 +366,7 @@
       /* Display title next to thumbnail, not below it */
       flex-direction: row-reverse !important;
       /* Turn into a card so it's easier to distinguish from the background */
-      background-color: var(--cosmic-component-base) !important;
+      background: linear-gradient(90deg, var(--cosmic-component-base) 25%, transparent) !important;
       color: var(--cosmic-component-on) !important;
       border-radius: 1rem;
 
