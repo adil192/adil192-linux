@@ -200,6 +200,8 @@
     --font-family:
       "Noto Sans", "Adwaita Sans", "Inter", "Roboto", "YouTube Sans", sans-serif !important;
     --font-family-narrow: var(--font-family) !important;
+
+    --feed-width: 80rem;
   }
   * {
     font-family: var(--font-family) !important;
@@ -216,6 +218,42 @@
   #background.ytd-masthead,
   #home-chips {
     background-color: transparent !important;
+  }
+  #home-page-skeleton {
+    #home-container-media {
+      /* Stops display:grid; in 1600px media query */
+      display: flex !important;
+      max-width: var(--feed-width) !important;
+      gap: var(--ytd-rich-grid-row-margin) !important;
+    }
+    .rich-grid-media-skeleton {
+      flex-basis: 100% !important;
+      flex-grow: 1 !important;
+      max-width: 100% !important;
+    }
+    .video-details {
+      flex-direction: row-reverse !important;
+      background-color: var(--cosmic-component-base) !important;
+      color: var(--cosmic-component-on) !important;
+      border-radius: 1rem;
+      padding: 0 !important;
+    }
+    .rich-thumbnail {
+      padding: 0 !important;
+      aspect-ratio: 16 / 9 !important;
+      width: min(40vw, 40vh) !important;
+      height: auto !important;
+    }
+    .rich-thumbnail::before {
+      padding: 0 !important;
+    }
+    .details {
+      flex-grow: 1 !important;
+      padding: 1rem !important;
+      .channel-avatar {
+        align-self: end;
+      }
+    }
   }
   path[fill="#ff0033" i],
   path[fill="#f03" i],
@@ -295,7 +333,7 @@
   }
   #contents.ytd-rich-grid-renderer {
     width: 100% !important;
-    max-width: 80rem !important;
+    max-width: var(--feed-width) !important;
     margin: auto !important;
     padding-top: 2rem !important;
     > * {
