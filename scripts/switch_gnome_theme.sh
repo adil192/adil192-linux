@@ -15,10 +15,10 @@ light-dark() {
 }
 
 gsettings set org.gnome.shell.extensions.user-theme name "$(light-dark Yaru Yaru-dark)"
-gsettings set org.gnome.desktop.interface accent-color teal
+gsettings set org.gnome.desktop.interface accent-color pink
 gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_cursors Breeze_Light)"
-gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-prussiangreen Yaru-prussiangreen-dark)"
-gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-prussiangreen Yaru-prussiangreen-dark)"
+gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
+gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 
 KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
 KICONTHEME=$(light-dark breeze breeze-dark)
