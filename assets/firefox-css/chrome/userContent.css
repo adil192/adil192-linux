@@ -390,25 +390,55 @@
       }
       .ytLockupViewModelMetadata {
         flex-grow: 1;
-        padding: 1rem !important;
-        background-color: var(--cosmic-component-base) !important;
-        color: var(--cosmic-component-on) !important;
-        border-radius: 2rem;
 
         .ytLockupMetadataViewModelAvatar {
           align-self: end;
         }
-        .ytLockupMetadataViewModelMenuButton {
-          position: unset;
-          align-self: end;
+
+        .ytLockupMetadataViewModelTextContainer {
+          padding: 2rem !important;
+          background-color: var(--cosmic-component-base) !important;
+          color: var(--cosmic-component-on) !important;
+          border-radius: 2rem;
+          flex-grow: 1;
         }
 
         h3.ytLockupMetadataViewModelHeadingReset {
           /* increase title's clickable area */
           display: flex;
           align-content: stretch;
+          text-wrap: balance;
+
+          &,
+          & * {
+            font-family: serif !important;
+          }
+
           .ytLockupMetadataViewModelTitle {
-            max-height: 12rem !important;
+            max-height: unset !important;
+            font-size: 2.4rem !important;
+            font-weight: 350 !important;
+            line-height: 1.2 !important;
+            display: block !important;
+            overflow: visible !important;
+          }
+        }
+        .ytLockupMetadataViewModelHasMenuButton {
+          .ytLockupMetadataViewModelTitle {
+            /* Remove padding used to make space for menu button (we moved it) */
+            padding: 0 !important;
+          }
+
+          .ytLockupMetadataViewModelMenuButton {
+            /* Move menu button out of card */
+            right: unset !important;
+            left: -1.5px !important;
+            top: unset !important;
+            bottom: 48px !important;
+
+            .yt-icon-shape svg {
+              rotate: 90deg;
+            }
           }
         }
       }
@@ -482,6 +512,16 @@
     background: var(--cosmic-background-base);
     border-radius: 1rem;
     padding: 1rem;
+    h1.ytd-watch-metadata {
+      font-size: 2.4rem !important;
+      font-weight: 350 !important;
+      line-height: 1.2 !important;
+      overflow: visible !important;
+      &,
+      & * {
+        font-family: serif !important;
+      }
+    }
     #description.ytd-watch-metadata {
       background: var(--cosmic-background-base) !important;
     }
