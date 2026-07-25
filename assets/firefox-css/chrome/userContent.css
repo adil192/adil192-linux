@@ -575,7 +575,8 @@
     background-color: var(--bgColor-default);
   }
   div[class^="HeaderMetadata-module__stickyContainer__"] {
-    backdrop-filter: blur(0.4rem);
+  div.react-blob-view-header-sticky > div {
+    backdrop-filter: blur(1rem);
   }
   .markdown-body {
     .snippet-clipboard-content,
