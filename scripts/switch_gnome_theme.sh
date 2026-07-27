@@ -20,9 +20,10 @@ gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_curs
 gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 
-KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
-KICONTHEME=$(light-dark breeze breeze-dark)
+KCOLORSCHEME=~/.local/share/color-schemes/$(light-dark CosmicLight.colors CosmicDark.colors)
+[ -f "$KCOLORSCHEME" ] || KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
 cp "$KCOLORSCHEME" ~/.config/kdeglobals
+KICONTHEME=$(light-dark breeze breeze-dark)
 for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do
   crudini \
     --set "$CONF" Appearance color_scheme_path "$KCOLORSCHEME" \

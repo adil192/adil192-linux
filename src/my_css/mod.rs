@@ -1,5 +1,6 @@
 pub mod firefox;
 pub mod github_desktop;
+pub mod qt;
 pub mod thunderbird;
 pub mod tokens;
 

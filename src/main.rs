@@ -44,8 +44,9 @@ fn install() -> anyhow::Result<()> {
   if MyCss::enabled()? {
     MyCss::generate_tokens()?;
     MyCss::theme_firefox()?;
-    MyCss::theme_thunderbird()?;
     MyCss::theme_github_desktop()?;
+    MyCss::theme_qt()?;
+    MyCss::theme_thunderbird()?;
   } else {
     println!("Skipping theme generation: not running COSMIC");
   }
