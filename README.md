@@ -16,7 +16,7 @@ no guarantees of any kind are made.
 mkdir -p ~/Documents/GitHub/ && cd ~/Documents/GitHub/
 
 # Clone the repository
-git clone https://github.com/adil192/adil192-linux.git
+git clone --recurse-submodules https://github.com/adil192/adil192-linux.git
 cd adil192-linux
 
 # Install Rust if you haven't yet

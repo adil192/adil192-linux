@@ -4,3 +4,7 @@
 [submodule "submodules/thumbfast"]
 	path = submodules/thumbfast
 	url = https://github.com/po5/thumbfast
+[submodule "submodules/Anime4K"]
+	path = submodules/Anime4K
+	url = https://github.com/bloc97/Anime4K
+	branch = master
