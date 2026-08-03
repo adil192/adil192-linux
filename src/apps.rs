@@ -306,7 +306,7 @@ fn install_lm_studio() -> Result<bool> {
     println!("Skipping LM Studio: already installed");
     return Ok(true);
   }
-  let name_regex = Regex::new(r"[Ll][Mm]-?[Ss]tudio.*\.[Aa]pp[Ii]mage")?;
+  let name_regex = Regex::new(r"[Ll][Mm]-?[Ss]tudio(.*\.[Aa]pp[Ii]mage)?")?;
   if fs::read_dir(&applications_dir)?
     .any(|entry| entry.is_ok_and(|entry| name_regex.is_match(&entry.file_name().to_string_lossy())))
   {
