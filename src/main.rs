@@ -37,9 +37,7 @@ fn install() -> anyhow::Result<()> {
   FirefoxCacher::install()?;
   Yaru::install()?;
 
-  // Disabled because it currently prompts for each file
-  // instead of just the directory.
-  // MyHome::install()?;
+  MyHome::install()?;
 
   if MyCss::enabled()? {
     MyCss::generate_tokens()?;

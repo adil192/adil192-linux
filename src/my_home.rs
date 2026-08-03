@@ -15,24 +15,19 @@ impl MyHome {
     let pwd = var("PWD")?;
     let my_home = Path::new(&pwd).join("my_home");
 
-    visit_files(&my_home, &|tracked_file| -> Result<()> {
-      let relative_path = tracked_file.strip_prefix(&my_home)?;
+    let relative_paths = [".config/mpv", ".config/zed/settings.json"];
+    for relative_path in relative_paths {
+      let tracked_file = my_home.join(relative_path);
       let target_path = Path::new(&home).join(relative_path);
       if target_path.is_symlink() {
         return Ok(());
       }
-      if !ask(
-        &format!("Install ~/{}?", relative_path.to_string_lossy()),
-        true,
-      ) {
+      if !ask(&format!("Install ~/{}?", relative_path), true) {
         return Ok(());
       }
       if target_path.exists() {
         if !ask(
-          &format!(
-            "└─ Already exists, overwrite ~/{}?",
-            relative_path.to_string_lossy()
-          ),
+          &format!("└─ Already exists, overwrite ~/{}?", relative_path),
           false,
         ) {
           return Ok(());
@@ -43,8 +38,7 @@ impl MyHome {
         fs::create_dir_all(parent)?;
       }
       symlink(tracked_file, target_path)?;
-      Ok(())
-    })?;
+    }
 
     Ok(())
   }
@@ -80,21 +74,4 @@ impl MyHome {
 
     Ok(())
   }
-}
-
-/// Recursively finds files in the specified [dir].
-fn visit_files(dir: &Path, cb: &dyn Fn(&Path) -> Result<()>) -> Result<()> {
-  if !dir.is_dir() {
-    return Ok(());
-  }
-  for entry in fs::read_dir(dir)? {
-    let entry = entry?;
-    let path = entry.path();
-    if path.is_dir() {
-      visit_files(&path, cb)?;
-    } else {
-      cb(&path)?;
-    }
-  }
-  Ok(())
 }
