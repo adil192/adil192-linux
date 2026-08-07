@@ -4,6 +4,7 @@ use std::os::unix::fs::symlink;
 use std::path::Path;
 
 use anyhow::{Result, anyhow, bail};
+use cmd_lib::run_cmd;
 
 use crate::tools::ask;
 
@@ -61,10 +62,14 @@ impl MyHome {
       fs::create_dir_all(parent)?;
     }
 
-    fs::copy(orig_file, &tracked_file)?;
-    fs::remove_file(orig_file)?;
+    run_cmd!(
+      cp -a $orig_file $tracked_file;
+      rm -rf $orig_file;
+    )?;
     if symlink(&tracked_file, orig_file).is_err() {
-      _ = fs::copy(&tracked_file, orig_file);
+      run_cmd!(
+        cp -a $tracked_file $orig_file;
+      )?;
       bail!(
         "Failed to symlink {} to {}, restoring original file...",
         tracked_file.to_string_lossy(),
