@@ -6,10 +6,6 @@ if [[ "$MODE" != dark && "$MODE" != "light" ]]; then
   exit 1
 fi
 
-if [ ! -x "$(command -v crudini)" ]; then
-  notify-send --transient --app-name=switch_gnome_theme.sh --icon=dark-mode-symbolic "Cannot switch theme" "Please install crudini"
-fi
-
 light-dark() {
   [ "$MODE" == "light" ] && echo "$1" || echo "$2"
 }
@@ -19,6 +15,13 @@ gsettings set org.gnome.desktop.interface accent-color pink
 gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_cursors Breeze_Light)"
 gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
+
+if [ ! -x "$(command -v crudini)" ]; then
+  notify-send --transient --app-name=switch_gnome_theme.sh --icon=dark-mode-symbolic \
+    "Cannot switch theme" \
+    "Please install crudini"
+  exit 1
+fi
 
 KCOLORSCHEME=~/.local/share/color-schemes/$(light-dark CosmicLight.colors CosmicDark.colors)
 [ -f "$KCOLORSCHEME" ] || KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
