@@ -16,7 +16,12 @@ impl MyHome {
     let pwd = var("PWD")?;
     let my_home = Path::new(&pwd).join("my_home");
 
-    let relative_paths = [".config/cosmic", ".config/mpv", ".config/zed/settings.json"];
+    let relative_paths = [
+      ".config/cosmic",
+      ".config/darklyrc",
+      ".config/mpv",
+      ".config/zed/settings.json",
+    ];
     for relative_path in relative_paths {
       let tracked_file = my_home.join(relative_path);
       let target_path = Path::new(&home).join(relative_path);

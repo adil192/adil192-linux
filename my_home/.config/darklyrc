@@ -1,0 +1,13 @@
+[Common]
+ButtonHeight=6
+ButtonWidth=8
+CornerRadius=11
+FancyMargins=false
+MenuItemHeight=6
+
+[Style]
+DolphinSidebarOpacity=85
+NoOutline=true
+RoundedRubberBandFrame=false
+TabsHeight=5
+WidgetDrawShadow=false
