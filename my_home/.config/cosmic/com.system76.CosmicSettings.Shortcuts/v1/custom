@@ -1,0 +1,19 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "space",
+    ): System(Launcher),
+    (
+        modifiers: [
+            Super,
+        ],
+    ): System(WorkspaceOverview),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F10",
+    ): ToggleSticky,
+}
