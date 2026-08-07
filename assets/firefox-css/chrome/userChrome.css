@@ -144,6 +144,19 @@
     }
   }
 
+  #tab-preview-panel {
+    .tab-preview-content-main {
+      background:
+        linear-gradient(var(--cosmic-component-base), var(--cosmic-component-base)),
+        var(--cosmic-blurred-bg) center center / 100vw 100vh var(--cosmic-background-base) no-repeat !important;
+    }
+    .tab-preview-thumbnail-container > canvas {
+      background:
+        linear-gradient(var(--cosmic-background-base), var(--cosmic-background-base)),
+        var(--cosmic-blurred-bg) center center / 100vw 100vh var(--cosmic-background-base) no-repeat !important;
+    }
+  }
+
   #browser {
     background-color: transparent !important;
   }
