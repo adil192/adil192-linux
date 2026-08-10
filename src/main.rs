@@ -44,6 +44,7 @@ fn install() -> anyhow::Result<()> {
     MyCss::theme_firefox()?;
     MyCss::theme_github_desktop()?;
     MyCss::theme_qt()?;
+    MyCss::theme_steam()?;
     MyCss::theme_thunderbird()?;
   } else {
     println!("Skipping theme generation: not running COSMIC");
@@ -57,5 +58,6 @@ fn uninstall() -> anyhow::Result<()> {
   MyCss::untheme_firefox()?;
   MyCss::untheme_thunderbird()?;
   MyCss::untheme_github_desktop()?;
+  MyCss::untheme_steam()?;
   Ok(())
 }

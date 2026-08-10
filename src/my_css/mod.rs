@@ -1,7 +1,9 @@
 pub mod firefox;
 pub mod github_desktop;
 pub mod qt;
+pub mod steam;
 pub mod thunderbird;
+mod tint_css;
 pub mod tokens;
 
 use anyhow::Result;
