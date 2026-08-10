@@ -70,7 +70,9 @@ pub(super) fn tint_css(
         )
       }
 
-      let regex = Regex::new(&format!("(?<prefix>[^#]){original_css}(?<suffix>[^0-9])"))?;
+      let regex = Regex::new(&format!(
+        "(?<prefix>[^#]){original_css}(?<suffix>[^0-9a-fA-F])"
+      ))?;
       let replacer = format!("$prefix{tinted_css}$suffix");
       css_content = regex.replace_all(&css_content, &replacer).to_string();
     }
