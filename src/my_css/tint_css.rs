@@ -9,9 +9,14 @@ use cosmic::cosmic_theme::Theme;
 use cosmic::cosmic_theme::palette::{Hsl, IntoColor};
 use regex::Regex;
 
+/// Use the `.css.untinted` files from before.
+/// You may need to disable this when Steam silently overwrites the originals.
+const USE_CACHED_UNTINTED_CSS: bool = true;
+
 pub(super) fn tint_css(
   parent_dir: &Path,
-  original_hue: f32,
+  min_hue: f32,
+  max_hue: f32,
   make_darks_darker: bool,
 ) -> Result<()> {
   let colors_regex = Regex::new(r"#[0-9a-fA-F]{3,6}")?;
@@ -23,7 +28,7 @@ pub(super) fn tint_css(
     println!("Patching {css_file}...");
 
     let untinted_file = Path::new(css_file).with_added_extension("untinted");
-    if run_cmd!(test -w $css_file).is_err() || !untinted_file.exists() {
+    if run_cmd!(test -w $css_file).is_err() || !untinted_file.exists() || !USE_CACHED_UNTINTED_CSS {
       // App was updated, set permissions and backup css
       println!("- Making {css_file} writeable");
       run_cmd!(sudo chmod a+rw $css_file)?;
@@ -39,7 +44,7 @@ pub(super) fn tint_css(
     for original_css in original_colors {
       let original_parsed = csscolorparser::parse(&original_css)?;
       let [mut h, s, mut l, a] = original_parsed.to_hsla();
-      if (h - original_hue).abs() > 15.0 {
+      if !(min_hue <= h && h <= max_hue) {
         continue;
       }
 

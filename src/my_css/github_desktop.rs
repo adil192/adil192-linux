@@ -7,17 +7,14 @@ use crate::my_css::tint_css::untint_css;
 use crate::my_css::{MyCss, tint_css};
 use crate::tools::ask;
 
-/// GitHub Desktop uses a hue of 210deg for neutral elements.
-/// Tint them to use the hue of the system theme.
-const ORIGINAL_HUE: f32 = 210.0;
-
 impl MyCss {
   pub fn theme_github_desktop() -> Result<()> {
     assert!(Self::enabled()?);
     println!("Tinting GitHub Desktop Plus");
 
     let app = find_app()?;
-    tint_css::tint_css(&app, ORIGINAL_HUE, true)?;
+    // GitHub Desktop uses a hue of 210deg for neutral elements.
+    tint_css::tint_css(&app, 205.0, 215.0, true)?;
 
     Ok(())
   }
