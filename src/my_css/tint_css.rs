@@ -49,7 +49,27 @@ pub(super) fn tint_css(
       }
 
       let tinted_parsed = csscolorparser::Color::from_hsla(h, s, l, a);
-      let tinted_css = tinted_parsed.to_css_hex();
+      let tinted_css = if original_css.len() <= 5 {
+        // Short hex, #RGB not #RRGGBB
+        let [mut r, mut g, mut b, mut a] = tinted_parsed.to_rgba8();
+        r /= 0x10;
+        g /= 0x10;
+        b /= 0x10;
+        a /= 0x10;
+        if a < 0xF {
+          format!("#{r:01x}{g:01x}{b:01x}{a:01x}")
+        } else {
+          format!("#{r:01x}{g:01x}{b:01x}")
+        }
+      } else {
+        tinted_parsed.to_css_hex()
+      };
+      if tinted_css.len() != original_css.len() {
+        println!(
+          "WARNING: Tinted {original_css} to {tinted_css}. Lengths do not match. Will trip Steam's verification."
+        )
+      }
+
       let regex = Regex::new(&format!("(?<prefix>[^#]){original_css}(?<suffix>[^0-9])"))?;
       let replacer = format!("$prefix{tinted_css}$suffix");
       css_content = regex.replace_all(&css_content, &replacer).to_string();
