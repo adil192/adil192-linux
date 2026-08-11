@@ -19,6 +19,8 @@ impl MyHome {
     let relative_paths = [
       ".config/cosmic",
       ".config/darklyrc",
+      ".config/gtk-3.0",
+      ".config/gtk-4.0",
       ".config/mpv",
       ".config/zed/settings.json",
     ];
