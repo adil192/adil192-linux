@@ -3,38 +3,52 @@
  * The primary benefit is that the bigger buttons are easier to click.
  */
 
-.csd headerbar.titlebar,
-headerbar windowhandle > box {
+headerbar.titlebar,
+headerbar windowhandle > box,
+toolbarview revealer windowhandle > box {
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0;
 }
-.csd headerbar.titlebar box.right button.titlebutton,
+windowcontrols {
+  border-spacing: 0;
+}
+headerbar.titlebar box.right button.titlebutton,
 windowcontrols button {
-  min-height: 46px;
-  min-width: 56px;
   border-radius: 0;
-  margin: 0;
   padding: 0;
+  margin: 0;
   border: none;
   transition-duration: 0.2s;
   background: @window_bg_color;
   color: @window_fg_color;
 }
+headerbar.titlebar box.right button.titlebutton image,
+windowcontrols button image {
+  min-height: 38px;
+  min-width: 48px;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+headerbar.titlebar box.right button.titlebutton image {
+  min-height: 46px;
+  min-width: 56px;
+}
 windowcontrols button,
 windowcontrols button image {
   background-color: transparent;
 }
-.csd headerbar.titlebar box.right button.titlebutton:hover,
+headerbar.titlebar box.right button.titlebutton:hover,
 windowcontrols button:hover {
   background: rgba(128, 128, 128, 0.2);
   transition-duration: 0.05s;
 }
-.csd headerbar.titlebar box.right button.titlebutton.close,
+headerbar.titlebar box.right button.titlebutton.close,
 windowcontrols button.close {
   border-top-right-radius: 16px;
 }
-.csd headerbar.titlebar box.right button.titlebutton.close:hover,
+headerbar.titlebar box.right button.titlebutton.close:hover,
 windowcontrols button.close:hover {
   background: rgba(255, 128, 128, 0.2);
 }
