@@ -168,16 +168,17 @@
 }
 
 .titlebar-buttonbox {
-  --titlebar-button-size: 32px !important;
-  --titlebar-button-spacing: 2px !important;
-  --titlebar-button-end-spacing: 8px !important;
+  --titlebar-button-size: 48px !important;
+  --titlebar-button-spacing: 0 !important;
+  --titlebar-button-end-spacing: 0 !important;
 }
 
 .titlebar-button {
   cursor: pointer !important;
 
   & > .toolbarbutton-icon {
-    border-radius: var(--border-radius-medium) !important; /* rrect instead of circle buttons */
+    height: 100% !important;
+    border-radius: 0 !important;
 
     @media (-moz-gtk-theme-family: adwaita) or (-moz-gtk-theme-family: yaru) {
       background-color: transparent !important; /* remove unhovered background */
@@ -187,11 +188,11 @@
     }
   }
   &:hover > .toolbarbutton-icon {
-    background-color: color-mix(
-      in srgb,
-      currentColor 15%,
-      transparent
-    ) !important; /* same as default but with !important*/
+    /* same as default but with !important*/
+    background-color: color-mix(in srgb, currentColor 15%, transparent) !important;
+  }
+  &.titlebar-close:hover > .toolbarbutton-icon {
+    background-color: color-mix(in srgb, red 15%, transparent) !important;
   }
 }
 
