@@ -16,6 +16,9 @@ gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_curs
 gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
 
+mkdir -p ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/
+light-dark false true > ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+
 if [ ! -x "$(command -v crudini)" ]; then
   notify-send --transient --app-name=switch_gnome_theme.sh --icon=dark-mode-symbolic \
     "Cannot switch theme" \
