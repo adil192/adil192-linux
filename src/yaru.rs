@@ -34,7 +34,7 @@ impl Yaru {
     }
 
     println!("Installing yaru-theme with dnf...");
-    Dnf::install(&["yaru-theme", "crudini", "gnome-shell-extension-user-theme"])?;
+    Dnf::install(&["yaru-theme", "crudini", "gnome-shell-extension-user-theme", "chrt"])?;
     println!();
 
     println!("Installing Darkly Qt theme...");
@@ -60,8 +60,8 @@ impl Yaru {
     let pwd = var("PWD")?;
     let switch_gnome_theme_sh = format_args!("{pwd}/scripts/switch_gnome_theme.sh");
     run_cmd!(
-      dconf write /org/gnome/shell/extensions/themescriptrunner/light-command "'${switch_gnome_theme_sh} light'";
-      dconf write /org/gnome/shell/extensions/themescriptrunner/dark-command "'${switch_gnome_theme_sh} dark'";
+      dconf write /org/gnome/shell/extensions/themescriptrunner/light-command "'/usr/bin/chrt -i 0 ${switch_gnome_theme_sh} light'";
+      dconf write /org/gnome/shell/extensions/themescriptrunner/dark-command "'/usr/bin/chrt -i 0 ${switch_gnome_theme_sh} dark'";
     )?;
     if run_cmd!(gnome-extensions enable "themescriptrunner@adilhanney.com").is_err() {
       println!("Please relogin/reboot to activate this extension.");

@@ -10,6 +10,10 @@ light-dark() {
   [ "$MODE" == "light" ] && echo "$1" || echo "$2"
 }
 
+# Switching the shell theme below causes a momentary freeze/hitch.
+# Allow gnome's transition animation to complete before proceeding.
+sleep 1
+
 gsettings set org.gnome.shell.extensions.user-theme name "$(light-dark Yaru Yaru-dark)"
 gsettings set org.gnome.desktop.interface accent-color pink
 gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_cursors Breeze_Light)"
