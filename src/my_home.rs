@@ -28,17 +28,17 @@ impl MyHome {
       let tracked_file = my_home.join(relative_path);
       let target_path = Path::new(&home).join(relative_path);
       if target_path.is_symlink() {
-        return Ok(());
+        continue;
       }
       if !ask(&format!("Install ~/{}?", relative_path), true) {
-        return Ok(());
+        continue;
       }
       if target_path.exists() {
         if !ask(
           &format!("└─ Already exists, overwrite ~/{}?", relative_path),
           false,
         ) {
-          return Ok(());
+          continue;
         }
         fs::remove_file(&target_path)?;
       }
