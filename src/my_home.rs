@@ -40,7 +40,7 @@ impl MyHome {
         ) {
           continue;
         }
-        fs::remove_file(&target_path)?;
+        run_cmd!(rm -rf $target_path)?;
       }
       if let Some(parent) = target_path.parent() {
         fs::create_dir_all(parent)?;
