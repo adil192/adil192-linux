@@ -19,6 +19,7 @@
 /my_home/.config/cosmic/dev.DBrox.CosmicSystemMonitor/
 /my_home/.config/cosmic/io.github.cosmic_utils.minimon-applet-panel/
 # unused apps or unchanged defaults
+/my_home/.config/cosmic/com.system76.CosmicAppLibrary/
 /my_home/.config/cosmic/com.system76.CosmicEdit/
 /my_home/.config/cosmic/com.system76.CosmicFiles/
 /my_home/.config/cosmic/com.system76.CosmicTerm/
