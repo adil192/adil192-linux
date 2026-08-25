@@ -1,9 +1,10 @@
 [Common]
 ButtonHeight=6
 ButtonWidth=8
-CornerRadius=11
+CornerRadius=16
 FancyMargins=false
 MenuItemHeight=6
+ScrollBarTransient=true
 
 [Style]
 DolphinSidebarOpacity=85
