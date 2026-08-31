@@ -11,6 +11,7 @@ toolbarview revealer windowhandle > box {
   padding-bottom: 0;
 }
 windowcontrols {
+  /* border-spacing is gtk-4.0 only! */
   border-spacing: 0;
 }
 headerbar.titlebar box.right button.titlebutton,
