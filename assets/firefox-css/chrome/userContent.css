@@ -205,8 +205,10 @@
   }
   * {
     font-family: var(--font-family) !important;
-
-    /* disable transitions for performance, solves frame drops while scrolling */
+  }
+  :not(.caption-window *) {
+    /* disable transitions to fix awful frame drops while scrolling (except captions which remain animated) */
+    /* Note: transitions are purposefully disabled on the .caption-window itself */
     transition: none !important;
   }
   html,
