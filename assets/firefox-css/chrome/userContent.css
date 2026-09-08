@@ -205,6 +205,9 @@
   }
   * {
     font-family: var(--font-family) !important;
+
+    /* disable transitions for performance, solves frame drops while scrolling */
+    transition: none !important;
   }
   html,
   html[color-version="v2_0"],
