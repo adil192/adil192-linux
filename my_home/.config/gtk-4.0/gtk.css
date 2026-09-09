@@ -2,7 +2,6 @@
  * Tweaks Adwaita titlebar buttons to look more like Windows.
  * The primary benefit is that the bigger buttons are easier to click.
  */
-
 headerbar.titlebar,
 headerbar windowhandle > box,
 toolbarview revealer windowhandle > box {
@@ -10,11 +9,12 @@ toolbarview revealer windowhandle > box {
   padding-top: 0;
   padding-bottom: 0;
 }
+
 windowcontrols {
   /* border-spacing is gtk-4.0 only! */
   border-spacing: 0;
 }
-headerbar.titlebar box.right button.titlebutton,
+
 windowcontrols button {
   border-radius: 0;
   padding: 0;
@@ -24,33 +24,33 @@ windowcontrols button {
   background: transparent;
   color: inherit;
 }
-headerbar.titlebar box.right button.titlebutton image,
+
 windowcontrols button image {
   min-height: 38px;
   min-width: 48px;
   border-radius: 0;
   padding: 0;
   margin: 0;
+  background: transparent;
 }
-headerbar.titlebar box.right button.titlebutton image {
+
+windowcontrols button image {
   min-height: 46px;
   min-width: 56px;
 }
-windowcontrols button,
-windowcontrols button image {
-  background-color: transparent;
-}
-headerbar.titlebar box.right button.titlebutton:hover,
+
 windowcontrols button:hover {
   background: rgba(128, 128, 128, 0.4);
   transition-duration: 0.05s;
 }
-headerbar.titlebar box.right button.titlebutton.close,
+
 windowcontrols button.close {
   border-top-right-radius: 16px;
 }
-headerbar.titlebar box.right button.titlebutton.close:hover,
+
 windowcontrols button.close:hover {
   background: rgba(220, 0, 0, 0.8);
   color: white;
 }
+
+/*# sourceMappingURL=gtk.css.map */

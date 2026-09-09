@@ -2,6 +2,14 @@
  * Tweaks Adwaita titlebar buttons to look more like Windows.
  * The primary benefit is that the bigger buttons are easier to click.
  */
+
+$gtk3: false !default;
+
+$windowcontrols: if(sass($gtk3): "headerbar.titlebar box.right"; else: "windowcontrols");
+$windowbutton: if(
+  sass($gtk3): "headerbar.titlebar box.right button.titlebutton"; else: "windowcontrols button"
+);
+
 headerbar.titlebar,
 headerbar windowhandle > box,
 toolbarview revealer windowhandle > box {
@@ -9,13 +17,18 @@ toolbarview revealer windowhandle > box {
   padding-top: 0;
   padding-bottom: 0;
 }
-
-headerbar.titlebar box.right button.titlebutton {
-  /* gtk-3.0 compatible hack to remove the 6px spacing */
-  margin-left: -6px;
+@if $gtk3 {
+  #{$windowbutton} {
+    /* gtk-3.0 compatible hack to remove the 6px spacing */
+    margin-left: -6px;
+  }
+} @else {
+  #{$windowcontrols} {
+    /* border-spacing is gtk-4.0 only! */
+    border-spacing: 0;
+  }
 }
-
-headerbar.titlebar box.right button.titlebutton {
+#{$windowbutton} {
   border-radius: 0;
   padding: 0;
   margin: 0;
@@ -24,8 +37,7 @@ headerbar.titlebar box.right button.titlebutton {
   background: transparent;
   color: inherit;
 }
-
-headerbar.titlebar box.right button.titlebutton image {
+#{$windowbutton} image {
   min-height: 38px;
   min-width: 48px;
   border-radius: 0;
@@ -33,24 +45,18 @@ headerbar.titlebar box.right button.titlebutton image {
   margin: 0;
   background: transparent;
 }
-
-headerbar.titlebar box.right button.titlebutton image {
+#{$windowbutton} image {
   min-height: 46px;
   min-width: 56px;
 }
-
-headerbar.titlebar box.right button.titlebutton:hover {
+#{$windowbutton}:hover {
   background: rgba(128, 128, 128, 0.4);
   transition-duration: 0.05s;
 }
-
-headerbar.titlebar box.right button.titlebutton.close {
+#{$windowbutton}.close {
   border-top-right-radius: 16px;
 }
-
-headerbar.titlebar box.right button.titlebutton.close:hover {
+#{$windowbutton}.close:hover {
   background: rgba(220, 0, 0, 0.8);
   color: white;
 }
-
-/*# sourceMappingURL=gtk.css.map */
