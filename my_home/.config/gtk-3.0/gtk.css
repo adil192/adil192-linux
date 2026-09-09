@@ -10,11 +10,11 @@ toolbarview revealer windowhandle > box {
   padding-top: 0;
   padding-bottom: 0;
 }
-/*
-windowcontrols {
-  border-spacing is gtk-4.0 only!
+/* windowcontrols { border-spacing is gtk-4.0 only! } */
+/* for gtk-3.0, use margin-left as a hack to remove the 6px spacing */
+headerbar.titlebar box.right button.titlebutton {
+  margin-left: -6px;
 }
-*/
 headerbar.titlebar box.right button.titlebutton,
 windowcontrols button {
   border-radius: 0;
