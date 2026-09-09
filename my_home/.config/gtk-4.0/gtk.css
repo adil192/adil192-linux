@@ -42,7 +42,7 @@ windowcontrols button image {
 }
 headerbar.titlebar box.right button.titlebutton:hover,
 windowcontrols button:hover {
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(128, 128, 128, 0.4);
   transition-duration: 0.05s;
 }
 headerbar.titlebar box.right button.titlebutton.close,
@@ -51,5 +51,6 @@ windowcontrols button.close {
 }
 headerbar.titlebar box.right button.titlebutton.close:hover,
 windowcontrols button.close:hover {
-  background: rgba(255, 128, 128, 0.2);
+  background: rgba(220, 0, 0, 0.8);
+  color: white;
 }
