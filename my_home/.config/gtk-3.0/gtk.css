@@ -22,8 +22,8 @@ windowcontrols button {
   margin: 0;
   border: none;
   transition-duration: 0.2s;
-  background: @window_bg_color;
-  color: @window_fg_color;
+  background: transparent;
+  color: inherit;
 }
 headerbar.titlebar box.right button.titlebutton image,
 windowcontrols button image {
