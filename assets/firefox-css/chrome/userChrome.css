@@ -175,24 +175,22 @@
 
 .titlebar-button {
   cursor: pointer !important;
+  background-color: transparent !important;
 
   & > .toolbarbutton-icon {
     height: 100% !important;
     border-radius: 0 !important;
-
-    @media (-moz-gtk-theme-family: adwaita) or (-moz-gtk-theme-family: yaru) {
-      background-color: transparent !important; /* remove unhovered background */
-    }
-    @media not (-moz-gtk-theme-family: breeze) {
-      transition-duration: 0.05s !important; /* down from 0.2s */
-    }
+    background-color: transparent !important;
+    color: inherit !important;
+    transition-duration: 0.2s !important;
   }
-  &:hover > .toolbarbutton-icon {
-    /* same as default but with !important*/
-    background-color: color-mix(in srgb, currentColor 15%, transparent) !important;
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.4) !important;
+    transition-duration: 0.05s !important;
   }
-  &.titlebar-close:hover > .toolbarbutton-icon {
-    background-color: color-mix(in srgb, red 15%, transparent) !important;
+  &.titlebar-close:hover {
+    background: rgba(220, 0, 0, 0.8) !important;
+    color: white !important;
   }
 }
 
