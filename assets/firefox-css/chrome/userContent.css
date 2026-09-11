@@ -573,6 +573,9 @@
   body {
     background-color: transparent !important;
   }
+  li:has(> a[data-tab-item="agents"]) {
+    display: none !important;
+  }
   div:has(> article.markdown-body),
   table,
   div[class^="IssueBody-module__commentBorder__"],
