@@ -34,11 +34,6 @@ headerbar.titlebar box.right button.titlebutton image {
   background: transparent;
 }
 
-headerbar.titlebar box.right button.titlebutton image {
-  min-height: 46px;
-  min-width: 56px;
-}
-
 headerbar.titlebar box.right button.titlebutton:hover {
   background: rgba(128, 128, 128, 0.4);
   transition-duration: 0.05s;

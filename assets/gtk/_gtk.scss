@@ -45,9 +45,11 @@ toolbarview revealer windowhandle > box {
   margin: 0;
   background: transparent;
 }
-#{$windowbutton} image {
-  min-height: 46px;
-  min-width: 56px;
+@if not $gtk3 {
+  #{$windowbutton} image {
+    min-height: 46px;
+    min-width: 56px;
+  }
 }
 #{$windowbutton}:hover {
   background: rgba(128, 128, 128, 0.4);
