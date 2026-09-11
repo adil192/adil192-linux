@@ -10,11 +10,6 @@ toolbarview revealer windowhandle > box {
   padding-bottom: 0;
 }
 
-windowcontrols {
-  /* border-spacing is gtk-4.0 only! */
-  border-spacing: 0;
-}
-
 windowcontrols button {
   border-radius: 0;
   padding: 0;
@@ -23,6 +18,11 @@ windowcontrols button {
   transition-duration: 0.2s;
   background: transparent;
   color: inherit;
+}
+
+windowcontrols {
+  /* border-spacing is gtk-4.0 only! */
+  border-spacing: 0;
 }
 
 windowcontrols button image {

@@ -17,6 +17,15 @@ toolbarview revealer windowhandle > box {
   padding-top: 0;
   padding-bottom: 0;
 }
+#{$windowbutton} {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  transition-duration: 0.2s;
+  background: transparent;
+  color: inherit;
+}
 @if $gtk3 {
   #{$windowbutton} {
     /* gtk-3.0 compatible hack to remove the 6px spacing */
@@ -27,15 +36,6 @@ toolbarview revealer windowhandle > box {
     /* border-spacing is gtk-4.0 only! */
     border-spacing: 0;
   }
-}
-#{$windowbutton} {
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
-  border: none;
-  transition-duration: 0.2s;
-  background: transparent;
-  color: inherit;
 }
 #{$windowbutton} image {
   min-height: 38px;
