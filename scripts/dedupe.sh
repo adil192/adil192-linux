@@ -57,6 +57,6 @@ else
   crawl -r ~/.steam
   crawl -r ~/.thunderbird
   crawl -r ~/thunderbird
-  crawl -r ~/.var
+  crawl -r --exclude=~/.var/app/com.spotify.Client/cache ~/.var
 fi
 dedupe
