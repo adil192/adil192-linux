@@ -37,13 +37,17 @@ else
   crawl -r ~/.android
   crawl -r ~/Android
   crawl -r ~/Applications
+  crawl -r ~/.bun
   crawl -r ~/.cargo
   crawl -r ~/.config
   crawl -r ~/.dart-tool
+  crawl -r ~/.dartServer
+  crawl -r ~/.deno
   crawl -r ~/Desktop
   crawl -r ~/Documents
   crawl -r ~/fvm
   crawl -r ~/Games
+  crawl -r ~/go
   crawl -r ~/.gradle
   crawl -r --exclude=~/.local/share/waydroid ~/.local
   crawl -r ~/.mozilla
@@ -53,10 +57,13 @@ else
   crawl -r ~/Projects
   crawl -r ~/.pub-cache
   crawl -r ~/Public
+  crawl -r ~/rpmbuild
   crawl -r ~/.rustup
   crawl -r ~/.steam
   crawl -r ~/.thunderbird
   crawl -r ~/thunderbird
   crawl -r --exclude=~/.var/app/com.spotify.Client/cache ~/.var
+  crawl -r ~/.vscode
+  crawl -r ~/.wine
 fi
 dedupe
