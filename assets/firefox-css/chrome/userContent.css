@@ -568,6 +568,9 @@
     --buttonCounter-default-bgColor-rest: color(
       from var(--cosmic-button-on) srgb r g b / 0.1
     ) !important;
+    /* Disable Segoe Windows fonts: the emojis are low contrast and blurry. */
+    --fontStack-sansSerif:
+      "Mona Sans VF", "Noto Sans Backtick Fix", "Noto Sans", "Adwaita Sans", Inter, sans-serif !important;
   }
   html,
   body {
@@ -576,13 +579,20 @@
   li:has(> a[data-tab-item="agents"]) {
     display: none !important;
   }
+  button[class^="prc-Button"][class*="ReactionButton-module"] span[data-component="leadingVisual"],
+  li[class^="prc-ActionList"][class*="ReactionsMenuItem-module"]
+    span[data-component="ActionList.Item.Label"] {
+    /* Make emoji reactions bigger */
+    font-size: 1.1rem !important;
+    text-shadow: 0 0; /* hairline shadow */
+  }
   div:has(> article.markdown-body),
   table,
   div[class^="IssueBody-module__commentBorder__"],
   [data-testid="sticky-sidebar"] {
     background-color: var(--bgColor-default);
   }
-  div[class^="HeaderMetadata-module__stickyContainer__"] {
+  div[class^="HeaderMetadata-module__stickyContainer__"],
   div.react-blob-view-header-sticky > div {
     backdrop-filter: blur(1rem);
   }
