@@ -58,7 +58,7 @@
     --cosmic-hue: var(--cosmic-hue-dark);
   }
 
-  --cosmic-inactive-on: color(from var(--cosmic-background-on) srgb r g b / 0.5);
+  --cosmic-inactive-on: color-mix(in srgb, var(--cosmic-background-on) 0.5, var(--cosmic-background-base));
 }
 /* END OF GENERATED CODE */
 
