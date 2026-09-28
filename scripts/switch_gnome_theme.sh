@@ -18,7 +18,7 @@ gsettings set org.gnome.shell.extensions.user-theme name "$(light-dark Yaru Yaru
 gsettings set org.gnome.desktop.interface accent-color pink
 gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_cursors Breeze_Light)"
 gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
-gsettings set org.gnome.desktop.interface icon-theme "$(light-dark Yaru-magenta Yaru-magenta-dark)"
+gsettings set org.gnome.desktop.interface icon-theme Adwaita
 
 mkdir -p ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/
 light-dark false true > ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
