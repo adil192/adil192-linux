@@ -7,6 +7,9 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "default_open_behavior": "new_window",
+  "reveal_if_open": true,
+  "disable_ai": true,
   "icon_theme": "JetBrains New UI Icons (Dark)",
   "agent": {
     "button": false,
@@ -82,6 +85,8 @@
     "**/.flatpak-builder/cache",
     "**/.flatpak-builder/ccache",
     "**/.flatpak-builder/rofiles",
+    // RPM packaging sources
+    "**/*.tgz",
   ],
   "show_edit_predictions": true,
   "tab_size": 2,
