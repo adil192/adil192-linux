@@ -1,5 +1,4 @@
 use anyhow::{Result, anyhow};
-use cached::Cached;
 use configparser::ini::{Ini, WriteOptions};
 use cosmic::cosmic_config::{Config, CosmicConfigEntry};
 use cosmic::cosmic_theme::Theme;
@@ -71,7 +70,7 @@ impl MyCss {
           let hsl = csscolorparser::Color::from_hsla(h, s, l, a);
           let [r, g, b, _a] = hsl.to_rgba8();
           let rgb = format!("{},{},{}", r, g, b);
-          key_values.set(key.to_owned(), Some(rgb));
+          key_values.insert(key, Some(rgb));
         }
       }
     }

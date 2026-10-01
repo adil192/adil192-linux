@@ -6,11 +6,11 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.102"
-cached = { version = "2.0.0", features = ["proc_macro"] }
+cached = { version = "4.0.0", features = ["proc_macro"] }
 cmd_lib = "2.0.0"
 configparser = "3.2.0"
 cosmic-bg-config = { git = "https://github.com/pop-os/cosmic-bg" }
-csscolorparser = "0.8.3"
+csscolorparser = "0.8.4"
 dirs = "6.0.0"
 libcosmic = { git = "https://github.com/pop-os/libcosmic" }
 palette = "0.7.6"
