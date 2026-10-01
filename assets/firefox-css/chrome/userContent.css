@@ -571,6 +571,9 @@
     /* Disable Segoe Windows fonts: the emojis are low contrast and blurry. */
     --fontStack-sansSerif:
       "Mona Sans VF", "Noto Sans Backtick Fix", "Noto Sans", "Adwaita Sans", Inter, sans-serif !important;
+    /** Personal preference for monospace fonts */
+    --fontStack-monospace:
+      "Monaspace Radon NF", "Monaspace Radon", Lilex, FiraCode, "Droid Sans Mono", Menlo, monospace !important;
   }
   html,
   body {
