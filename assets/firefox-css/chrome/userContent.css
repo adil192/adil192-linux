@@ -659,11 +659,13 @@
     border-top-left-radius: 1px !important;
     border-bottom-left-radius: 1px !important;
     padding-inline-start: 0.15em;
+    margin-inline-start: -0.1em;
   }
   .diff-text-cell .syntax-highlighted-line .x-last {
     border-top-right-radius: 1px !important;
     border-bottom-right-radius: 1px !important;
     padding-inline-end: 0.15em;
+    margin-inline-end: -0.1em;
   }
   .text-rendering-optimize-speed {
     text-rendering: auto !important;
