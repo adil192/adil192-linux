@@ -81,19 +81,23 @@ fn install_gstreamer_plugins() -> Result<bool> {
 
 fn add_mesa_copr() -> Result<bool> {
   let repo_file =
-    Path::new("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:mesa-rc.repo");
+    Path::new("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:adil192:mesa-x86-64-v3.repo");
   if repo_file.exists() {
-    println!("Skipping 'adil192/mesa-rc' copr: already added");
+    println!("Skipping 'adil192/mesa-x86-64-v3' copr: already added");
     return Ok(true);
+  }
+  if Path::new("/etc/yum.repos.d/terra-mesa.repo").exists() {
+    println!("Skipping 'adil192/mesa-x86-64-v3' copr: terra-mesa already added");
+    return Ok(false);
   }
   if !ask(
     "Add my repo for faster Mesa (graphics driver) updates?",
-    true,
+    false,
   ) {
     return Ok(false);
   }
   println!("Adding my repo for faster Mesa (graphics driver) updates...");
-  run_cmd!("sudo dnf copr enable adil192/mesa-rc")?;
+  run_cmd!("sudo dnf copr enable adil192/mesa-x86-64-v3")?;
   println!("My builds will be installed the next time you run `sudo dnf update`.");
   Ok(true)
 }
