@@ -649,6 +649,22 @@
       font-size: inherit !important;
     }
   }
+  .diff-line-row {
+    line-height: 1.5 !important;
+  }
+  .diff-text-cell .syntax-highlighted-line .x {
+    padding-block: 0.15em;
+  }
+  .diff-text-cell .syntax-highlighted-line .x-first {
+    border-top-left-radius: 1px !important;
+    border-bottom-left-radius: 1px !important;
+    padding-inline-start: 0.3em;
+  }
+  .diff-text-cell .syntax-highlighted-line .x-last {
+    border-top-right-radius: 1px !important;
+    border-bottom-right-radius: 1px !important;
+    padding-inline-end: 0.3em;
+  }
 }
 
 @-moz-document domain("duckduckgo.com") {
