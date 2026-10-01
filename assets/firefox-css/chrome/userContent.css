@@ -665,6 +665,9 @@
     border-bottom-right-radius: 1px !important;
     padding-inline-end: 0.15em;
   }
+  .text-rendering-optimize-speed {
+    text-rendering: auto !important;
+  }
 }
 
 @-moz-document domain("duckduckgo.com") {
