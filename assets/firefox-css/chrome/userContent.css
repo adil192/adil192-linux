@@ -641,6 +641,14 @@
       padding: var(--base-size-16);
     }
   }
+  @layer primer-css-base {
+    tt,
+    code,
+    samp {
+      /* GitHub sets code to 12px indiscriminately. Restore it to something sensible. */
+      font-size: inherit !important;
+    }
+  }
 }
 
 @-moz-document domain("duckduckgo.com") {
