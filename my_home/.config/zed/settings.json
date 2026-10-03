@@ -59,7 +59,7 @@
     "font_size": 14.0,
     "max_scroll_history_lines": 5000,
   },
-  "cli_default_open_behavior": "new_window",
+  "cli_default_open_behavior": "existing_window",
   "outline_panel": {
     "dock": "left",
   },
