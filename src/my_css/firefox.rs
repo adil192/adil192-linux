@@ -59,7 +59,7 @@ impl Firefox {
     // Firefox 147 (Jan 26) uses the XDG base directories spec,
     // but grandfathered installs stay in `~/.mozilla/firefox`.
     let legacy_profiles_dir = Path::new(&home).join(".mozilla/firefox");
-    let xdg_profiles_dir = Path::new(&home).join(".var/app/org.mozilla.firefox/.mozilla/firefox");
+    let xdg_profiles_dir = Path::new(&home).join(".config/mozilla/firefox");
     let profiles_dir = if legacy_profiles_dir.exists() {
       legacy_profiles_dir
     } else {
@@ -84,15 +84,16 @@ impl Firefox {
 
   fn alter_user_js(profile_dir: &Path) -> Result<()> {
     let user_js = profile_dir.join("user.js");
-    if !user_js.exists() {
-      bail!("Could not find user.js: open Firefox first and try again.");
-    }
 
     let mut changes = 0;
-    let mut lines: Vec<String> = fs::read_to_string(&user_js)?
-      .lines()
-      .map(str::to_owned)
-      .collect();
+    let mut lines: Vec<String> = if user_js.exists() {
+      fs::read_to_string(&user_js)?
+        .lines()
+        .map(str::to_owned)
+        .collect()
+    } else {
+      vec![]
+    };
 
     let mut insert_setting = |key: &str, value: &Value| -> Result<()> {
       let encoded_value = serde_json::to_string(&value)?;

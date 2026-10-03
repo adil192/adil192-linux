@@ -55,7 +55,7 @@ impl Thunderbird {
     let home = var("HOME")?;
 
     let legacy_profiles_dir = Path::new(&home).join(".thunderbird");
-    let xdg_profiles_dir = Path::new(&home).join(".var/app/org.mozilla.Thunderbird/.thunderbird");
+    let xdg_profiles_dir = Path::new(&home).join(".config/thunderbird");
     let profiles_dir = if legacy_profiles_dir.exists() {
       legacy_profiles_dir
     } else {
