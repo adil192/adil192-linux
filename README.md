@@ -3,7 +3,7 @@
 This is a collection of scripts that apply my personal preferences to a Linux system.
 It installs apps, drivers and themes.
 
-It is generally intended to be used on Fedora Linux
+It is generally intended to be used on Fedora Linux or CachyOS
 with GNOME and COSMIC desktop environments.
 
 This project is for my personal use:

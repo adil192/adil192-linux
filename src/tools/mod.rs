@@ -1,16 +1,24 @@
 use std::io::{Write, stdin, stdout};
-use std::process::Command;
+
+use cmd_lib::run_fun;
 
 pub mod device;
 pub mod dnf;
 pub mod dnf_repos;
 pub mod flatpak;
+pub mod shelly;
 
 pub fn is_exe_in_path(exe: &str) -> bool {
-  let Ok(location) = Command::new("which").arg(exe).output() else {
-    return false;
+  find_exe_in_path(exe).is_some()
+}
+pub fn find_exe_in_path(exe: &str) -> Option<String> {
+  let Ok(location) = run_fun!(which $exe 2>/dev/null) else {
+    return None;
   };
-  !location.stdout.is_empty()
+  if location.is_empty() {
+    return None;
+  }
+  Some(location)
 }
 
 /// Asks the user a yes/no question.
