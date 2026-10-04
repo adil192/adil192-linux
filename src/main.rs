@@ -11,7 +11,7 @@ mod yaru;
 use anyhow::bail;
 
 use crate::apps::MyApps;
-use crate::drivers::MyDrivers;
+use crate::drivers::FedoraDrivers;
 use crate::firefox_cacher::FirefoxCacher;
 use crate::my_css::MyCss;
 use crate::my_home::MyHome;
@@ -32,7 +32,7 @@ fn main() -> anyhow::Result<()> {
 }
 
 fn install() -> anyhow::Result<()> {
-  MyDrivers::install()?;
+  FedoraDrivers::install()?;
   MyApps::install()?;
   FirefoxCacher::install()?;
   Yaru::install()?;

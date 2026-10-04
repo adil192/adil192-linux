@@ -4,8 +4,9 @@ use std::fs;
 use anyhow::Result;
 use cmd_lib::run_cmd;
 
-use crate::tools::ask;
 use crate::tools::dnf::Dnf;
+use crate::tools::shelly::Shelly;
+use crate::tools::{ask, ask_to_install};
 
 pub struct FirefoxCacher;
 impl FirefoxCacher {
@@ -19,28 +20,26 @@ impl FirefoxCacher {
     let desktop_src = format!("{pwd}/assets/firefox_cache/com.adilhanney.cache_firefox.desktop");
     let desktop_dst = format!("{home}/.config/autostart/com.adilhanney.cache_firefox.desktop");
 
-    if fs::exists(&script_dst).unwrap_or_default() && fs::exists(&desktop_dst).unwrap_or_default() {
-      println!("Skipping Firefox cacher: already installed");
-      return Ok(true);
-    }
+    ask_to_install(
+      "Firefox precacher",
+      || {
+        fs::exists(&script_dst).unwrap_or_default() && fs::exists(&desktop_dst).unwrap_or_default()
+      },
+      || {
+        run_cmd!(
+          install -Dm644 $script_src $script_dst;
+          install -Dm755 $desktop_src $desktop_dst;
+        )?;
 
-    if !ask("Precache Firefox data on boot?", true) {
-      return Ok(false);
-    }
-    println!("Installing Firefox precacher...");
+        if home != "/home/ahann" {
+          run_cmd!(sed "s|/home/ahann|$home|g" $desktop_dst)?;
+        }
 
-    run_cmd!(
-      install -Dm644 $script_src $script_dst;
-      install -Dm755 $desktop_src $desktop_dst;
-    )?;
+        install_vmtouch()?;
 
-    if home != "/home/ahann" {
-      run_cmd!(sed "s|/home/ahann|$home|g" $desktop_dst)?;
-    }
-
-    install_vmtouch()?;
-
-    Ok(true)
+        Ok(())
+      },
+    )
   }
 
   pub fn uninstall() -> Result<bool> {
@@ -62,18 +61,20 @@ impl FirefoxCacher {
 }
 
 fn install_vmtouch() -> Result<bool> {
-  if !Dnf::exists() {
-    return Ok(false);
+  if Dnf::exists() {
+    ask_to_install(
+      "vmtouch for faster precaching (optional)",
+      || Dnf::is_installed("vmtouch"),
+      || Dnf::install(&["vmtouch"]),
+    )
+  } else if Shelly::exists() {
+    ask_to_install(
+      "vmtouch for faster precaching (optional)",
+      || Shelly::is_installed_aur("vmtouch"),
+      || Shelly::install_aur("vmtouch", "weltall"),
+    )
+  } else {
+    print!("Consider installing vmtouch for faster precaching.");
+    Ok(false)
   }
-  if Dnf::is_installed("vmtouch") {
-    println!("Skipping vmtouch: already installed");
-    return Ok(true);
-  }
-  if !ask("Install vmtouch for faster precaching (optional)?", true) {
-    return Ok(false);
-  }
-  println!("Installing vmtouch...");
-  Dnf::install(&["vmtouch"])?;
-  println!();
-  Ok(true)
 }

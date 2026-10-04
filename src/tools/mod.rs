@@ -50,3 +50,21 @@ fn try_ask(question: &str, default_response: bool) -> anyhow::Result<bool> {
     }
   }
 }
+
+pub fn ask_to_install<T: Fn() -> bool, U: Fn() -> anyhow::Result<()>>(
+  name: &str,
+  is_installed: T,
+  install: U,
+) -> anyhow::Result<bool> {
+  if is_installed() {
+    println!("Skipping {name}: already installed");
+    return Ok(true);
+  }
+  if !ask(&format!("Install {name}?"), true) {
+    return Ok(false);
+  }
+  println!("Installing {name}...");
+  install()?;
+  println!();
+  Ok(true)
+}

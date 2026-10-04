@@ -5,17 +5,16 @@ use std::path::Path;
 use anyhow::Result;
 use cmd_lib::{run_cmd, run_fun};
 
-use crate::tools::ask;
 use crate::tools::device::Device;
 use crate::tools::dnf::Dnf;
 use crate::tools::dnf_repos::DnfRepos;
+use crate::tools::{ask, ask_to_install};
 
-pub struct MyDrivers;
-impl MyDrivers {
+pub struct FedoraDrivers;
+impl FedoraDrivers {
   /// Loosely based on https://rpmfusion.org/Howto/Multimedia
   pub fn install() -> Result<()> {
     if !Dnf::exists() {
-      println!("DNF is not available, skipping drivers installation.");
       return Ok(());
     }
 
@@ -49,34 +48,28 @@ impl MyDrivers {
 }
 
 fn install_full_ffmpeg() -> Result<bool> {
-  if !Dnf::is_installed("ffmpeg-free") {
-    println!("Skipping full-fat ffmpeg: already installed");
-    return Ok(true);
-  }
-  if !ask("Install full-fat ffmpeg?", true) {
-    return Ok(false);
-  }
-  println!("Installing full-fat ffmpeg...");
-  Dnf::swap(&["ffmpeg-free", "ffmpeg", "--allowerasing"])?;
-  Dnf::install(&["libavcodec-freeworld"])?;
-  Ok(true)
+  ask_to_install(
+    "full-fat ffmpeg",
+    || !Dnf::is_installed("ffmpeg-free") && Dnf::is_installed("libavcodec-freeworld"),
+    || {
+      Dnf::swap(&["ffmpeg-free", "ffmpeg", "--allowerasing"])?;
+      Dnf::install(&["libavcodec-freeworld"])
+    },
+  )
 }
 
 fn install_gstreamer_plugins() -> Result<bool> {
-  if Dnf::is_installed("gstreamer1-plugins-ugly") {
-    println!("Skipping gstreamer plugins: already installed");
-    return Ok(true);
-  }
-  if !ask("Install gstreamer plugins?", true) {
-    return Ok(false);
-  }
-  println!("Installing gstreamer plugins...");
-  Dnf::update(&[
-    "@multimedia",
-    "--setopt=install_weak_deps=False",
-    "--exclude=PackageKit-gstreamer-plugin",
-  ])?;
-  Ok(true)
+  ask_to_install(
+    "gstreamer plugins",
+    || Dnf::is_installed("gstreamer1-plugins-ugly"),
+    || {
+      Dnf::update(&[
+        "@multimedia",
+        "--setopt=install_weak_deps=False",
+        "--exclude=PackageKit-gstreamer-plugin",
+      ])
+    },
+  )
 }
 
 fn add_mesa_copr() -> Result<bool> {
@@ -103,77 +96,67 @@ fn add_mesa_copr() -> Result<bool> {
 }
 
 fn install_intel_gpu_drivers() -> Result<bool> {
-  if Dnf::is_installed("intel-media-driver") {
-    println!("Skipping Intel GPU drivers: already installed");
-    return Ok(true);
-  }
-  if !ask("Install Intel GPU drivers?", true) {
-    return Ok(false);
-  }
-  println!("Installing Intel GPU drivers...");
-  add_to_render_video_groups()?;
-  Dnf::install(&[
-    "intel-media-driver",
-    "libva-intel-driver",
-    "mesa-libOpenCL",
-    "intel-opencl",
-  ])?;
-  Ok(true)
+  ask_to_install(
+    "Intel GPU drivers",
+    || Dnf::is_installed("intel-media-driver"),
+    || {
+      add_to_render_video_groups()?;
+      Dnf::install(&[
+        "intel-media-driver",
+        "libva-intel-driver",
+        "mesa-libOpenCL",
+        "intel-opencl",
+      ])
+    },
+  )
 }
 
 fn install_intel_webcam_drivers() -> Result<bool> {
-  if Dnf::is_installed("ipu6-camera-hal") {
-    println!("Skipping Intel webcam drivers: already installed");
-    return Ok(true);
-  }
-  if !ask("Install Intel webcam drivers?", true) {
-    return Ok(false);
-  }
-  println!("Installing Intel webcam drivers...");
-  Dnf::install(&[
-    "intel-media-driver",
-    "intel-vision",
-    "akmod-intel-ipu6",
-    "ipu6-camera-bins",
-    "ipu6-camera-hal",
-    "gstreamer1-plugins-icamerasrc",
-    "akmod-v4l2loopback",
-    "v4l2-relayd",
-    "libcamera",
-    "libcamera-gstreamer",
-    "libcamera-v4l2",
-  ])?;
-  println!("Your webcam should work after a reboot :)");
-  Ok(true)
+  ask_to_install(
+    "Intel webcam drivers",
+    || Dnf::is_installed("ipu6-camera-hal"),
+    || {
+      Dnf::install(&[
+        "intel-media-driver",
+        "intel-vision",
+        "akmod-intel-ipu6",
+        "ipu6-camera-bins",
+        "ipu6-camera-hal",
+        "gstreamer1-plugins-icamerasrc",
+        "akmod-v4l2loopback",
+        "v4l2-relayd",
+        "libcamera",
+        "libcamera-gstreamer",
+        "libcamera-v4l2",
+      ])?;
+      println!("Your webcam should work after a reboot :)");
+      Ok(())
+    },
+  )
 }
 
 fn install_intel_battery_optimizer() -> Result<bool> {
-  if Dnf::is_installed("intel-lpmd") {
-    println!("Skipping Intel's battery optimizer: already installed");
-    return Ok(true);
-  }
-  if !ask("Install Intel's battery optimizer?", true) {
-    return Ok(false);
-  }
-  println!("Installing Intel's battery optimizer...");
-  Dnf::install(&["intel-lpmd"])?;
-  run_cmd!(sudo systemctl enable --now intel_lpmd)?;
-  run_cmd!(sudo intel_lpmd_control AUTO)?;
-  Ok(true)
+  ask_to_install(
+    "Intel's battery optimizer",
+    || Dnf::is_installed("intel-lpmd"),
+    || {
+      Dnf::install(&["intel-lpmd"])?;
+      run_cmd!(sudo systemctl enable --now intel_lpmd)?;
+      run_cmd!(sudo intel_lpmd_control AUTO)?;
+      Ok(())
+    },
+  )
 }
 
 fn install_rocm() -> Result<bool> {
-  if Dnf::is_installed("rocm") {
-    println!("Skipping AMD ROCm: already installed");
-    return Ok(true);
-  }
-  if !ask("Install AMD ROCm?", true) {
-    return Ok(false);
-  }
-  println!("Installing AMD ROCm...");
-  add_to_render_video_groups()?;
-  Dnf::install(&["rocm"])?;
-  Ok(true)
+  ask_to_install(
+    "AMD ROCm",
+    || Dnf::is_installed("rocm"),
+    || {
+      add_to_render_video_groups()?;
+      Dnf::install(&["rocm"])
+    },
+  )
 }
 
 fn add_to_render_video_groups() -> Result<bool> {
@@ -190,20 +173,17 @@ fn add_to_render_video_groups() -> Result<bool> {
 }
 
 fn install_nvidia_gpu_drivers() -> Result<bool> {
-  if Dnf::is_installed("libva-nvidia-driver") {
-    println!("Skipping Nvidia drivers: already installed");
-    return Ok(true);
-  }
-  if !ask("Install (proprietary) Nvidia drivers?", true) {
-    return Ok(false);
-  }
-  println!("Installing Nvidia drivers...");
-  Dnf::install(&[
-    "akmod-nvidia",
-    "xorg-x11-drv-nvidia-cuda",
-    "libva-nvidia-driver.{i686,x86_64}",
-  ])?;
-  Ok(true)
+  ask_to_install(
+    "Nvidia drivers",
+    || Dnf::is_installed("libva-nvidia-driver"),
+    || {
+      Dnf::install(&[
+        "akmod-nvidia",
+        "xorg-x11-drv-nvidia-cuda",
+        "libva-nvidia-driver.{i686,x86_64}",
+      ])
+    },
+  )
 }
 
 fn install_broadcom_fingerprint_drivers() -> Result<bool> {
@@ -218,16 +198,14 @@ fn install_broadcom_fingerprint_drivers() -> Result<bool> {
   } else {
     "libfprint-2-tod1-broadcom-cv3plus"
   };
-  if Dnf::is_installed(driver) {
-    println!("Skipping Broadcom fingerprint drivers: already installed");
-    return Ok(true);
-  }
-  if !ask("Install Broadcom fingerprint drivers?", true) {
-    return Ok(false);
-  }
-  println!("Installing Broadcom fingerprint drivers...");
-  run_cmd!(sudo dnf copr enable grahamwhiteuk/libfprint-tod)?;
-  Dnf::swap(&["libfprint", "libfprint-tod"])?;
-  Dnf::install(&[driver])?;
-  Ok(true)
+
+  ask_to_install(
+    "Broadcom fingerprint drivers",
+    || Dnf::is_installed(driver),
+    || {
+      run_cmd!(sudo dnf copr enable grahamwhiteuk/libfprint-tod)?;
+      Dnf::swap(&["libfprint", "libfprint-tod"])?;
+      Dnf::install(&[driver])
+    },
+  )
 }

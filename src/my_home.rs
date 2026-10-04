@@ -29,12 +29,12 @@ impl MyHome {
       if target_path.is_symlink() {
         continue;
       }
-      if !ask(&format!("Install ~/{}?", relative_path), true) {
+      if !ask(&format!("Install ~/{relative_path}?"), true) {
         continue;
       }
       if target_path.exists() {
         if !ask(
-          &format!("└─ Already exists, overwrite ~/{}?", relative_path),
+          &format!("└─ Already exists, overwrite ~/{relative_path}?"),
           false,
         ) {
           continue;
