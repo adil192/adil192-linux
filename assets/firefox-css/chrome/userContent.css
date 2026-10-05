@@ -464,6 +464,12 @@
       }
     }
   }
+  ytd-rich-item-renderer.ytd-rich-shelf-renderer {
+    .shortsLockupViewModelHostMetadataTitle {
+      -webkit-line-clamp: 5 !important;
+      line-clamp: 5 !important;
+    }
+  }
   ytd-comment-thread-renderer {
     /* add background behind comments for readability */
     background: var(--cosmic-background-base) !important;
