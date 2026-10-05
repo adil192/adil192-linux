@@ -25,7 +25,7 @@ impl Shelly {
 
   pub fn install_standard(ids: &[&str]) -> anyhow::Result<()> {
     // Workaround https://github.com/rust-shell-script/rust_cmd_lib/issues/42
-    let args: Vec<_> = ["shelly", "install", "standard"]
+    let args: Vec<_> = ["shelly", "install", "standard", "--needed"]
       .iter()
       .chain(ids)
       .collect();
@@ -52,7 +52,7 @@ impl Shelly {
       bail!("AUR maintainer mismatch for {id}: expected {maintainer}, got {actual_maintainer}.");
     }
 
-    run_cmd!(shelly install aur $id)?;
+    run_cmd!(shelly install aur --needed $id)?;
 
     let mut packages = get_installed_aur().lock().unwrap();
     packages.insert(id.to_owned());
