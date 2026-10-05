@@ -88,7 +88,7 @@
   --ink-90: hsl(var(--cosmic-hue) 40% 15.7%) !important;
 }
 
-:root {
+:root, :host(.anonymous-content-host) {
   /* background of toolbar, i.e. where the url bar is located */
   --toolbar-background-color: var(--cosmic-component-base) !important;
   --toolbar-text-color: var(--cosmic-component-on) !important;
@@ -108,6 +108,9 @@
   --tabstrip-inner-border: none !important;
   /* tab and button border radius */
   --border-radius-medium: 12px !important;
+  /* sidebar */
+  --sidebar-background-color: var(--cosmic-component-base) !important;
+  --sidebar-text-color: var(--cosmic-component-on) !important;
 }
 
 .titlebar-spacer {
