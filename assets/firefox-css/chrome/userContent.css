@@ -370,16 +370,20 @@
     .ytLockupViewModelVertical {
       /* Display title next to thumbnail, not below it */
       flex-direction: row-reverse !important;
-      gap: 1rem;
       color: var(--cosmic-component-on) !important;
-      border-radius: 2rem;
+      --br: 2rem;
+      --brs: 0.8rem;
+      border-radius: var(--br);
+      gap: var(--brs);
 
       /* Layout fixes for horizontal layout */
       .ytLockupViewModelContentImage {
         padding-bottom: 0 !important;
 
         .ytThumbnailViewModelLarge {
-          border-radius: 2rem !important;
+          border-radius: var(--brs) var(--br) var(--br) var(--brs) !important;
+          border: 1px solid var(--cosmic-background-base) !important;
+          border-right-width: 0 !important;
         }
         .ytThumbnailViewModelAspectRatio16By9 {
           padding: 0 !important;
@@ -401,10 +405,11 @@
         }
 
         .ytLockupMetadataViewModelTextContainer {
-          padding: 2rem !important;
+          padding: var(--br) !important;
           background-color: var(--cosmic-component-base) !important;
           color: var(--cosmic-component-on) !important;
-          border-radius: 2rem;
+          border: 1px solid var(--cosmic-background-base) !important;
+          border-radius: var(--br) var(--brs) var(--brs) var(--br) !important;
           flex-grow: 1;
         }
 
