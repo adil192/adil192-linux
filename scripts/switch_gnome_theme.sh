@@ -22,6 +22,8 @@ gsettings set org.gnome.desktop.interface icon-theme Adwaita
 
 mkdir -p ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/
 light-dark false true > ~/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+mkdir -p ~/.config/cosmic/com.system76.CosmicTk/v1/
+light-dark '"Yaru-blue"' '"Yaru-blue-dark"' > ~/.config/cosmic/com.system76.CosmicTk/v1/icon_theme
 
 if [ ! -x "$(command -v crudini)" ]; then
   notify-send --transient --app-name=switch_gnome_theme.sh --icon=dark-mode-symbolic \
