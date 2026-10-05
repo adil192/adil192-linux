@@ -413,6 +413,7 @@
           display: flex;
           align-content: stretch;
           text-wrap: balance;
+          flex-grow: 1;
 
           &,
           & * {
@@ -446,14 +447,20 @@
             }
           }
         }
+
+        /* The row showing the channel name, view count, and timestamp. */
+        .ytContentMetadataViewModelMetadataRow {
+          flex-wrap: wrap;
+
+          .ytContentMetadataViewModelDelimiter {
+            flex-grow: 1;
+          }
+        }
       }
 
       /* Better align text to make use of available space */
       .ytLockupMetadataViewModelHost {
         height: 100%;
-      }
-      .ytLockupMetadataViewModelTextContainer .ytLockupMetadataViewModelHeadingReset {
-        flex-grow: 1;
       }
     }
   }
