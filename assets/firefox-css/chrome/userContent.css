@@ -1,11 +1,11 @@
 /* START OF GENERATED CODE */
 /* DO NOT EDIT. Changes will be overwritten. */
 :root {
-  --cosmic-background-base-light: #f0f8ff8a;
+  --cosmic-background-base-light: #f5faff8a;
   --cosmic-background-base-rgb-light: 240 248 255;
   --cosmic-background-on-light: #000000;
   --cosmic-background-on-rgb-light: 0 0 0;
-  --cosmic-component-base-light: #dbe2e9cc;
+  --cosmic-component-base-light: #ffffffcc;
   --cosmic-component-base-rgb-light: 219 226 233;
   --cosmic-component-on-light: #000000;
   --cosmic-component-on-rgb-light: 0 0 0;
@@ -958,35 +958,39 @@
   :root .theme-beta,
   :root .theme-rpl,
   :root.theme-beta,
-  :root.theme-rpl {
-    --color-neutral-background: var(--cosmic-background-base) !important;
-    --color-neutral-content: var(--cosmic-background-on) !important;
-    --color-neutral-background-weak: color(
-      from var(--cosmic-background-base) srgb r g b / 0.4
-    ) !important;
-    --color-neutral-background-hover: rgb(
-      var(--cosmic-background-base-rgb) /* opaque on hover */
-    ) !important;
+  :root.theme-rpl,
+  :root #pdp-credit-bar {
+    --color-neutral-background: var(--cosmic-component-base) !important;
+    --color-neutral-content: var(--cosmic-component-on) !important;
+    --color-neutral-background-weak: var(--cosmic-background-base) !important;
+    --color-neutral-background-hover: rgb(var(--cosmic-component-base-rgb)) !important; /* opaque on hover */
+    --color-neutral-border: rgb(var(--cosmic-component-base-rgb)) !important;
+    --color-tone-1: rgba(var(--cosmic-background-on-rgb) / 0.925) !important;
+    --color-tone-2: rgba(var(--cosmic-background-on-rgb) / 0.725) !important;
+    --color-tone-3: rgba(var(--cosmic-background-on-rgb) / 0.425) !important;
+    --color-tone-4: rgba(var(--cosmic-background-on-rgb) / 0.225) !important;
+    --color-tone-5: rgba(var(--cosmic-background-on-rgb) / 0.1) !important;
+    --color-tone-6: rgba(var(--cosmic-background-on-rgb) / 0.05) !important;
+    --color-tone-7: rgba(var(--cosmic-background-on-rgb) / 0) !important;
   }
   html,
   body,
-  .grid-container {
+  .toolbar-container,
+  .branchline,
+  flex-left-nav-container #flex-left-nav-container {
     background: transparent !important;
   }
-  hr {
-    opacity: 0 !important;
-    height: 0.3rem !important;
+  main .bg-neutral-background {
+    border-radius: var(--radius-md);
+  }
+  comment-body-header {
+    background-color: var(--color-neutral-background-weak) !important;
+    border-radius: var(--radius-md);
+  }
+  reddit-header-large {
+    backdrop-filter: blur(1rem);
   }
   shreddit-ad-post {
     display: none !important;
-  }
-  .hover\:bg-neutral-background-hover {
-    transition: background-color 0.5s ease-out !important;
-  }
-  shreddit-post {
-    > .mt-\[-4px\] {
-      /* Title overflows because of that margin-top */
-      margin-top: 0 !important;
-    }
   }
 }
