@@ -633,6 +633,10 @@
   div[class^="IssueViewer-module__contentArea__"] {
     background-color: transparent !important;
   }
+  div[class^="SidePanel-module__sidePanel__"] {
+    background: rgb(var(--cosmic-component-base-rgb) / 0.95) !important;
+    backdrop-filter: blur(1rem) !important;
+  }
   section[aria-label="Events"] {
     > * {
       margin-bottom: 0.9px; /* 1.0px gets antialiased to 2px sometimes and looks inconsistent */
