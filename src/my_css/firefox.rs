@@ -1,6 +1,5 @@
 use anyhow::{Result, anyhow, bail};
-use cmd_lib::run_cmd;
-use cosmic_bg_config::{Config, Source};
+use cmd_lib::{run_cmd, run_fun};
 use serde_json::{Value, json};
 use std::env::var;
 use std::fs;
@@ -213,12 +212,12 @@ impl Firefox {
   }
 
   fn produce_blurred_bg() -> Result<()> {
-    let context = cosmic_bg_config::context()?;
-    let config = Config::load(&context)?;
-    let source = config.default_background.source;
-    let path = match source {
-      Source::Path(ref path) => path.to_string_lossy().to_string(),
-      _ => bail!("Expected bg image, got {source:?}"),
+    let path_uri = run_fun!(gsettings get org.gnome.desktop.background picture-uri)?;
+    let Some(path) = path_uri
+      .strip_circumfix("'", "'")
+      .and_then(|uri| uri.strip_prefix("file://"))
+    else {
+      bail!("Expected bg image file:// uri, got {path_uri}");
     };
 
     let blurred_image = Path::new("assets/bg/bg.png");
