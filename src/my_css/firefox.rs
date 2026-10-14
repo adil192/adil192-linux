@@ -233,7 +233,7 @@ impl Firefox {
     run_cmd!(
       magick $path -adaptive-resize "540x540^" -blur 0x32 +noise Uniform $blurred_image
     )?;
-    fs::write(&blurred_image_src, &path)?;
+    fs::write(&blurred_image_src, path)?;
 
     Ok(())
   }
