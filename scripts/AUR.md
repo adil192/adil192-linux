@@ -3,7 +3,7 @@
 cd ~/aur/CachyOS-PKGBUILDS/mesa/mesa
 makepkg -si
 
-cd ~/aur/CachyOS-PKGBUILDS/mutter
+cd ~/aur/mutter
 makepkg -si
 
 cd ~/aur/qt6ct-kde
