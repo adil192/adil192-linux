@@ -7,7 +7,8 @@ cd ~/aur/CachyOS-PKGBUILDS/mesa/mesa && git pull --rebase && makepkgplus
 
 
 # GNOME compositor: https://gitlab.archlinux.org/archlinux/packaging/packages/mutter.git
-cd ~/aur/mutter                      && git pull          && makepkgplus
+# cd ~/aur/mutter                      && git pull          && makepkgplus
+cd ~/aur/CachyOS-PKGBUILDS/mutter    && git pull --rebase && makepkgplus
 
 # GNOME shell: https://gitlab.archlinux.org/archlinux/packaging/packages/gnome-shell.git
 cd ~/aur/gnome-shell                 && git pull          && makepkgplus
