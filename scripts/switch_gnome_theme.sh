@@ -32,7 +32,8 @@ if [ ! -x "$(command -v crudini)" ]; then
   exit 1
 fi
 
-KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
+# KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
+KCOLORSCHEME="$HOME/.local/share/color-schemes/$(light-dark ColloidLight.colors ColloidDark.colors)"
 cp "$KCOLORSCHEME" ~/.config/kdeglobals
 KICONTHEME=$(light-dark breeze breeze-dark)
 for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do
@@ -41,7 +42,7 @@ for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do
     --set "$CONF" Appearance custom_palette true \
     --set "$CONF" Appearance icon_theme "$KICONTHEME" \
     --set "$CONF" Appearance standard_dialogs xdgdesktopportal \
-    --set "$CONF" Appearance style Darkly \
+    --set "$CONF" Appearance style Breeze \
     --set "$CONF" Fonts fixed '"Lilex,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0"' \
     --set "$CONF" Fonts general '"Adwaita Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0"' \
     --del "$CONF" Troubleshooting
