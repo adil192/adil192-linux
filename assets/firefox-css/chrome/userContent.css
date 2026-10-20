@@ -1001,3 +1001,14 @@
     display: none !important;
   }
 }
+
+@-moz-document domain("amazon.co.uk") {
+  .s-card-container {
+    &:has([data-cy="delivery-recipe"] img[alt="Amazon Fresh"]),
+    &:has([data-cy="delivery-recipe"] img[alt="Morrisons"]),
+    &:has([data-cy="delivery-recipe"] img[alt="Co-op"]),
+    &:has([data-cy="delivery-recipe"] img[alt="Iceland"]) {
+      opacity: 0.2;
+    }
+  }
+}
