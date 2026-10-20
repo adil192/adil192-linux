@@ -1016,4 +1016,7 @@
       "Monaspace Radon NF", "Monaspace Radon", Lilex, FiraCode, "Droid Sans Mono", Menlo, monospace !important;
     padding: 0.5rem;
   }
+  a.puis-sponsored-label-text {
+    font-size: 1rem !important;
+  }
 }
