@@ -1011,4 +1011,9 @@
       opacity: 0.2;
     }
   }
+  span.a-price {
+    font-family:
+      "Monaspace Radon NF", "Monaspace Radon", Lilex, FiraCode, "Droid Sans Mono", Menlo, monospace !important;
+    padding: 0.5rem;
+  }
 }
