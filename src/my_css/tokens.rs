@@ -55,6 +55,7 @@ fn generate_tokens_css_content() -> Result<String> {
   for (name, _) in &light_vars {
     output.push_str(&format!("  {name}: var({name}-light);\n"));
   }
+  output.push('\n');
   output.push_str("  @media (-moz-content-prefers-color-scheme: dark) {\n");
   for (name, _) in &dark_vars {
     output.push_str(&format!("    {name}: var({name}-dark);\n"));
@@ -64,7 +65,7 @@ fn generate_tokens_css_content() -> Result<String> {
   output.push_str(
     "  --cosmic-inactive-on: color-mix(in srgb, var(--cosmic-background-on) 0.5, var(--cosmic-background-base));\n",
   );
-  output.push('}');
+  output.push_str("}\n");
 
   Ok(output)
 }

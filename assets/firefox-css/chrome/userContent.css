@@ -42,6 +42,7 @@
   --cosmic-button-on: var(--cosmic-button-on-light);
   --cosmic-button-on-rgb: var(--cosmic-button-on-rgb-light);
   --cosmic-hue: var(--cosmic-hue-light);
+
   @media (-moz-content-prefers-color-scheme: dark) {
     --cosmic-background-base: var(--cosmic-background-base-dark);
     --cosmic-background-base-rgb: var(--cosmic-background-base-rgb-dark);
@@ -60,6 +61,7 @@
 
   --cosmic-inactive-on: color-mix(in srgb, var(--cosmic-background-on) 0.5, var(--cosmic-background-base));
 }
+
 /* END OF GENERATED CODE */
 
 @-moz-document url-prefix("about:") {
@@ -89,6 +91,7 @@
     --color-gray-90: hsl(var(--cosmic-hue) 14% 4.5%) !important;
     --color-black: hsl(var(--cosmic-hue) 100% 0.4%) !important;
   }
+
   html,
   body {
     /* set default (non-important) background if unspecified */
@@ -96,6 +99,7 @@
     color: var(--cosmic-background-on);
   }
 }
+
 @-moz-document domain("thunderbird.net") {
   :root {
     --gray-05: hsl(var(--cosmic-hue) 14% 97.8%) !important;
@@ -118,33 +122,31 @@
     --ink-80: hsl(var(--cosmic-hue) 30.4% 22.5%) !important;
     --ink-90: hsl(var(--cosmic-hue) 40% 15.7%) !important;
   }
+
   [data-channel] {
     --text-gradient-hue-start: calc(var(--cosmic-hue) + 30deg);
     --text-gradient-hue-end: calc(var(--cosmic-hue) - 30deg);
-    --text-gradient: linear-gradient(
-      90deg,
-      hsl(var(--text-gradient-hue-start) 83.9% 50%) 0%,
-      hsl(var(--text-gradient-hue-end) 81.3% 50%) 100%
-    ) !important;
-    --button-bg: radial-gradient(
-      ellipse at center,
-      hsl(var(--cosmic-hue) 97.2% 80% / 0.25) 0%,
-      transparent 70%
-    ) !important;
+    --text-gradient: linear-gradient(90deg,
+        hsl(var(--text-gradient-hue-start) 83.9% 50%) 0%,
+        hsl(var(--text-gradient-hue-end) 81.3% 50%) 100%) !important;
+    --button-bg: radial-gradient(ellipse at center,
+        hsl(var(--cosmic-hue) 97.2% 80% / 0.25) 0%,
+        transparent 70%) !important;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: var(--gray-90) !important;
     }
+
     [data-channel] {
-      --button-bg: radial-gradient(
-        ellipse at center,
-        hsl(var(--cosmic-hue) 97.2% 25% / 0.25) 0%,
-        transparent 70%
-      ) !important;
+      --button-bg: radial-gradient(ellipse at center,
+          hsl(var(--cosmic-hue) 97.2% 25% / 0.25) 0%,
+          transparent 70%) !important;
     }
   }
 }
+
 @-moz-document domain("developer.mozilla.org") {
   :root {
     --color-gray-90: hsl(var(--cosmic-hue) 10% 95.9%) !important;
@@ -158,6 +160,7 @@
 }
 
 @-moz-document domain("youtube.com") {
+
   /* Use youtube's own light/dark mode */
   html[color-version="v2_0"]:not([dark]),
   [color-version="v2_0"] [light] {
@@ -168,6 +171,7 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
+
   html[color-version="v2_0"][dark],
   [color-version="v2_0"] [dark] {
     --cosmic-background-base: var(--cosmic-background-base-dark);
@@ -180,9 +184,7 @@
 
   html,
   html[color-version="v2_0"] {
-    --yt-spec-frosted-glass-desktop: color(
-      from var(--cosmic-background-base) srgb r g b / 0.8
-    ) !important;
+    --yt-spec-frosted-glass-desktop: color(from var(--cosmic-background-base) srgb r g b / 0.8) !important;
     --yt-spec-base-background: var(--cosmic-background-base) !important;
     --yt-spec-outline: var(--cosmic-component-base) !important;
     --yt-spec-text-primary: var(--cosmic-component-on) !important;
@@ -199,14 +201,17 @@
 
     --feed-width: 80rem;
   }
+
   * {
     font-family: var(--font-family) !important;
   }
+
   :not(.caption-window *) {
     /* disable transitions to fix awful frame drops while scrolling (except captions which remain animated) */
     /* Note: transitions are purposefully disabled on the .caption-window itself */
     transition: none !important;
   }
+
   html,
   html[color-version="v2_0"],
   html[dark],
@@ -220,6 +225,7 @@
   #home-chips {
     background-color: transparent !important;
   }
+
   #home-page-skeleton {
     #home-container-media {
       /* Stops display:grid; in 1600px media query */
@@ -227,11 +233,13 @@
       max-width: var(--feed-width) !important;
       gap: var(--ytd-rich-grid-row-margin) !important;
     }
+
     .rich-grid-media-skeleton {
       flex-basis: 100% !important;
       flex-grow: 1 !important;
       max-width: 100% !important;
     }
+
     .video-details {
       flex-direction: row-reverse !important;
       background-color: var(--cosmic-component-base) !important;
@@ -239,46 +247,58 @@
       border-radius: 1rem;
       padding: 0 !important;
     }
+
     .rich-thumbnail {
       padding: 0 !important;
       aspect-ratio: 16 / 9 !important;
       width: min(40vw, 40vh) !important;
       height: auto !important;
     }
+
     .rich-thumbnail::before {
       padding: 0 !important;
     }
+
     .details {
       flex-grow: 1 !important;
       padding: 1rem !important;
+
       .channel-avatar {
         align-self: end;
       }
     }
   }
+
   path[fill="#ff0033" i],
   path[fill="#f03" i],
   .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment {
     /* Tint red youtube elements like the youtube logo. 12deg offsets the hue of #ff0033. */
     filter: hue-rotate(calc(var(--cosmic-hue) + 12deg));
   }
+
   ytd-app {
     --app-drawer-content-container-background-color: transparent !important;
   }
+
   ytd-tabbed-page-header {
     --yt-lightsource-section1-color: var(--cosmic-background-base) !important;
   }
+
   #page-header-container.ytd-tabbed-page-header,
   #tabs-container.ytd-tabbed-page-header {
     background-color: transparent !important;
   }
+
   ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy {
     /* black bars around video */
     background-color: rgba(0, 0, 0, 0.9) !important;
   }
+
   #frosted-glass {
-    display: none !important; /* replaced by ytd-masthead */
+    display: none !important;
+    /* replaced by ytd-masthead */
   }
+
   ytd-masthead,
   #chips-wrapper,
   ytd-mini-guide-renderer,
@@ -287,6 +307,7 @@
     color: var(--cosmic-background-on) !important;
     backdrop-filter: blur(16px) !important;
   }
+
   #chips-wrapper::after {
     /* Add a little inverted rounded corner */
     --radius: 2rem;
@@ -299,19 +320,23 @@
     background: var(--cosmic-background-base);
     mask: radial-gradient(var(--radius) at 100% 100%, #0000 98%, #000);
   }
+
   ytd-feed-filter-chip-bar-renderer {
     --ytd-rich-grid-chips-bar-width: 100% !important;
   }
+
   ytd-post-renderer,
   .ytThumbnailViewModelImage {
     background-color: var(--cosmic-component-base) !important;
     color: var(--cosmic-component-on) !important;
   }
+
   .ytSearchboxComponentSearchButton,
   .arrow.yt-horizontal-list-renderer {
     background-color: var(--cosmic-button-base) !important;
     color: var(--cosmic-button-on) !important;
   }
+
   .ytSearchboxComponentInputBox {
     background-color: var(--cosmic-component-base) !important;
     color: var(--cosmic-component-on) !important;
@@ -332,36 +357,43 @@
     --ytd-rich-grid-items-per-row: 1 !important;
     --ytd-rich-grid-item-margin: 0 !important;
   }
+
   #contents.ytd-rich-grid-renderer {
     width: 100% !important;
     max-width: var(--feed-width) !important;
     margin: auto !important;
     padding-top: 2rem !important;
-    > * {
+
+    >* {
       margin-inline: 2rem !important;
     }
   }
+
   ytd-rich-item-renderer[rendered-from-rich-grid] {
     width: 100% !important;
   }
-  ytd-item-section-renderer[lockup-container-type="2"][is-grid-view-enabled]
-    #contents.ytd-item-section-renderer {
+
+  ytd-item-section-renderer[lockup-container-type="2"][is-grid-view-enabled] #contents.ytd-item-section-renderer {
     /* List view in suggestions instead of grid */
     grid-template-columns: 1fr !important;
   }
+
   ytd-rich-item-renderer .ytDismissibleItemAspectRatio16By9 {
     /* Use a more reasonable aspect ratio for the card after clicking "Not interested" */
     padding-top: 20% !important;
+
     .ytNotificationMultiActionRendererHost {
       background-color: var(--cosmic-background-base) !important;
       color: var(--cosmic-background-on) !important;
     }
+
     .ytSpecButtonShapeNextSizeM {
       /* Center the "Undo" and "Tell us why" buttons */
       max-width: 30rem !important;
       margin: auto !important;
     }
   }
+
   ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer) {
     .ytLockupViewModelVertical {
       /* Display title next to thumbnail, not below it */
@@ -381,6 +413,7 @@
           border: 1px solid var(--cosmic-background-base) !important;
           border-right-width: 0 !important;
         }
+
         .ytThumbnailViewModelAspectRatio16By9 {
           padding: 0 !important;
           aspect-ratio: 16 / 9 !important;
@@ -393,6 +426,7 @@
           }
         }
       }
+
       .ytLockupViewModelMetadata {
         flex-grow: 1;
 
@@ -430,6 +464,7 @@
             overflow: visible !important;
           }
         }
+
         .ytLockupMetadataViewModelHasMenuButton {
           .ytLockupMetadataViewModelTitle {
             /* Remove padding used to make space for menu button (we moved it) */
@@ -465,15 +500,18 @@
       }
     }
   }
+
   ytd-rich-item-renderer.ytd-rich-shelf-renderer {
     .shortsLockupViewModelHostMetadataTitle {
       -webkit-line-clamp: 5 !important;
       line-clamp: 5 !important;
     }
   }
+
   .html5-main-video {
     top: 0 !important;
   }
+
   ytd-comment-thread-renderer {
     /* add background behind comments for readability */
     background: var(--cosmic-background-base) !important;
@@ -485,6 +523,7 @@
       /* match pfp corner radius to container */
       border-top-left-radius: var(--comment-border-radius) !important;
     }
+
     ytd-comment-view-model[optimal-reading-width-comments] #action-menu.ytd-comment-view-model {
       /* realign so it's not outside our background */
       top: 0 !important;
@@ -499,6 +538,7 @@
       }
     }
   }
+
   .caption-window {
     color: var(--cosmic-component-on-dark) !important;
     backdrop-filter: blur(1rem);
@@ -520,8 +560,10 @@
       color: inherit !important;
     }
   }
+
   .ytp-preview {
     background-color: transparent !important;
+
     .ytp-tooltip-bg {
       /* bigger preview when scrubbing */
       transform: scale(3);
@@ -530,37 +572,44 @@
       image-rendering: crisp-edges;
     }
   }
+
   ytd-watch-metadata {
     background: var(--cosmic-background-base);
     border-radius: 1rem;
     padding: 1rem;
+
     h1.ytd-watch-metadata {
       font-size: 2.4rem !important;
       font-weight: 350 !important;
       line-height: 1.2 !important;
       overflow: visible !important;
+
       &,
       & * {
         font-family: serif !important;
       }
     }
+
     #description.ytd-watch-metadata {
       background: var(--cosmic-background-base) !important;
     }
   }
+
   .ytSpecButtonShapeNextMono.ytSpecButtonShapeNextTonal,
   .ytChipShapeInactive {
     background: var(--cosmic-button-base) !important;
     color: var(--cosmic-button-on) !important;
   }
+
   /* Reduce transparency when light/dark mode mismatched to preserve legibility. */
   @media (prefers-color-scheme: dark) {
-    html:not([dark]) ytd-app > #content {
+    html:not([dark]) ytd-app>#content {
       background-color: var(--cosmic-component-base-light) !important;
     }
   }
+
   @media (prefers-color-scheme: light) {
-    html[dark] ytd-app > #content {
+    html[dark] ytd-app>#content {
       background-color: var(--cosmic-component-base-dark) !important;
     }
   }
@@ -577,14 +626,10 @@
     --fgColor-muted: var(--cosmic-inactive-on) !important;
     --borderColor-default: color(from var(--cosmic-component-on) srgb r g b / 0.3) !important;
     --control-bgColor-rest: var(--cosmic-button-base) !important;
-    --control-bgColor-hover: color-mix(
-      in srgb,
-      var(--cosmic-button-base) 90%,
-      var(--cosmic-button-on)
-    ) !important;
-    --buttonCounter-default-bgColor-rest: color(
-      from var(--cosmic-button-on) srgb r g b / 0.1
-    ) !important;
+    --control-bgColor-hover: color-mix(in srgb,
+        var(--cosmic-button-base) 90%,
+        var(--cosmic-button-on)) !important;
+    --buttonCounter-default-bgColor-rest: color(from var(--cosmic-button-on) srgb r g b / 0.1) !important;
     /* Disable Segoe Windows fonts: the emojis are low contrast and blurry. */
     --fontStack-sansSerif:
       "Mona Sans VF", "Noto Sans Backtick Fix", "Noto Sans", "Adwaita Sans", Inter, sans-serif !important;
@@ -592,63 +637,79 @@
     --fontStack-monospace:
       "Monaspace Radon NF", "Monaspace Radon", Lilex, FiraCode, "Droid Sans Mono", Menlo, monospace !important;
   }
+
   html,
   body {
     background-color: transparent !important;
   }
+
   li:has(> a[data-tab-item="agents"]) {
     display: none !important;
   }
+
   button[class^="prc-Button"][class*="ReactionButton-module"] span[data-component="leadingVisual"],
-  li[class^="prc-ActionList"][class*="ReactionsMenuItem-module"]
-    span[data-component="ActionList.Item.Label"] {
+  li[class^="prc-ActionList"][class*="ReactionsMenuItem-module"] span[data-component="ActionList.Item.Label"] {
     /* Make emoji reactions bigger */
     font-size: 1.1rem !important;
-    text-shadow: 0 0; /* hairline shadow */
+    text-shadow: 0 0;
+    /* hairline shadow */
   }
+
   div:has(> article.markdown-body),
   table,
   div[class^="IssueBody-module__commentBorder__"],
   [data-testid="sticky-sidebar"] {
     background-color: var(--bgColor-default);
   }
+
   div[class^="HeaderMetadata-module__stickyContainer__"],
-  div.react-blob-view-header-sticky > div {
+  div.react-blob-view-header-sticky>div {
     backdrop-filter: blur(1rem);
   }
+
   .markdown-body {
+
     .snippet-clipboard-content,
     .highlight {
       border-radius: 0.4rem;
+
       &:has(> pre) {
         /* remove duplicate background, overlap is ugly with transparency */
         background: transparent !important;
       }
-      > pre {
+
+      >pre {
         background: var(--bgColor-muted) !important;
       }
     }
   }
+
   div[class^="IssueViewer-module__contentArea__"] {
     background-color: transparent !important;
   }
+
   div[class^="SidePanel-module__sidePanel__"] {
     background: rgb(var(--cosmic-component-base-rgb) / 0.95) !important;
     backdrop-filter: blur(1rem) !important;
   }
+
   section[aria-label="Events"] {
-    > * {
-      margin-bottom: 0.9px; /* 1.0px gets antialiased to 2px sometimes and looks inconsistent */
+    >* {
+      margin-bottom: 0.9px;
+
+      /* 1.0px gets antialiased to 2px sometimes and looks inconsistent */
       div[class^="TimelineRowBorder-module__shared__"] {
         border-radius: var(--borderRadius-small) !important;
       }
     }
+
     > :nth-child(1) {
       div[class^="TimelineRowBorder-module__shared__"] {
         border-top-left-radius: var(--borderRadius-medium) !important;
         border-top-right-radius: var(--borderRadius-medium) !important;
       }
     }
+
     > :nth-last-child(1) {
       div[class^="TimelineRowBorder-module__shared__"] {
         border-bottom-left-radius: var(--borderRadius-medium) !important;
@@ -656,13 +717,17 @@
       }
     }
   }
+
   [data-testid="sticky-sidebar"] {
     border-radius: var(--borderRadius-medium);
-    > div[class^="IssueSidebar-module__sidebarContent__"] {
+
+    >div[class^="IssueSidebar-module__sidebarContent__"] {
       padding: var(--base-size-16);
     }
   }
+
   @layer primer-css-base {
+
     tt,
     code,
     samp {
@@ -670,24 +735,29 @@
       font-size: inherit !important;
     }
   }
+
   .diff-line-row {
     line-height: 1.5 !important;
   }
+
   .diff-text-cell .syntax-highlighted-line .x {
     padding-block: 0.15em;
   }
+
   .diff-text-cell .syntax-highlighted-line .x-first {
     border-top-left-radius: 1px !important;
     border-bottom-left-radius: 1px !important;
     padding-inline-start: 0.15em;
     margin-inline-start: -0.1em;
   }
+
   .diff-text-cell .syntax-highlighted-line .x-last {
     border-top-right-radius: 1px !important;
     border-bottom-right-radius: 1px !important;
     padding-inline-end: 0.15em;
     margin-inline-end: -0.1em;
   }
+
   .text-rendering-optimize-speed {
     text-rendering: auto !important;
   }
@@ -702,6 +772,7 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
+
   html[style*="--theme-col-bg-ui: #282828"] {
     --cosmic-background-base: var(--cosmic-background-base-dark);
     --cosmic-background-on: var(--cosmic-background-on-dark);
@@ -715,19 +786,16 @@
     --theme-col-bg-header: var(--cosmic-component-base) !important;
     --theme-col-bg-header-transparent: color(from var(--theme-col-bg-header) srgb r g b / 0);
     --theme-col-bg-page: transparent !important;
-    --theme-assist-bg-chat-system: color-mix(
-      in srgb,
-      var(--cosmic-component-base) 80%,
-      #af8
-    ) !important;
-    --theme-col-bg-expandcollapse: color-mix(
-      in srgb,
-      var(--cosmic-component-base) 90%,
-      var(--cosmic-component-on)
-    ) !important;
+    --theme-assist-bg-chat-system: color-mix(in srgb,
+        var(--cosmic-component-base) 80%,
+        #af8) !important;
+    --theme-col-bg-expandcollapse: color-mix(in srgb,
+        var(--cosmic-component-base) 90%,
+        var(--cosmic-component-on)) !important;
     --theme-col-bg-button-secondary: var(--cosmic-button-base) !important;
     --theme-col-txt-button-secondary: var(--cosmic-button-on) !important;
   }
+
   html,
   body,
   .body--home,
@@ -745,38 +813,44 @@
     background: var(--theme-col-bg-page) !important;
     color: var(--cosmic-component-on) !important;
   }
-  .header-wrap > .header,
+
+  .header-wrap>.header,
   article,
   [data-testid="about"],
   .related-searches__item,
-  li[data-layout="videos"] ol > li,
+  li[data-layout="videos"] ol>li,
   .footer {
     background: var(--cosmic-component-base) !important;
     color: var(--cosmic-component-on) !important;
   }
+
   .header-wrap {
     padding-top: 0 !important;
     box-shadow: none !important;
-    > .header {
+
+    >.header {
       padding-top: 0.5rem;
       backdrop-filter: blur(0.4rem);
     }
   }
+
   article {
     border-radius: var(--default-border-radius);
     padding: calc(var(--default-border-radius) * 2) !important;
     margin: calc(var(--default-border-radius) * -1) !important;
   }
+
   /* Remove the overflow gradients since they don't look good with transparency */
   nav::before,
   nav::after,
-  nav > ul::before,
-  nav > ul::after {
+  nav>ul::before,
+  nav>ul::after {
     background-image: none !important;
   }
 }
 
 @-moz-document domain("pub.dev") {
+
   :root,
   .light-theme,
   .dark-theme {
@@ -790,6 +864,7 @@
     --pub-footer-background-color: var(--cosmic-component-base) !important;
     --pub-footer-text-color: var(--cosmic-component-on) !important;
   }
+
   @media (prefers-color-scheme: dark) {
     body.light-theme:not(:has(main)) {
       /* pub.dev defaults to light-mode while loading which causes a white flash in dark mode in Firefox. */
@@ -799,6 +874,7 @@
       color: var(--cosmic-component-on-dark) !important;
     }
   }
+
   /* Also augment the light and dark themes. */
   .light-theme {
     color-scheme: light;
@@ -809,6 +885,7 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
+
   .dark-theme {
     color-scheme: dark;
     --cosmic-background-base: var(--cosmic-background-base-dark);
@@ -830,20 +907,23 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
+
   body {
     background-color: var(--cosmic-background-base) !important;
     color: var(--cosmic-background-on) !important;
   }
+
   #root,
-  #root > div,
-  #root > div > div,
+  #root>div,
+  #root>div>div,
   main,
   #main,
   nav,
-  .common-floor > * {
+  .common-floor>* {
     background-color: transparent !important;
     color: var(--cosmic-background-on) !important;
   }
+
   #_global_header_23_,
   #_full_container_header_23_,
   .header-dir-ltr,
@@ -857,8 +937,8 @@
   .group-title-ctn,
   .group-container,
   .cart-summary,
-  .cart-service-wrap > section,
-  .card-out-wrapper > a,
+  .cart-service-wrap>section,
+  .card-out-wrapper>a,
   [data-spm="superdeal"],
   [data-spm="3fornn"] {
     background-color: var(--cosmic-component-base) !important;
@@ -868,8 +948,7 @@
 }
 
 /* Bitwarden */
-@-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476")
-{
+@-moz-document url-prefix("moz-extension://7d106fa6-80bf-4ea2-9b5e-0baf9264f476") {
   html.theme_light {
     --cosmic-background-base: var(--cosmic-background-base-light);
     --cosmic-background-on: var(--cosmic-background-on-light);
@@ -878,6 +957,7 @@
     --cosmic-button-base: var(--cosmic-button-base-light);
     --cosmic-button-on: var(--cosmic-button-on-light);
   }
+
   html.theme_dark {
     --cosmic-background-base: var(--cosmic-background-base-dark);
     --cosmic-background-on: var(--cosmic-background-on-dark);
@@ -886,14 +966,17 @@
     --cosmic-button-base: var(--cosmic-button-base-dark);
     --cosmic-button-on: var(--cosmic-button-on-dark);
   }
+
   .tw-bg-background {
     background-color: var(--cosmic-component-base) !important;
     color: var(--cosmic-component-on) !important;
   }
+
   .tw-bg-background-alt {
     background-color: var(--cosmic-background-base) !important;
     color: var(--cosmic-component-on) !important;
   }
+
   html body,
   html app-root {
     background-color: var(--cosmic-background-base) !important;
@@ -911,19 +994,19 @@
     --ig-secondary-background: var(--cosmic-component-base-rgb) !important;
     --ig-secondary-text: 50 60 70 !important;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
       --ig-secondary-text: 220 220 220 !important;
     }
   }
+
   html,
   body {
     background: transparent !important;
   }
-  [data-pagelet="IGDInboxThreadListScrollableAreaPagelet"]
-    .html-div
-    .html-div
-    [role="button"]:not([aria-haspopup="dialog"]) {
+
+  [data-pagelet="IGDInboxThreadListScrollableAreaPagelet"] .html-div .html-div [role="button"]:not([aria-haspopup="dialog"]) {
     background: rgb(var(--ig-highlight-background) / 0.6) !important;
     margin: 0.2rem 0.8rem !important;
     transition: background-color 0.03s ease-out;
@@ -931,16 +1014,13 @@
     &:hover {
       background: rgb(var(--ig-highlight-background) / 0.9) !important;
     }
+
     &[aria-pressed="true"] {
       background: rgb(var(--ig-highlight-background)) !important;
     }
   }
-  .html-div[style="--x-height: 100%;"]
-    > .html-div
-    > div
-    > div[tabindex="-1"]
-    > div
-    > div[style~="width:"][style~="background-color:"][style~="transition:"] {
+
+  .html-div[style="--x-height: 100%;"]>.html-div>div>div[tabindex="-1"]>div>div[style~="width:"][style~="background-color:"][style~="transition:"] {
     /* This is the sidebar */
     background-color: transparent !important;
     backdrop-filter: blur(0px);
@@ -958,6 +1038,7 @@
 }
 
 @-moz-document domain("reddit.com") {
+
   :root .theme-beta,
   :root .theme-rpl,
   :root.theme-beta,
@@ -966,7 +1047,8 @@
     --color-neutral-background: var(--cosmic-component-base) !important;
     --color-neutral-content: var(--cosmic-component-on) !important;
     --color-neutral-background-weak: var(--cosmic-background-base) !important;
-    --color-neutral-background-hover: rgb(var(--cosmic-component-base-rgb)) !important; /* opaque on hover */
+    --color-neutral-background-hover: rgb(var(--cosmic-component-base-rgb)) !important;
+    /* opaque on hover */
     --color-neutral-border: rgb(var(--cosmic-component-base-rgb)) !important;
     --color-tone-1: rgba(var(--cosmic-background-on-rgb) / 0.925) !important;
     --color-tone-2: rgba(var(--cosmic-background-on-rgb) / 0.725) !important;
@@ -976,6 +1058,7 @@
     --color-tone-6: rgba(var(--cosmic-background-on-rgb) / 0.05) !important;
     --color-tone-7: rgba(var(--cosmic-background-on-rgb) / 0) !important;
   }
+
   html,
   body,
   .toolbar-container,
@@ -983,16 +1066,20 @@
   flex-left-nav-container #flex-left-nav-container {
     background: transparent !important;
   }
+
   main .bg-neutral-background {
     border-radius: var(--radius-md);
   }
+
   comment-body-header {
     background-color: var(--color-neutral-background-weak) !important;
     border-radius: var(--radius-md);
   }
+
   reddit-header-large {
     backdrop-filter: blur(1rem);
   }
+
   shreddit-ad-post {
     display: none !important;
   }
@@ -1000,6 +1087,7 @@
 
 @-moz-document domain("amazon.co.uk") {
   .s-card-container {
+
     &:has([data-cy="delivery-recipe"] img[alt="Amazon Fresh"]),
     &:has([data-cy="delivery-recipe"] img[alt="Morrisons"]),
     &:has([data-cy="delivery-recipe"] img[alt="Co-op"]),
@@ -1007,11 +1095,13 @@
       opacity: 0.2;
     }
   }
+
   span.a-price {
     font-family:
       "Monaspace Radon NF", "Monaspace Radon", Lilex, FiraCode, "Droid Sans Mono", Menlo, monospace !important;
     padding: 0.5rem;
   }
+
   a.puis-sponsored-label-text {
     font-size: 1rem !important;
   }
