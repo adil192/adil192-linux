@@ -75,17 +75,7 @@
     --background-color-canvas: var(--cosmic-background-base) !important;
     --promo-background-color: var(--cosmic-component-base) !important;
     --table-row-background-color-alternate: var(--cosmic-component-base) !important;
-  }
-  html,
-  body {
-    /* set default (non-important) background if unspecified */
-    background-color: transparent;
-    color: var(--cosmic-background-on);
-  }
-}
 
-@-moz-document url-prefix("about:") {
-  :root {
     --color-white: hsl(var(--cosmic-hue) 100% 99.6%) !important;
     --color-gray-05: hsl(var(--cosmic-hue) 14% 97.8%) !important;
     --color-gray-10: hsl(var(--cosmic-hue) 14% 95.9%) !important;
@@ -98,6 +88,12 @@
     --color-gray-80: hsl(var(--cosmic-hue) 14% 9%) !important;
     --color-gray-90: hsl(var(--cosmic-hue) 14% 4.5%) !important;
     --color-black: hsl(var(--cosmic-hue) 100% 0.4%) !important;
+  }
+  html,
+  body {
+    /* set default (non-important) background if unspecified */
+    background-color: transparent;
+    color: var(--cosmic-background-on);
   }
 }
 @-moz-document domain("thunderbird.net") {
