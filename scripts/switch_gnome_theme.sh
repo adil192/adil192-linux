@@ -33,7 +33,7 @@ if [ ! -x "$(command -v crudini)" ]; then
 fi
 
 # KCOLORSCHEME="/usr/share/color-schemes/$(light-dark BreezeLight.colors BreezeDark.colors)"
-KCOLORSCHEME="$HOME/.local/share/color-schemes/$(light-dark ColloidLight.colors ColloidDark.colors)"
+KCOLORSCHEME="$HOME/.local/share/color-schemes/$(light-dark CosmicLight.colors CosmicDark.colors)"
 cp "$KCOLORSCHEME" ~/.config/kdeglobals
 KICONTHEME=$(light-dark breeze breeze-dark)
 for CONF in ~/.config/qt5ct/qt5ct.conf ~/.config/qt6ct/qt6ct.conf; do

@@ -108,7 +108,6 @@ dependencies = [
  "anyhow",
  "cached",
  "cmd_lib",
- "configparser",
  "cosmic-bg-config",
  "csscolorparser",
  "dirs",
