@@ -450,61 +450,61 @@ fn install_package_with_flatpak(name: &str, id: &str) -> Result<bool> {
 }
 
 #[derive(Default)]
-struct Package {
+struct Package<'a> {
   /// User-facing name for this package
-  name: &'static str,
+  name: &'a str,
   /// Dnf package name, if available
-  dnf_id: Option<&'static str>,
+  dnf_id: Option<&'a str>,
   /// Pacman package name, if available
-  pacman_id: Option<&'static str>,
+  pacman_id: Option<&'a str>,
   /// AUR package, if available
-  aur_package: Option<PinnedAur>,
+  aur_package: Option<PinnedAur<'a>>,
   /// Flatpak package name, if available
-  flatpak_id: Option<&'static str>,
+  flatpak_id: Option<&'a str>,
   /// If any of these are found in PATH, skip installation
-  alternative_exes: Option<&'static [&'static str]>,
+  alternative_exes: Option<&'a [&'a str]>,
   /// If any of these flatpaks are installed, skip installation
-  alternative_flatpaks: Option<&'static [&'static str]>,
+  alternative_flatpaks: Option<&'a [&'a str]>,
 }
-struct PinnedAur {
-  id: &'static str,
-  maintainer: &'static str,
+struct PinnedAur<'a> {
+  id: &'a str,
+  maintainer: &'a str,
 }
 
-impl Package {
-  pub fn new(name: &'static str) -> Self {
+impl<'a> Package<'a> {
+  pub fn new(name: &'a str) -> Self {
     Self {
       name,
       ..Package::default()
     }
   }
 
-  fn dnf_id(mut self, id: &'static str) -> Self {
+  fn dnf_id(mut self, id: &'a str) -> Self {
     self.dnf_id = Some(id);
     self
   }
 
-  fn aur_package(mut self, id: &'static str, maintainer: &'static str) -> Self {
+  fn aur_package(mut self, id: &'a str, maintainer: &'a str) -> Self {
     self.aur_package = Some(PinnedAur { id, maintainer });
     self
   }
 
-  fn pacman_id(mut self, id: &'static str) -> Self {
+  fn pacman_id(mut self, id: &'a str) -> Self {
     self.pacman_id = Some(id);
     self
   }
 
-  fn flatpak_id(mut self, id: &'static str) -> Self {
+  fn flatpak_id(mut self, id: &'a str) -> Self {
     self.flatpak_id = Some(id);
     self
   }
 
-  fn alternative_exes(mut self, exes: &'static [&'static str]) -> Self {
+  fn alternative_exes(mut self, exes: &'a [&'a str]) -> Self {
     self.alternative_exes = Some(exes);
     self
   }
 
-  fn alternative_flatpaks(mut self, flatpaks: &'static [&'static str]) -> Self {
+  fn alternative_flatpaks(mut self, flatpaks: &'a [&'a str]) -> Self {
     self.alternative_flatpaks = Some(flatpaks);
     self
   }
