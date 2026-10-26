@@ -1106,3 +1106,30 @@
     font-size: 1rem !important;
   }
 }
+
+@-moz-document domain("appstoreconnect.apple.com") {
+  :root {
+    /* No dark mode */
+    --cosmic-background-base: var(--cosmic-background-base-light) !important;
+    --cosmic-background-base-rgb: var(--cosmic-background-base-rgb-light) !important;
+    --cosmic-background-on: var(--cosmic-background-on-light) !important;
+    --cosmic-background-on-rgb: var(--cosmic-background-on-rgb-light) !important;
+    --cosmic-component-base: var(--cosmic-component-base-light) !important;
+    --cosmic-component-base-rgb: var(--cosmic-component-base-rgb-light) !important;
+    --cosmic-component-on: var(--cosmic-component-on-light) !important;
+    --cosmic-component-on-rgb: var(--cosmic-component-on-rgb-light) !important;
+    --cosmic-button-base: var(--cosmic-button-base-light) !important;
+    --cosmic-button-base-rgb: var(--cosmic-button-base-rgb-light) !important;
+    --cosmic-button-on: var(--cosmic-button-on-light) !important;
+    --cosmic-button-on-rgb: var(--cosmic-button-on-rgb-light) !important;
+    --cosmic-hue: var(--cosmic-hue-light) !important;
+  }
+
+  body {
+    --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg.png");
+    background:
+      linear-gradient(var(--cosmic-background-base), var(--cosmic-background-base)),
+      var(--cosmic-blurred-bg) center center / 100vw 100vh var(--cosmic-background-base) no-repeat !important;
+    color: var(--cosmic-background-on) !important;
+  }
+}
