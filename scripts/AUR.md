@@ -18,7 +18,7 @@ cd ~/aur/gtk4                            && git pull          && makepkgplus
 
 
 # Qt theming: https://aur.archlinux.org/qt6ct-kde.git
-cd ~/aur/qt6ct-kde                       &&                      makepkgplus
+cd ~/aur/qt6ct-kde                       &&                      makepkgplus -f
 
 # PS3 emulator: https://aur.archlinux.org/rpcs3-git.git
 cd ~/aur/rpcs3-git                       &&                      makepkgplus
