@@ -132,8 +132,8 @@ impl MyCss {
 
     // selected text and items
     let selection_colors = IniColors {
-      background_alternate: window_bg.mix(window_fg, 0.2).mix(accent_text, 0.2),
-      background_normal: window_bg.mix(window_fg, 0.25).mix(accent_text, 0.25),
+      background_alternate: window_bg.mix(accent_text, 0.3),
+      background_normal: window_bg.mix(accent_text, 0.35),
       ..view_colors
     };
 
