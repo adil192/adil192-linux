@@ -109,7 +109,7 @@ impl MyCss {
 
     // the background container
     let window_colors = IniColors {
-      background_alternate: window_bg.mix(window_fg, 0.1),
+      background_alternate: window_bg.mix(window_fg, 0.035),
       background_normal: window_bg,
       decoration_focus: accent_text,
       decoration_hover: accent_text,
@@ -124,7 +124,7 @@ impl MyCss {
     };
     // components inside the background container
     let view_colors = IniColors {
-      background_alternate: card_bg.mix(card_fg, 0.1),
+      background_alternate: card_bg.mix(card_fg, 0.035),
       background_normal: card_bg,
       foreground_normal: card_fg,
       ..window_colors
