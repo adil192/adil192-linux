@@ -22,6 +22,7 @@ impl MyHome {
       ".config/gtk-4.0",
       ".config/mpv",
       ".config/zed/settings.json",
+      ".config/starship.toml",
     ];
     for relative_path in relative_paths {
       let tracked_file = my_home.join(relative_path);

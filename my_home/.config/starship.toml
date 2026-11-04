@@ -1,0 +1,5 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+[cmd_duration]
+format = "[◄ $duration ](italic dimmed white)"
+min_time = 1000
