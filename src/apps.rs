@@ -58,8 +58,10 @@ impl MyApps {
     // TODO: Install AppManager
 
     add_cosmic_copr()?;
-    install_jetbrains_toolbox()?;
-    install_android_emulator_integration()?;
+    if install_android_studio()? {
+      install_package(&Package::new("Android udev rules").pacman_id("android-udev"))?;
+      install_android_emulator_integration()?;
+    }
     install_zed()?;
     install_git_credential_manager()?;
     install_github_desktop_plus()?;
@@ -93,9 +95,14 @@ fn add_cosmic_copr() -> Result<()> {
   Ok(())
 }
 
-fn install_jetbrains_toolbox() -> Result<bool> {
+fn install_android_studio() -> Result<bool> {
+  if is_exe_in_path("android-studio") {
+    println!("Skipping Android Studio: already in PATH");
+    return Ok(true);
+  }
+
   if Shelly::exists() {
-    return install_package_with_aur("Jetbrains Toolbox", "jetbrains-toolbox", "freswa");
+    return install_package_with_aur("Android Studio", "android-studio", "kordianbruck");
   }
 
   let home = var("HOME")?;
@@ -117,8 +124,8 @@ fn install_jetbrains_toolbox() -> Result<bool> {
         chmod +x $exe;
       )?;
 
-      // TODO(adil192): Check this continues running after adil192-linux exits
       Command::new(&exe).spawn()?;
+      println!("Install Android Studio through Jetbrains Toolbox.");
       Ok(())
     },
   )
