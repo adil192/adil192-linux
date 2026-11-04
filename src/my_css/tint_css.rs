@@ -19,8 +19,13 @@ pub(super) fn tint_css(
   max_hue: f32,
   make_darks_darker: bool,
 ) -> Result<()> {
-  let colors_regex = Regex::new(r"#[0-9a-fA-F]{3,6}")?;
   let target_hue = get_target_hue()?;
+  if min_hue <= target_hue && target_hue <= max_hue {
+    println!("Skipping tint, target {target_hue} is already within {min_hue}-{max_hue}.");
+    return Ok(());
+  }
+
+  let colors_regex = Regex::new(r"#[0-9a-fA-F]{3,6}")?;
 
   let css_files_raw = run_fun!(find $parent_dir -type f -name *.css)?;
   let css_files = css_files_raw.lines();
