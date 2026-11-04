@@ -23,6 +23,7 @@ impl MyHome {
       ".config/mpv",
       ".config/zed/settings.json",
       ".config/starship.toml",
+      ".npmrc",
     ];
     for relative_path in relative_paths {
       let tracked_file = my_home.join(relative_path);
