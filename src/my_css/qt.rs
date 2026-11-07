@@ -109,7 +109,7 @@ impl MyCss {
 
     // the background container
     let window_colors = IniColors {
-      background_alternate: window_bg.mix(window_fg, 0.035),
+      background_alternate: window_bg,
       background_normal: window_bg,
       decoration_focus: accent_text,
       decoration_hover: accent_text,
@@ -124,7 +124,7 @@ impl MyCss {
     };
     // components inside the background container
     let view_colors = IniColors {
-      background_alternate: view_bg.mix(view_fg, 0.035),
+      background_alternate: view_bg,
       background_normal: view_bg,
       foreground_normal: view_fg,
       ..window_colors
@@ -141,7 +141,7 @@ impl MyCss {
 
     // Complementary: Areas of applications with an alternative color scheme; usually with a dark background for light color schemes.
     let complementary_colors = IniColors {
-      background_alternate: view_fg.mix(view_bg, 0.1),
+      background_alternate: view_fg,
       background_normal: view_fg,
       foreground_inactive: view_fg.mix(view_bg, 0.55),
       foreground_link: view_fg.mix(accent_bg, 0.8),
@@ -150,7 +150,7 @@ impl MyCss {
     };
 
     let header_colors = IniColors {
-      background_alternate: header_bg.mix(view_fg, 0.1),
+      background_alternate: header_bg,
       background_normal: header_bg,
       ..view_colors
     };
