@@ -12,9 +12,9 @@ light-dark() {
 
 # Switching the shell theme below causes a momentary freeze/hitch.
 # Allow gnome's transition animation to complete before proceeding.
-sleep 1
+# sleep 1
 
-gsettings set org.gnome.shell.extensions.user-theme name "$(light-dark Yaru Yaru-dark)"
+# gsettings set org.gnome.shell.extensions.user-theme name "$(light-dark Yaru Yaru-dark)"
 gsettings set org.gnome.desktop.interface accent-color blue
 gsettings set org.gnome.desktop.interface cursor-theme "$(light-dark Breeze_cursors Breeze_Light)"
 gsettings set org.gnome.desktop.interface gtk-theme "$(light-dark adw-gtk3 adw-gtk3-dark)"
