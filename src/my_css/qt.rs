@@ -154,7 +154,11 @@ impl MyCss {
       background_normal: header_bg,
       ..view_colors
     };
-    let header_colors_inactive = &header_colors;
+    let header_colors_inactive = IniColors {
+      background_alternate: header_colors.background_alternate.mix(window_bg, 0.33),
+      background_normal: header_colors.background_normal.mix(window_bg, 0.33),
+      ..header_colors
+    };
     // tool tips, "What's This" tips, and similar elements
     let tooltip_colors = button_colors;
 
@@ -222,7 +226,7 @@ widgetStyle=Breeze
       format_ini_colors(button_colors),
       format_ini_colors(&complementary_colors),
       format_ini_colors(&header_colors),
-      format_ini_colors(header_colors_inactive),
+      format_ini_colors(&header_colors_inactive),
       format_ini_colors(&selection_colors),
       format_ini_colors(tooltip_colors),
       format_ini_colors(&view_colors),
@@ -289,9 +293,6 @@ ForegroundVisited={}"#,
 /// Sets the colors for the titlebars of active and inactive windows.
 fn format_ini_wm_colors(view_colors: &IniColors, is_dark: bool) -> String {
   let bg = view_colors.background_normal;
-  let fg = view_colors.foreground_active;
-  let blend = if is_dark { fg } else { bg };
-
   format!(
     r#"activeBackground={}
 activeBlend={}
@@ -300,11 +301,19 @@ inactiveBackground={}
 inactiveBlend={}
 inactiveForeground={}"#,
     to_rgb(bg),
-    to_rgb(blend),
-    to_rgb(fg),
+    to_rgb(if is_dark {
+      view_colors.foreground_active
+    } else {
+      bg
+    }),
+    to_rgb(view_colors.foreground_active),
     to_rgb(bg),
-    to_rgb(blend),
-    to_rgb(fg),
+    to_rgb(if is_dark {
+      view_colors.foreground_inactive
+    } else {
+      bg
+    }),
+    to_rgb(view_colors.foreground_inactive),
   )
 }
 
