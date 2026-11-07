@@ -94,10 +94,10 @@ impl MyCss {
       intensity_effect: IntensityEffect::Shade,
     };
 
-    let window_bg = light_dark! { #fafafbff #222226ff };
+    let window_bg = light_dark! { #fafafbff #1d1d20ff };
     let window_fg = light_dark! { #323237ff #ffffffff };
-    let card_bg = light_dark! { #ffffffff #333337ff };
-    let card_fg = light_dark! { #333338ff #ffffffff };
+    let view_bg = light_dark! { #ffffffff #222226ff };
+    let view_fg = light_dark! { #333338ff #ffffffff };
     let header_bg = light_dark! { #ffffffff #2e2e32ff };
 
     let accent_bg = light_dark! { #3584e4ff #3584e4ff };
@@ -124,9 +124,9 @@ impl MyCss {
     };
     // components inside the background container
     let view_colors = IniColors {
-      background_alternate: card_bg.mix(card_fg, 0.035),
-      background_normal: card_bg,
-      foreground_normal: card_fg,
+      background_alternate: view_bg.mix(view_fg, 0.035),
+      background_normal: view_bg,
+      foreground_normal: view_fg,
       ..window_colors
     };
 
@@ -141,16 +141,16 @@ impl MyCss {
 
     // Complementary: Areas of applications with an alternative color scheme; usually with a dark background for light color schemes.
     let complementary_colors = IniColors {
-      background_alternate: card_fg.mix(card_bg, 0.1),
-      background_normal: card_fg,
-      foreground_inactive: card_fg.mix(card_bg, 0.55),
-      foreground_link: card_fg.mix(accent_bg, 0.8),
-      foreground_normal: card_bg,
+      background_alternate: view_fg.mix(view_bg, 0.1),
+      background_normal: view_fg,
+      foreground_inactive: view_fg.mix(view_bg, 0.55),
+      foreground_link: view_fg.mix(accent_bg, 0.8),
+      foreground_normal: view_bg,
       ..view_colors
     };
 
     let header_colors = IniColors {
-      background_alternate: header_bg.mix(card_fg, 0.1),
+      background_alternate: header_bg.mix(view_fg, 0.1),
       background_normal: header_bg,
       ..view_colors
     };
