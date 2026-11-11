@@ -663,7 +663,9 @@
   }
 
   div[class^="HeaderMetadata-module__stickyContainer__"],
-  div.react-blob-view-header-sticky>div {
+  div.react-blob-view-header-sticky>div,
+  details-dialog,
+  .Box {
     backdrop-filter: blur(1rem);
   }
 
