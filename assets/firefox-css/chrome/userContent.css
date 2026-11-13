@@ -658,7 +658,8 @@
   div:has(> article.markdown-body),
   table,
   div[class^="IssueBody-module__commentBorder__"],
-  [data-testid="sticky-sidebar"] {
+  [data-testid="sticky-sidebar"],
+  section[aria-label="Description"] {
     background-color: var(--bgColor-default);
   }
 
