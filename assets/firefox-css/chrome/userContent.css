@@ -666,7 +666,8 @@
   div[class^="HeaderMetadata-module__stickyContainer__"],
   div.react-blob-view-header-sticky>div,
   details-dialog,
-  .Box {
+  .Box,
+  div[data-component="Portal"]>* {
     backdrop-filter: blur(1rem);
   }
 
