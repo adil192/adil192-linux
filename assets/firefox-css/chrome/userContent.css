@@ -767,6 +767,36 @@
   }
 }
 
+@-moz-document domain("cubic.dev") {
+  html {
+    /* Background was overly dark, make it a little greyer to be easier on my eyes (and translucent) */
+    --background: 240 10% 12.5% / 80% !important;
+
+    background-color: var(--cosmic-background-base) !important;
+  }
+
+  body {
+    /* moved background into html, so body's filter doesn't affect it */
+    background-color: transparent !important;
+  }
+
+  #scrollable-content {
+    /* add some space for translucency to peek through */
+    margin-top: calc(var(--spacing) * 4) !important;
+  }
+
+  @media (prefers-color-scheme: light) {
+    html {
+      --background: 240 0% 0% / 80% !important;
+    }
+
+    body {
+      /* Invert cubic's forced dark mode */
+      filter: invert(1) hue-rotate(180deg);
+    }
+  }
+}
+
 @-moz-document domain("duckduckgo.com") {
   html[style*="--theme-col-bg-ui: var(--col-silver)"] {
     --cosmic-background-base: var(--cosmic-background-base-light);
