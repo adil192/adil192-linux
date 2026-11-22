@@ -66,8 +66,10 @@
 
 :root {
   /** Color overrides */
-  --cosmic-background-base-light: #f5faff8a;
+  --cosmic-background-base-light: #f5faffbb;
   --cosmic-component-base-light: #ffffffcc;
+  --cosmic-component-base-rgb-light: 255 255 255;
+  --cosmic-background-base-dark: #020a14dd;
 }
 
 :root {
