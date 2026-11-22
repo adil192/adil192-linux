@@ -228,11 +228,11 @@ menupopup {
 
 #tabbrowser-tabs[orient="vertical"] {
   --tab-label-line-height: 1.2 !important;
-  --tab-background-color: rgba(var(--cosmic-button-base-rgb) / 0.3) !important;
-  --tab-background-color-selected: var(--cosmic-button-base) !important;
+  --tab-background-color: hsl(var(--cosmic-hue) 30% 50% / 0.3) !important;
+  --tab-background-color-selected: hsl(var(--cosmic-hue) 30% 50% / 0.5) !important;
   --border-width: 0.1px !important;
   --tab-border-color: rgba(var(--cosmic-button-on-rgb) / 0.05) !important;
-  --tab-border-color-selected: rgba(var(--cosmic-button-on-rgb) / 0.3) !important;
+  --tab-border-color-selected: rgba(var(--cosmic-button-on-rgb) / 0.5) !important;
 
   .tab-label {
     /** Enable multiline tab titles */
@@ -243,18 +243,28 @@ menupopup {
     line-clamp: 2 no-ellipsis !important;
   }
 
-  &[expanded] {
-    & .tabbrowser-tab {
-      & .tab-content {
-        contain-intrinsic-block-size: 2lh !important;
-        padding-block: 1rem !important;
-      }
+  .tabbrowser-tab {
+    .tab-content {
+      contain: size layout;
+      line-height: var(--tab-label-line-height);
+      contain-intrinsic-block-size: 2lh !important;
+      padding-block: 1rem !important;
     }
+  }
 
-    .tab-background {
-      border-top-right-radius: 12px !important;
-      border-bottom-right-radius: 12px !important;
-      box-shadow: 0 1px 6px -2px var(--cosmic-background-base) !important;
-    }
+  .tab-background {
+    border-top-right-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    box-shadow: 0 1px 6px -2px var(--cosmic-background-base) !important;
+  }
+}
+
+:root[sidebar-expand-on-hover] {
+
+  #sidebar-container,
+  #sidebar-container[sidebar-launcher-expanded] {
+    background: linear-gradient(var(--cosmic-background-base), var(--cosmic-background-base)),
+      var(--cosmic-blurred-bg) center left / 100vw 100vh var(--cosmic-background-base) no-repeat !important;
+    color: var(--cosmic-background-on) !important;
   }
 }
