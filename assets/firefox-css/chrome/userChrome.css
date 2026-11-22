@@ -224,6 +224,11 @@ menupopup {
 
 #tabbrowser-tabs[orient="vertical"] {
   --tab-label-line-height: 1.2 !important;
+  --tab-background-color: rgba(var(--cosmic-button-base-rgb) / 0.3) !important;
+  --tab-background-color-selected: var(--cosmic-button-base) !important;
+  --border-width: 0.1px !important;
+  --tab-border-color: rgba(var(--cosmic-button-on-rgb) / 0.05) !important;
+  --tab-border-color-selected: rgba(var(--cosmic-button-on-rgb) / 0.3) !important;
 
   .tab-label {
     /** Enable multiline tab titles */
@@ -240,6 +245,12 @@ menupopup {
         contain-intrinsic-block-size: 2lh !important;
         padding-block: 1rem !important;
       }
+    }
+
+    .tab-background {
+      border-top-right-radius: 12px !important;
+      border-bottom-right-radius: 12px !important;
+      box-shadow: 0 1px 6px -2px var(--cosmic-background-base) !important;
     }
   }
 }
