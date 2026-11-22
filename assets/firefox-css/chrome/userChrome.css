@@ -65,6 +65,12 @@
 /* END OF GENERATED CODE */
 
 :root {
+  /** Color overrides */
+  --cosmic-background-base-light: #f5faff8a;
+  --cosmic-component-base-light: #ffffffcc;
+}
+
+:root {
   --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg.png");
 
   --color-white: hsl(var(--cosmic-hue) 100% 99.6%) !important;

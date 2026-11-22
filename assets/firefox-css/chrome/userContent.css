@@ -1,11 +1,11 @@
 /* START OF GENERATED CODE */
 /* DO NOT EDIT. Changes will be overwritten. */
 :root {
-  --cosmic-background-base-light: #f5faff8a;
+  --cosmic-background-base-light: #f0f8ff8a;
   --cosmic-background-base-rgb-light: 240 248 255;
   --cosmic-background-on-light: #000000;
   --cosmic-background-on-rgb-light: 0 0 0;
-  --cosmic-component-base-light: #ffffffcc;
+  --cosmic-component-base-light: #dbe2e9cc;
   --cosmic-component-base-rgb-light: 219 226 233;
   --cosmic-component-on-light: #000000;
   --cosmic-component-on-rgb-light: 0 0 0;
@@ -63,6 +63,12 @@
 }
 
 /* END OF GENERATED CODE */
+
+:root {
+  /** Color overrides */
+  --cosmic-background-base-light: #f5faff8a;
+  --cosmic-component-base-light: #ffffffcc;
+}
 
 @-moz-document url-prefix("about:") {
   :root {
