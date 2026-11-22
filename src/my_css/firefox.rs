@@ -16,7 +16,15 @@ impl MyCss {
 
     let profile_dir = Firefox::default_profile_dir()?;
     Firefox::alter_user_js(&profile_dir)?;
-    Firefox::produce_blurred_bg()?;
+    Firefox::produce_blurred_bg(BlurBg {
+      uri: run_fun!(gsettings get org.gnome.desktop.background picture-uri)?,
+      is_dark: false,
+    })?;
+    if let Ok(uri) = run_fun!(gsettings get org.gnome.desktop.background picture-uri-dark)
+      && !uri.is_empty()
+    {
+      Firefox::produce_blurred_bg(BlurBg { uri, is_dark: true })?;
+    }
 
     let local_dir = Path::new(&var("PWD")?).join("assets/firefox-css/");
     for subpath in ["chrome/userChrome.css", "chrome/userContent.css"] {
@@ -211,16 +219,20 @@ impl Firefox {
     Ok(())
   }
 
-  fn produce_blurred_bg() -> Result<()> {
-    let path_uri = run_fun!(gsettings get org.gnome.desktop.background picture-uri)?;
-    let Some(path) = path_uri
+  fn produce_blurred_bg(info: BlurBg) -> Result<()> {
+    let Some(path) = info
+      .uri
       .strip_circumfix("'", "'")
       .and_then(|uri| uri.strip_prefix("file://"))
     else {
-      bail!("Expected bg image file:// uri, got {path_uri}");
+      bail!("Expected bg image file:// uri, got {}", info.uri);
     };
 
-    let blurred_image = Path::new("assets/bg/bg.png");
+    let blurred_image = Path::new(if info.is_dark {
+      "assets/bg/bg-dark.png"
+    } else {
+      "assets/bg/bg-light.png"
+    });
     let blurred_image_src = blurred_image.with_added_extension("src");
 
     if let Ok(previous_path) = fs::read_to_string(&blurred_image_src)
@@ -237,4 +249,9 @@ impl Firefox {
 
     Ok(())
   }
+}
+
+struct BlurBg {
+  is_dark: bool,
+  uri: String,
 }

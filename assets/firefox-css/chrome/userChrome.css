@@ -69,11 +69,15 @@
   --cosmic-background-base-light: #f5faffbb;
   --cosmic-component-base-light: #ffffffcc;
   --cosmic-component-base-rgb-light: 255 255 255;
-  --cosmic-background-base-dark: #020a14dd;
+  --cosmic-background-base-dark: #020a14bb;
 }
 
 :root {
-  --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg.png");
+  --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg-light.png");
+
+  @media (-moz-content-prefers-color-scheme: dark) {
+    --cosmic-blurred-bg: url("file:///home/ahann/Documents/GitHub/adil192-linux/assets/bg/bg-dark.png");
+  }
 
   --color-white: hsl(var(--cosmic-hue) 100% 99.6%) !important;
   --color-gray-05: hsl(var(--cosmic-hue) 9.1% 97.8%) !important;
