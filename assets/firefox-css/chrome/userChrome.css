@@ -213,3 +213,25 @@ menupopup {
     linear-gradient(var(--cosmic-component-base), var(--cosmic-component-base)),
     var(--cosmic-blurred-bg) center center / 1280px var(--cosmic-background-base) no-repeat !important;
 }
+
+#tabbrowser-tabs[orient="vertical"] {
+  --tab-label-line-height: 1.2 !important;
+
+  .tab-label {
+    /** Enable multiline tab titles */
+    white-space: initial !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 no-ellipsis !important;
+  }
+
+  &[expanded] {
+    & .tabbrowser-tab {
+      & .tab-content {
+        contain-intrinsic-block-size: 2lh !important;
+        padding-block: 1rem !important;
+      }
+    }
+  }
+}
