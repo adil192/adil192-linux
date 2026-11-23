@@ -8,3 +8,6 @@
 	path = submodules/Anime4K
 	url = https://github.com/bloc97/Anime4K
 	branch = master
+[submodule "submodules/mpv-scripts"]
+	path = submodules/mpv-scripts
+	url = https://github.com/detuur/mpv-scripts.git
