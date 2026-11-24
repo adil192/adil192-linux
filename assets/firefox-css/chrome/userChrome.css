@@ -226,6 +226,13 @@ menupopup {
     var(--cosmic-blurred-bg) center center / 1280px var(--cosmic-background-base) no-repeat !important;
 }
 
+:root[sidebar-expand-on-hover] {
+  & #sidebar-container {
+    /* The default border is black, which isn't visible in dark mode */
+    --sidebar-border-color: rgba(var(--cosmic-component-on-rgb) / 0.15) !important;
+  }
+}
+
 #tabbrowser-tabs[orient="vertical"] {
   --tab-label-line-height: 1.2 !important;
   --tab-background-color: hsl(var(--cosmic-hue) 30% 50% / 0.3) !important;
