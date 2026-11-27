@@ -516,8 +516,22 @@
     }
   }
 
+  ytd-watch-flexy:has(.ytp-large-width-mode) {
+    /* Actually take up the full width */
+    --ytd-watch-flexy-space-below-player: 0 !important;
+    --ytd-watch-flexy-center-column-below-player: 0 !important;
+    --ytd-watch-flexy-max-player-width-wide-screen: 1920px !important;
+  }
+
+  ytd-watch-flexy[full-bleed-player][respect-aspect-ratio]:not([fullscreen]) #full-bleed-container.ytd-watch-flexy {
+    max-height: calc(100vh - var(--ytd-watch-flexy-masthead-height)) !important;
+  }
+
   .html5-main-video {
+    width: 100% !important;
     top: 0 !important;
+    left: 0 !important;
+    object-fit: contain !important;
   }
 
   ytd-comment-thread-renderer {
